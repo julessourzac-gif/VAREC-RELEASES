@@ -205,6 +205,25 @@ nav {
   background: rgba(255,255,255,.1);
   border-color: rgba(255,255,255,.28);
 }
+.hero-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.12;
+  z-index: 0;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(28,28,30,0.3) 0%,
+    rgba(28,28,30,0.6) 55%,
+    rgba(28,28,30,0.98) 100%);
+  z-index: 1;
+}
+.hero-content { z-index: 2; }
 .scroll-hint {
   position: absolute;
   bottom: 28px;
