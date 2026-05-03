@@ -243,7 +243,7 @@
       const data = new FormData(form);
       const body = [];
       for (const [k, v] of data.entries()) body.push(k + ': ' + v);
-      window.location.href = 'mailto:contact@varec.app?subject=Demande%20de%20licence%20VAREC&body=' +
+      window.location.href = 'mailto:jules.sourzac@icloud.com?subject=Demande%20de%20licence%20VAREC&body=' +
         encodeURIComponent(body.join('\n'));
       btn.textContent = originalLabel;
       btn.disabled = false;
