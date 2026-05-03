@@ -5,16 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="VAREC — Field recorder multipiste professionnel pour Mac. Jusqu'à 512 canaux, timecode LTC/Tentacle BLE, multi-disque simultané, Sound Report PDF.">
 <meta property="og:title" content="VAREC — Field Recorder Multipiste pour Mac">
-<meta property="og:description" content="Enregistreur audio multipiste professionnel pour Mac.">
+<meta property="og:description" content="Enregistreur audio multipiste professionnel pour Mac. Jusqu'à 512 canaux.">
+<meta property="og:image" content="logo.png">
 <title>VAREC — Field Recorder Multipiste pour Mac</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <div class="logo">VAREC</div>
+    <img src="logo.png" alt="VAREC" class="nav-logo">
     <ul class="nav-links">
+      <li><a href="#preview">Aperçu</a></li>
       <li><a href="#features">Fonctionnalités</a></li>
       <li><a href="#download">Télécharger</a></li>
       <li><a href="#licence">Licence</a></li>
@@ -23,84 +29,152 @@
   </div>
 </nav>
 
+<!-- HERO -->
 <section id="hero">
   <canvas id="varecCanvas"></canvas>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="version-badge">v1.4.17 · macOS</div>
+    <div class="version-badge"><div class="version-dot"></div>v1.4.17 · macOS</div>
     <h1>Field Recorder<br>Multipiste pour Mac</h1>
     <p class="hero-sub">Enregistrement professionnel jusqu'à 512 canaux simultanés, timecode LTC / Tentacle BLE, multi-disque, Sound Report PDF.</p>
     <div class="hero-ctas">
-      <a href="#download" class="btn-primary">Télécharger</a>
+      <a href="#download" class="btn-primary">Télécharger gratuitement</a>
       <a href="#licence" class="btn-secondary">Demander une licence</a>
     </div>
   </div>
   <div class="scroll-hint"><span>Défiler</span><div class="scroll-hint-line"></div></div>
 </section>
 
-<section id="features">
+<!-- PREVIEW — fenêtre simulée avec splash -->
+<section id="preview">
   <div class="container">
     <div class="section-header">
-      <span class="section-label">Fonctionnalités</span>
-      <h2 class="section-title">Conçu pour les professionnels du son</h2>
-      <p class="section-desc">Toutes les fonctionnalités pour l'enregistrement multipiste sur le terrain.</p>
+      <span class="section-label">Interface</span>
+      <h2 class="section-title">L'enregistrement multipiste, repensé pour Mac</h2>
+      <p class="section-desc">Une interface native macOS, claire et dense — conçue pour les prises de son sur le terrain.</p>
     </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="4" height="4" rx="1"/><rect x="10" y="3" width="4" height="4" rx="1"/><rect x="17" y="3" width="4" height="4" rx="1"/><rect x="3" y="10" width="4" height="4" rx="1"/><rect x="10" y="10" width="4" height="4" rx="1"/><rect x="17" y="10" width="4" height="4" rx="1"/><rect x="3" y="17" width="4" height="4" rx="1"/><rect x="10" y="17" width="4" height="4" rx="1"/><rect x="17" y="17" width="4" height="4" rx="1"/></svg></div>
-        <h3>Jusqu'à 512 canaux</h3>
-        <p>Enregistrez simultanément jusqu'à 512 pistes audio indépendantes avec métering complet en temps réel.</p>
-        <span class="feature-tag blue">512 CH MAX</span>
+    <div class="preview-frame">
+      <div class="win-bar">
+        <div class="tl tl-r"></div>
+        <div class="tl tl-y"></div>
+        <div class="tl tl-g2"></div>
+        <div class="win-title">VAREC — Session Plateau A · 8 canaux actifs</div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="6" rx="9" ry="3"/><path d="M3 6v6c0 1.66 4.03 3 9 3s9-1.34 9-3V6"/><path d="M3 12v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg></div>
-        <h3>Multi-disque simultané</h3>
-        <p>Enregistrez en parallèle sur plusieurs disques en temps réel. Copies WAV instantanées — zéro perte.</p>
-        <span class="feature-tag blue">REDONDANCE</span>
+      <!-- Toolbar simulé -->
+      <div class="m-tb">
+        <div class="m-rec"><div class="m-rec-dot"></div></div>
+        <div class="m-timer">00:12:47</div>
+        <div class="m-tc">01:23:14:08 · LTC</div>
+        <div class="m-spacer"></div>
+        <div class="m-badge">48 kHz · 24bit · WAV</div>
+        <div class="m-badge">8 / 512 ch</div>
+        <div class="m-badge">25 fps</div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg></div>
-        <h3>Timecode professionnel</h3>
-        <p>Support natif LTC, Tentacle BLE et Time of Day. Métadonnées BWF/iXML, jam sync automatique.</p>
-        <span class="feature-tag blue">LTC · BLE · TOD</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon red"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="4" y1="20" x2="4" y2="10"/><line x1="8" y1="20" x2="8" y2="4"/><line x1="12" y1="20" x2="12" y2="14"/><line x1="16" y1="20" x2="16" y2="7"/><line x1="20" y1="20" x2="20" y2="11"/></svg></div>
-        <h3>VU Mètres True Peak</h3>
-        <p>Métering Instant Peak, RMS+PPM ou True Peak. Indicateur de clip rouge latché dès 0 dBFS.</p>
-        <span class="feature-tag red">TRUE PEAK · RMS</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></div>
-        <h3>Sound Report PDF</h3>
-        <p>Génération et export PDF complet : scènes, takes, notes et marqueurs de peak. Aperçu intégré.</p>
-        <span class="feature-tag blue">EXPORT PDF</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon red"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
-        <h3>Crash Recovery</h3>
-        <p>Headers WAV écrits en continu. Vos fichiers sont récupérables même en cas de coupure brutale.</p>
-        <span class="feature-tag red">ZERO PERTE</span>
+      <!-- Channel strips animés -->
+      <div class="m-channels">
+        <div class="m-ch armed" style="--gc:#ff453a">
+          <div class="m-ch-info"><div class="m-ch-dot"></div><span class="m-ch-name">Boom 1</span></div>
+          <div class="m-ch-vu"><div class="m-vu-bar"><div class="m-vu-fill" style="width:72%"></div></div><span class="m-vu-peak">-4.2</span></div>
+        </div>
+        <div class="m-ch armed" style="--gc:#ff453a">
+          <div class="m-ch-info"><div class="m-ch-dot"></div><span class="m-ch-name">Boom 2</span></div>
+          <div class="m-ch-vu"><div class="m-vu-bar"><div class="m-vu-fill" style="width:55%"></div></div><span class="m-vu-peak">-7.8</span></div>
+        </div>
+        <div class="m-ch" style="--gc:#0a84ff">
+          <div class="m-ch-info"><div class="m-ch-dot"></div><span class="m-ch-name">HF Jean</span></div>
+          <div class="m-ch-vu"><div class="m-vu-bar"><div class="m-vu-fill" style="width:30%"></div></div><span class="m-vu-peak">-14.1</span></div>
+        </div>
+        <div class="m-ch" style="--gc:#0a84ff">
+          <div class="m-ch-info"><div class="m-ch-dot"></div><span class="m-ch-name">HF Marie</span></div>
+          <div class="m-ch-vu"><div class="m-vu-bar"><div class="m-vu-fill" style="width:85%"></div></div><span class="m-vu-peak">-2.1</span></div>
+        </div>
+        <div class="m-ch" style="--gc:#30d158">
+          <div class="m-ch-info"><div class="m-ch-dot"></div><span class="m-ch-name">Ambiance G</span></div>
+          <div class="m-ch-vu"><div class="m-vu-bar"><div class="m-vu-fill" style="width:42%"></div></div><span class="m-vu-peak">-11.5</span></div>
+        </div>
+        <div class="m-ch" style="--gc:#30d158">
+          <div class="m-ch-info"><div class="m-ch-dot"></div><span class="m-ch-name">Ambiance D</span></div>
+          <div class="m-ch-vu"><div class="m-vu-bar"><div class="m-vu-fill" style="width:18%"></div></div><span class="m-vu-peak">-18.3</span></div>
+        </div>
+        <div class="m-ch" style="--gc:#bf5af2">
+          <div class="m-ch-info"><div class="m-ch-dot"></div><span class="m-ch-name">Perche 2</span></div>
+          <div class="m-ch-vu"><div class="m-vu-bar"><div class="m-vu-fill" style="width:65%"></div></div><span class="m-vu-peak">-5.9</span></div>
+        </div>
+        <div class="m-ch" style="--gc:#bf5af2">
+          <div class="m-ch-info"><div class="m-ch-dot"></div><span class="m-ch-name">Scratch</span></div>
+          <div class="m-ch-vu"><div class="m-vu-bar"><div class="m-vu-fill" style="width:38%"></div></div><span class="m-vu-peak">-12.7</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Fonctionnalités</span>
+      <h2 class="section-title">Conçu pour les professionnels du son</h2>
+      <p class="section-desc">Tout ce dont vous avez besoin pour l'enregistrement multipiste sur le terrain.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="4" height="4" rx="1"/><rect x="10" y="3" width="4" height="4" rx="1"/><rect x="17" y="3" width="4" height="4" rx="1"/><rect x="3" y="10" width="4" height="4" rx="1"/><rect x="10" y="10" width="4" height="4" rx="1"/><rect x="17" y="10" width="4" height="4" rx="1"/><rect x="3" y="17" width="4" height="4" rx="1"/><rect x="10" y="17" width="4" height="4" rx="1"/><rect x="17" y="17" width="4" height="4" rx="1"/></svg></div>
+        <h3>Jusqu'à 512 canaux</h3>
+        <p>Enregistrez simultanément jusqu'à 512 pistes audio indépendantes avec métering complet en temps réel. WAV poly WAVE_FORMAT_EXTENSIBLE compatible Pro Tools, Nuendo, Wave Agent.</p>
+        <span class="feature-tag grn">512 CH MAX</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="6" rx="9" ry="3"/><path d="M3 6v6c0 1.66 4.03 3 9 3s9-1.34 9-3V6"/><path d="M3 12v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg></div>
+        <h3>Multi-disque simultané</h3>
+        <p>Enregistrement en parallèle sur tous les disques actifs. Copies WAV en temps réel, menu contextuel disque, ouverture Finder au clic. Zéro perte en cas de défaillance.</p>
+        <span class="feature-tag blu">REDONDANCE</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon tea"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg></div>
+        <h3>Timecode professionnel</h3>
+        <p>Support natif LTC, Tentacle BLE et Time of Day. Timestamps BWF/iXML, jam sync automatique, sélecteur de source au clic sur l'horloge, hystérésis zero-crossing LTC.</p>
+        <span class="feature-tag tea">LTC · BLE · TOD</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon red"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="4" y1="20" x2="4" y2="10"/><line x1="8" y1="20" x2="8" y2="4"/><line x1="12" y1="20" x2="12" y2="14"/><line x1="16" y1="20" x2="16" y2="7"/><line x1="20" y1="20" x2="20" y2="11"/></svg></div>
+        <h3>VU Mètres True Peak</h3>
+        <p>Modes Instant Peak, RMS+PPM ou True Peak sur 512 canaux. Indicateur de clip rouge latché dès 0 dBFS. Barre peak rouge persistante jusqu'au reset. Analyse de phase 15s à la demande.</p>
+        <span class="feature-tag red">TRUE PEAK · RMS</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></div>
+        <h3>Sound Report PDF</h3>
+        <p>Génération et export PDF du Sound Report complet : toutes scènes, takes, notes et marqueurs de peak. Aperçu intégré, impression directe via Electron printToPDF.</p>
+        <span class="feature-tag grn">EXPORT PDF</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon red"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+        <h3>Crash Recovery</h3>
+        <p>Headers WAV écrits en continu pendant l'enregistrement. Écriture projet atomique, watchdog réactif. Vos fichiers sont récupérables même en cas de coupure brutale.</p>
+        <span class="feature-tag red">ZÉRO PERTE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECS -->
 <section id="specs">
   <div class="container">
     <div class="specs-grid">
       <div class="spec-item"><div class="spec-value">512</div><div class="spec-label">Canaux max</div></div>
-      <div class="spec-item"><div class="spec-value">32F</div><div class="spec-label">WAV 16/24/32F</div></div>
+      <div class="spec-item"><div class="spec-value">32F</div><div class="spec-label">WAV 16 / 24 / 32F</div></div>
       <div class="spec-item"><div class="spec-value">192</div><div class="spec-label">kHz max</div></div>
       <div class="spec-item"><div class="spec-value">∞</div><div class="spec-label">Disques simultanés</div></div>
     </div>
   </div>
 </section>
 
+<!-- DOWNLOAD -->
 <section id="download">
   <div class="container">
     <div class="download-card">
-      <div class="version-info"><div class="version-dot"></div>Dernière version : v1.4.17 · 23 avril 2026</div>
+      <div class="v-info"><div class="v-dot"></div>Dernière version : v1.4.17 · 23 avril 2026</div>
       <div class="download-title">Télécharger VAREC</div>
       <p class="download-sub">Gratuit à télécharger. Licence requise pour une utilisation commerciale.</p>
       <div class="download-buttons">
@@ -114,7 +188,7 @@
         </a>
       </div>
       <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases" class="github-link" target="_blank" rel="noopener">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         Voir toutes les versions sur GitHub
       </a>
       <p class="sysreq">macOS 12 Monterey ou supérieur · Apple Silicon ou Intel · Interface audio CoreAudio</p>
@@ -122,40 +196,42 @@
   </div>
 </section>
 
+<!-- LICENCE FORM -->
 <section id="licence">
   <div class="container">
     <div class="section-header">
       <span class="section-label">Licence</span>
       <h2 class="section-title">Demander une licence</h2>
-      <p class="section-desc">VAREC est gratuit pour un usage personnel. Pour une utilisation commerciale, contactez-nous.</p>
+      <p class="section-desc">VAREC est gratuit pour un usage personnel et non commercial. Pour toute utilisation en production, contactez-nous.</p>
     </div>
     <div class="form-card">
       <div class="form-success" id="formSuccess">
-        <div class="success-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="success-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
         <h3>Demande envoyée !</h3>
         <p>Nous vous répondrons dans les plus brefs délais.</p>
       </div>
+      <!-- Remplacer YOUR_FORM_ID par l'ID Formspree pour activer l'envoi serveur -->
       <form id="licenceForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
         <div class="form-grid">
-          <div class="form-group"><label for="firstName">Prénom *</label><input type="text" id="firstName" name="prenom" required></div>
-          <div class="form-group"><label for="lastName">Nom *</label><input type="text" id="lastName" name="nom" required></div>
-          <div class="form-group full"><label for="email">Email professionnel *</label><input type="email" id="email" name="email" required></div>
-          <div class="form-group"><label for="company">Organisation / Production</label><input type="text" id="company" name="organisation"></div>
-          <div class="form-group"><label for="country">Pays</label><input type="text" id="country" name="pays"></div>
+          <div class="form-group"><label for="fn">Prénom *</label><input type="text" id="fn" name="prenom" required placeholder="Jules"></div>
+          <div class="form-group"><label for="ln">Nom *</label><input type="text" id="ln" name="nom" required placeholder="Sourzac"></div>
+          <div class="form-group full"><label for="em">Email professionnel *</label><input type="email" id="em" name="email" required placeholder="vous@production.com"></div>
+          <div class="form-group"><label for="co">Organisation / Production</label><input type="text" id="co" name="organisation" placeholder="Studio Lumière"></div>
+          <div class="form-group"><label for="py">Pays</label><input type="text" id="py" name="pays" placeholder="France"></div>
           <div class="form-group full">
-            <label for="usecase">Type d'utilisation *</label>
-            <select id="usecase" name="utilisation" required>
-              <option value="">Sélectionnez...</option>
-              <option value="film">Film long métrage</option>
-              <option value="tv">Télévision / Série</option>
-              <option value="pub">Publicité</option>
-              <option value="doc">Documentaire</option>
-              <option value="music">Musique</option>
-              <option value="game">Jeu vidéo</option>
-              <option value="other">Autre</option>
+            <label for="uc">Type d'utilisation *</label>
+            <select id="uc" name="utilisation" required>
+              <option value="">Sélectionnez…</option>
+              <option>Film long métrage</option>
+              <option>Télévision / Série</option>
+              <option>Publicité</option>
+              <option>Documentaire</option>
+              <option>Musique</option>
+              <option>Jeu vidéo</option>
+              <option>Autre</option>
             </select>
           </div>
-          <div class="form-group full"><label for="message">Message (optionnel)</label><textarea id="message" name="message" placeholder="Décrivez votre projet..."></textarea></div>
+          <div class="form-group full"><label for="msg">Message (optionnel)</label><textarea id="msg" name="message" placeholder="Décrivez votre projet ou vos besoins spécifiques…"></textarea></div>
         </div>
         <button type="submit" class="btn-submit">Envoyer la demande</button>
         <p class="form-note">Réponse sous 48h ouvrées. Vos données ne sont pas partagées avec des tiers.</p>
@@ -164,10 +240,12 @@
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-logo">VAREC</div>
+    <img src="logo.png" alt="VAREC" class="footer-logo">
     <ul class="footer-links">
+      <li><a href="#preview">Aperçu</a></li>
       <li><a href="#features">Fonctionnalités</a></li>
       <li><a href="#download">Télécharger</a></li>
       <li><a href="#licence">Licence</a></li>
