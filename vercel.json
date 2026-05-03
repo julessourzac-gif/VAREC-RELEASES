@@ -1,5 +1,8 @@
 {
   "version": 2,
-  "buildCommand": null,
-  "outputDirectory": "."
+  "functions": {
+    "api/licence.js": {
+      "runtime": "nodejs20.x"
+    }
+  }
 }
