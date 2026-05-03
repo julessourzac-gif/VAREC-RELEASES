@@ -268,9 +268,12 @@ nav {
   font-weight: 500;
   letter-spacing: .2px;
 }
-.preview-gif {
+.preview-video {
   width: 100%;
   display: block;
+  max-height: 600px;
+  object-fit: contain;
+  background: #000;
 }
 
 /* ── UI MOCKUP (channel strips) ── */
