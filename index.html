@@ -23,7 +23,7 @@
       <li><a href="#preview">Aperçu</a></li>
       <li><a href="#features">Fonctionnalités</a></li>
       <li><a href="#download">Télécharger</a></li>
-      <li><a href="#licence">Licence</a></li>
+      <li><a href="#licence">Acheter</a></li>
     </ul>
     <a href="#download" class="nav-cta">↓ v1.4.17</a>
   </div>
@@ -42,7 +42,7 @@
     <p class="hero-sub">Enregistrement professionnel jusqu'à 512 canaux simultanés, timecode LTC / Tentacle BLE, multi-disque, Sound Report PDF.</p>
     <div class="hero-ctas">
       <a href="#download" class="btn-primary">Télécharger gratuitement</a>
-      <a href="#licence" class="btn-secondary">Demander une licence</a>
+      <a href="#licence" class="btn-secondary">Acheter une licence</a>
     </div>
   </div>
   <div class="scroll-hint"><span>Défiler</span><div class="scroll-hint-line"></div></div>
@@ -157,46 +157,95 @@
   </div>
 </section>
 
-<!-- LICENCE FORM -->
+<!-- LICENCE / ACHAT -->
 <section id="licence">
   <div class="container">
     <div class="section-header">
       <span class="section-label">Licence</span>
-      <h2 class="section-title">Demander une licence</h2>
-      <p class="section-desc">VAREC est gratuit pour un usage personnel et non commercial. Pour toute utilisation en production, contactez-nous.</p>
+      <h2 class="section-title">Acheter une licence</h2>
+      <p class="section-desc">Téléchargez gratuitement, évaluez sans limite de temps. Activez toutes les fonctionnalités avec une licence commerciale.</p>
     </div>
-    <div class="form-card">
-      <div class="form-success" id="formSuccess">
-        <div class="success-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <h3>Demande envoyée !</h3>
-        <p>Nous vous répondrons dans les plus brefs délais.</p>
-      </div>
-      <!-- Remplacer YOUR_FORM_ID par l'ID Formspree pour activer l'envoi serveur -->
-      <form id="licenceForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-        <div class="form-grid">
-          <div class="form-group"><label for="fn">Prénom *</label><input type="text" id="fn" name="prenom" required placeholder="Jules"></div>
-          <div class="form-group"><label for="ln">Nom *</label><input type="text" id="ln" name="nom" required placeholder="Sourzac"></div>
-          <div class="form-group full"><label for="em">Email professionnel *</label><input type="email" id="em" name="email" required placeholder="vous@production.com"></div>
-          <div class="form-group"><label for="co">Organisation / Production</label><input type="text" id="co" name="organisation" placeholder="Studio Lumière"></div>
-          <div class="form-group"><label for="py">Pays</label><input type="text" id="py" name="pays" placeholder="France"></div>
-          <div class="form-group full">
-            <label for="uc">Type d'utilisation *</label>
-            <select id="uc" name="utilisation" required>
-              <option value="">Sélectionnez…</option>
-              <option>Film long métrage</option>
-              <option>Télévision / Série</option>
-              <option>Publicité</option>
-              <option>Documentaire</option>
-              <option>Musique</option>
-              <option>Jeu vidéo</option>
-              <option>Autre</option>
-            </select>
+
+    <!-- TABLEAU COMPARATIF -->
+    <div class="compare-wrap">
+      <div class="compare-table">
+        <div class="compare-header">
+          <div class="compare-col-label"></div>
+          <div class="compare-col free">
+            <div class="plan-name">Sans licence</div>
+            <div class="plan-price">Gratuit</div>
+            <div class="plan-sub">Usage personnel</div>
           </div>
-          <div class="form-group full"><label for="msg">Message (optionnel)</label><textarea id="msg" name="message" placeholder="Décrivez votre projet ou vos besoins spécifiques…"></textarea></div>
+          <div class="compare-col pro">
+            <div class="plan-badge">COMPLET</div>
+            <div class="plan-name">Avec licence</div>
+            <div class="plan-price">Prix unique</div>
+            <div class="plan-sub">Usage commercial</div>
+          </div>
         </div>
-        <button type="submit" class="btn-submit">Envoyer la demande</button>
-        <p class="form-note">Réponse sous 48h ouvrées. Vos données ne sont pas partagées avec des tiers.</p>
-      </form>
+
+        <div class="compare-row">
+          <div class="compare-feat">Enregistrement multipiste</div>
+          <div class="compare-val"><span class="chk yes">✓</span></div>
+          <div class="compare-val pro"><span class="chk yes">✓</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-feat">Timecode LTC / Tentacle BLE</div>
+          <div class="compare-val"><span class="chk yes">✓</span></div>
+          <div class="compare-val pro"><span class="chk yes">✓</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-feat">Multi-disque simultané</div>
+          <div class="compare-val"><span class="chk yes">✓</span></div>
+          <div class="compare-val pro"><span class="chk yes">✓</span></div>
+        </div>
+        <div class="compare-row compare-row-limited">
+          <div class="compare-feat">Canaux simultanés</div>
+          <div class="compare-val"><span class="chk limited">64 max</span></div>
+          <div class="compare-val pro"><span class="chk yes">512 max</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-feat">Fader mode</div>
+          <div class="compare-val"><span class="chk no">✗</span></div>
+          <div class="compare-val pro"><span class="chk yes">✓</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-feat">Metadata & Sound Report PDF</div>
+          <div class="compare-val"><span class="chk no">✗</span></div>
+          <div class="compare-val pro"><span class="chk yes">✓</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-feat">Compact mode</div>
+          <div class="compare-val"><span class="chk no">✗</span></div>
+          <div class="compare-val pro"><span class="chk yes">✓</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-feat">Outils d'analyse (phase, spectre)</div>
+          <div class="compare-val"><span class="chk no">✗</span></div>
+          <div class="compare-val pro"><span class="chk yes">✓</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-feat">Contrôle MIDI</div>
+          <div class="compare-val"><span class="chk no">✗</span></div>
+          <div class="compare-val pro"><span class="chk yes">✓</span></div>
+        </div>
+
+        <!-- CTA bas de tableau -->
+        <div class="compare-footer">
+          <div class="compare-col-label"></div>
+          <div class="compare-col free">
+            <a href="#download" class="btn-compare-free">Télécharger</a>
+          </div>
+          <div class="compare-col pro">
+            <!-- Remplacer YOUR_STRIPE_LINK par le lien de paiement Stripe -->
+            <a href="https://buy.stripe.com/YOUR_STRIPE_LINK" class="btn-compare-pro" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              Acheter la licence
+            </a>
+            <p class="stripe-note">Paiement sécurisé via Stripe.<br>Numéro de licence envoyé par email à réception du paiement.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -209,7 +258,7 @@
       <li><a href="#preview">Aperçu</a></li>
       <li><a href="#features">Fonctionnalités</a></li>
       <li><a href="#download">Télécharger</a></li>
-      <li><a href="#licence">Licence</a></li>
+      <li><a href="#licence">Acheter</a></li>
       <li><a href="https://github.com/julessourzac-gif/VAREC-RELEASES" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
     <div class="footer-copy">© 2026 VAREC — macOS Field Recorder</div>

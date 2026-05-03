@@ -194,35 +194,6 @@
   cards.forEach(c=>obs.observe(c));
 })();
 
-// ── Formulaire licence ──
-(function(){
-  const form=document.getElementById('licenceForm');
-  const success=document.getElementById('formSuccess');
-  if(!form) return;
-  form.addEventListener('submit',async function(e){
-    e.preventDefault();
-    const btn=form.querySelector('.btn-submit');
-    const orig=btn.textContent;
-    btn.textContent='Envoi en cours…';
-    btn.disabled=true;
-    if(form.action.indexOf('YOUR_FORM_ID')!==-1){
-      const data=new FormData(form);
-      const body=[];
-      for(const [k,v] of data.entries()) body.push(k+': '+v);
-      window.location.href='mailto:jules.sourzac@icloud.com?subject=Demande%20de%20licence%20VAREC&body='+encodeURIComponent(body.join('\n'));
-      btn.textContent=orig; btn.disabled=false; return;
-    }
-    try{
-      const r=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
-      if(r.ok){form.style.display='none';success.classList.add('visible');}
-      else throw new Error();
-    }catch{
-      btn.textContent='Erreur — réessayer';
-      btn.style.background='var(--rec)';
-      btn.disabled=false;
-    }
-  });
-})();
 
 // ── Nav opacity on scroll ──
 (function(){
