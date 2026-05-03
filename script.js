@@ -1,7 +1,8 @@
-// ── Canvas preview — couleurs exactes de l'app VAREC ──
+// ── Canvas preview désactivé ──
 (function () {
   const canvas = document.getElementById('varecCanvas');
   if (!canvas) return;
+  return; // désactivé
   const ctx = canvas.getContext('2d');
 
   let W, H, dpr;
