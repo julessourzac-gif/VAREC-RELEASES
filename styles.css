@@ -744,6 +744,40 @@ nav {
   line-height: 1.5;
 }
 
+/* BETA */
+.beta-wrap {
+  max-width: 780px;
+  margin: 16px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.btn-beta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  background: transparent;
+  border: 1px solid var(--bdr2);
+  border-radius: var(--rsm);
+  color: var(--txt2);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all .15s;
+}
+.btn-beta:hover {
+  border-color: var(--tea);
+  color: var(--tea);
+  background: rgba(90,200,250,.06);
+}
+.beta-note {
+  font-size: 11px;
+  color: var(--txt3);
+  text-align: center;
+}
+
 /* ── FOOTER ── */
 footer {
   padding: 28px 24px;
