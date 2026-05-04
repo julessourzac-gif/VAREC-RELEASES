@@ -1,0 +1,83 @@
+name: update-version
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Update version in index.html
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          VER="${TAG#v}"
+
+          DATE=$(python3 -c "
+          import datetime
+          months = ['janvier','février','mars','avril','mai','juin',
+                    'juillet','août','septembre','octobre','novembre','décembre']
+          d = datetime.date.today()
+          print(f'{d.day} {months[d.month-1]} {d.year}')
+          ")
+
+          python3 <<PYEOF
+          import re, os
+
+          tag  = os.environ['TAG']
+          ver  = tag.lstrip('v')
+          date = '$DATE'
+
+          with open('index.html', 'r') as f:
+              html = f.read()
+
+          # Nav CTA  (↓ v1.4.17)
+          html = re.sub(r'↓ v[\d.]+', f'↓ {tag}', html)
+
+          # Hero version badge  (v1.4.17 · macOS)
+          html = re.sub(r'v[\d.]+ · macOS', f'{tag} · macOS', html)
+
+          # Download card version + date
+          html = re.sub(
+              r'Dernière version : v[\d.]+ · [^<]+',
+              f'Dernière version : {tag} · {date}',
+              html
+          )
+
+          # DMG arm64 link
+          html = re.sub(
+              r'releases/download/v[\d.]+/VAREC-[\d.]+-arm64\.dmg',
+              f'releases/download/{tag}/VAREC-{ver}-arm64.dmg',
+              html
+          )
+
+          # DMG Intel link  ([\d.]+ ne matche pas le tiret de -arm64)
+          html = re.sub(
+              r'releases/download/v[\d.]+/VAREC-[\d.]+\.dmg',
+              f'releases/download/{tag}/VAREC-{ver}.dmg',
+              html
+          )
+
+          with open('index.html', 'w') as f:
+              f.write(html)
+
+          print(f'index.html mis à jour → {tag} ({date})')
+          PYEOF
+
+      - name: Commit and push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && echo "Rien à committer" && exit 0
+          git commit -m "chore: bump version to ${{ github.event.release.tag_name }}"
+          git pull --rebase origin main
+          git push origin main

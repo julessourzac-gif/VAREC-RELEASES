@@ -1,0 +1,109 @@
+name: publish-release
+
+on:
+  # Triggered manually for testing
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Version tag (e.g. v1.4.17)'
+        required: true
+        type: string
+      release_name:
+        description: 'Release title (e.g. VAREC 1.4.17)'
+        required: true
+        type: string
+      body:
+        description: 'Release notes (markdown)'
+        required: false
+        default: ''
+        type: string
+      prerelease:
+        description: 'Mark as pre-release'
+        required: false
+        default: false
+        type: boolean
+
+  # Triggered by the private VAREC repo on release published
+  repository_dispatch:
+    types: [varec-release]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Resolve inputs
+        id: vars
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "tag=${{ github.event.client_payload.tag }}"             >> $GITHUB_OUTPUT
+            echo "name=${{ github.event.client_payload.release_name }}"  >> $GITHUB_OUTPUT
+            echo "body<<EOF"                                              >> $GITHUB_OUTPUT
+            echo "${{ github.event.client_payload.body }}"               >> $GITHUB_OUTPUT
+            echo "EOF"                                                    >> $GITHUB_OUTPUT
+            echo "prerelease=${{ github.event.client_payload.prerelease || 'false' }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${{ inputs.tag }}"          >> $GITHUB_OUTPUT
+            echo "name=${{ inputs.release_name }}" >> $GITHUB_OUTPUT
+            echo "body<<EOF"                       >> $GITHUB_OUTPUT
+            echo "${{ inputs.body }}"              >> $GITHUB_OUTPUT
+            echo "EOF"                             >> $GITHUB_OUTPUT
+            echo "prerelease=${{ inputs.prerelease }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Download assets from private repo
+        if: github.event_name == 'repository_dispatch'
+        env:
+          GH_TOKEN: ${{ secrets.VAREC_PRIVATE_PAT }}
+          TAG: ${{ steps.vars.outputs.tag }}
+        run: |
+          mkdir -p assets
+          # Download DMG assets from private repo release
+          gh release download "$TAG" \
+            --repo julessourzac-gif/VAREC \
+            --pattern "*.dmg" \
+            --dir assets/ || echo "No DMG assets found"
+          ls -lh assets/ || true
+
+      - name: Create or update GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.vars.outputs.tag }}
+          NAME: ${{ steps.vars.outputs.name }}
+          BODY: ${{ steps.vars.outputs.body }}
+          PRERELEASE: ${{ steps.vars.outputs.prerelease }}
+        run: |
+          # Delete existing release with same tag if it exists (idempotent)
+          gh release delete "$TAG" \
+            --repo ${{ github.repository }} \
+            --yes 2>/dev/null || true
+
+          # Build flags
+          FLAGS="--title \"$NAME\" --notes \"$BODY\""
+          [ "$PRERELEASE" = "true" ] && FLAGS="$FLAGS --prerelease"
+
+          # Create release (with assets if any were downloaded)
+          if [ "${{ github.event_name }}" = "repository_dispatch" ] && ls assets/*.dmg 2>/dev/null; then
+            gh release create "$TAG" assets/*.dmg \
+              --repo ${{ github.repository }} \
+              --target main \
+              --title "$NAME" \
+              --notes "$BODY" \
+              $( [ "$PRERELEASE" = "true" ] && echo "--prerelease" )
+          else
+            gh release create "$TAG" \
+              --repo ${{ github.repository }} \
+              --target main \
+              --title "$NAME" \
+              --notes "$BODY" \
+              $( [ "$PRERELEASE" = "true" ] && echo "--prerelease" )
+          fi
+
+      - name: Update download links in index.html
+        env:
+          TAG: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo "Release $TAG published to ${{ github.repository }}"
+          echo "Download URL: https://github.com/${{ github.repository }}/releases/tag/$TAG"
