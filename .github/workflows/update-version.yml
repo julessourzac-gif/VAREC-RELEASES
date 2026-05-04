@@ -79,4 +79,5 @@ jobs:
           git add index.html
           git diff --cached --quiet && echo "Rien à committer" && exit 0
           git commit -m "chore: bump version to ${{ github.event.release.tag_name }}"
+          git pull --rebase origin main
           git push origin main

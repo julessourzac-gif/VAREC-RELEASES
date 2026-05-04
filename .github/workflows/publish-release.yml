@@ -88,12 +88,14 @@ jobs:
           if [ "${{ github.event_name }}" = "repository_dispatch" ] && ls assets/*.dmg 2>/dev/null; then
             gh release create "$TAG" assets/*.dmg \
               --repo ${{ github.repository }} \
+              --target main \
               --title "$NAME" \
               --notes "$BODY" \
               $( [ "$PRERELEASE" = "true" ] && echo "--prerelease" )
           else
             gh release create "$TAG" \
               --repo ${{ github.repository }} \
+              --target main \
               --title "$NAME" \
               --notes "$BODY" \
               $( [ "$PRERELEASE" = "true" ] && echo "--prerelease" )
