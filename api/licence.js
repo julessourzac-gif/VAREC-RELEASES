@@ -1,12 +1,9 @@
 'use strict';
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const crypto = require('crypto');
 
-module.exports.config = { api: { bodyParser: false } };
-
-// ── Crockford base32 (identique à license.js) ────────────────
 const B32 = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+const EPOCH_DAY = Math.floor(new Date('2026-01-01').getTime() / 86400000);
 
 function b32encode(buf) {
   let bits = 0n;
@@ -19,138 +16,98 @@ function b32encode(buf) {
   return result;
 }
 
-// ── Génération de clé Pro permanente ─────────────────────────
-// Reproduit exactement generateKey('pro', 0, 0xFF, 0xFF) de license.js
-function generateProKey() {
-  const SIGN_KEY  = process.env.VAREC_SIGN_KEY; // ea25beca4ff323167309c01ade6ab6dac218ca90cac3782177072ac43dcceeaf
-  const typeId    = 1;   // pro
-  const expiry    = 0;   // permanent
-  const vMajor    = 0xFF;
-  const vMinor    = 0xFF;
+function generateKey() {
+  const SIGN_KEY = process.env.VAREC_SIGN_KEY;
+  if (!SIGN_KEY) throw new Error('VAREC_SIGN_KEY not set');
 
+  // type=1 (pro), expiry=0 (permanent), vMajor=0xFF, vMinor=0xFF
   const payload = Buffer.alloc(6);
-  payload[0] = typeId;
-  payload.writeUInt16BE(expiry, 1);
-  payload[3] = vMajor;
-  payload[4] = vMinor;
+  payload[0] = 1;
+  payload.writeUInt16BE(0, 1);
+  payload[3] = 0xFF;
+  payload[4] = 0xFF;
   payload[5] = crypto.randomBytes(1)[0];
 
   const hmac = crypto.createHmac('sha256', SIGN_KEY).update(payload).digest();
   const full = Buffer.concat([payload, hmac.slice(0, 4)]);
-
   return b32encode(full).match(/.{4}/g).join('-');
 }
 
-// ── Raw body pour vérification signature Stripe ───────────────
-async function getRawBody(req) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    req.on('data', c => chunks.push(c));
-    req.on('end', () => resolve(Buffer.concat(chunks)));
-    req.on('error', reject);
-  });
-}
-
-// ── Email licence via Resend ──────────────────────────────────
 async function sendEmail(to, name, key) {
-  const html = `
-<!DOCTYPE html>
-<html lang="fr">
-<head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#1c1c1e;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;">
-  <div style="max-width:520px;margin:40px auto;background:#2c2c2e;border-radius:16px;overflow:hidden;">
-    <div style="background:#0d1a0e;padding:32px 36px 24px;text-align:center;">
-      <img src="https://raw.githubusercontent.com/julessourzac-gif/VAREC-RELEASES/main/logo.png" alt="VAREC" style="height:52px;width:auto;">
-    </div>
-    <div style="padding:36px;">
-      <p style="margin:0 0 6px;font-size:13px;color:#98989f;text-transform:uppercase;letter-spacing:1.5px;">Votre licence Pro</p>
-      <h1 style="margin:0 0 28px;font-size:24px;font-weight:800;color:#f5f5f7;letter-spacing:-.5px;">Merci ${name}&nbsp;!<br>VAREC Pro est activé.</h1>
-
-      <p style="margin:0 0 16px;font-size:14px;color:#98989f;line-height:1.6;">
-        Entrez ce numéro dans VAREC →&nbsp;<strong style="color:#f5f5f7;">Aide → Activer la licence</strong> :
-      </p>
-
-      <div style="background:#1c1c1e;border:1px solid rgba(76,217,100,.35);border-radius:12px;padding:20px;text-align:center;margin:0 0 28px;">
-        <span style="font-family:'SF Mono',Menlo,Consolas,monospace;font-size:26px;font-weight:700;color:#4cd964;letter-spacing:3px;">${key}</span>
-      </div>
-
-      <p style="margin:0 0 8px;font-size:13px;color:#98989f;line-height:1.6;">
-        Licence <strong style="color:#f5f5f7;">Pro permanente</strong> — pas de date d'expiration.<br>
-        Conservez ce numéro, il ne sera plus renvoyé.
-      </p>
-
-      <p style="margin:0 0 28px;font-size:12px;color:#545458;">
-        Nominative — valable sur un seul Mac.
-      </p>
-
-      <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/latest"
-         style="display:inline-block;padding:12px 24px;background:#4cd964;color:#000;border-radius:8px;text-decoration:none;font-size:14px;font-weight:700;">
-        Télécharger VAREC
-      </a>
-    </div>
-    <div style="padding:16px 36px 24px;border-top:1px solid rgba(255,255,255,.08);text-align:center;">
-      <p style="margin:0;font-size:11px;color:#545458;line-height:1.6;">
-        © 2026 BERNIK — VAREC macOS Field Recorder<br>
-        <a href="mailto:jules.sourzac@icloud.com" style="color:#545458;">jules.sourzac@icloud.com</a>
-      </p>
-    </div>
-  </div>
-</body>
-</html>`;
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY not set');
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${RESEND_API_KEY}`,
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
     },
     body: JSON.stringify({
       from: 'VAREC <licence@bernik.fr>',
-      to,
-      subject: `Votre licence VAREC Pro — ${key}`,
-      html,
+      to: [to],
+      subject: 'Votre licence VAREC Pro',
+      html: `
+        <div style="font-family:system-ui,sans-serif;max-width:520px;margin:0 auto;background:#0a0a0a;color:#e8e8e8;border-radius:12px;padding:40px;">
+          <img src="https://varec-releases.vercel.app/logo.png" alt="VAREC" style="height:32px;margin-bottom:32px;">
+          <h1 style="font-size:22px;font-weight:700;margin:0 0 8px;">Votre licence VAREC Pro</h1>
+          <p style="color:#888;margin:0 0 32px;">Bonjour ${name},</p>
+          <p style="color:#aaa;margin:0 0 24px;">Voici votre clé de licence :</p>
+          <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:20px 24px;text-align:center;margin-bottom:32px;">
+            <span style="font-family:monospace;font-size:20px;letter-spacing:2px;color:#ffffff;font-weight:600;">${key}</span>
+          </div>
+          <p style="color:#666;font-size:13px;margin:0;">Licence Pro · Permanente · Pour activer : VAREC → Préférences → Licence</p>
+        </div>
+      `,
     }),
   });
 
-  if (!res.ok) throw new Error(`Resend: ${await res.text()}`);
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Resend error ${res.status}: ${body}`);
+  }
 }
 
-// ── Handler webhook Stripe ────────────────────────────────────
 module.exports = async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).end('Method Not Allowed');
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-  const rawBody = await getRawBody(req);
   const sig = req.headers['stripe-signature'];
+  const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 
   let event;
   try {
-    event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+    const rawBody = await new Promise((resolve, reject) => {
+      let data = '';
+      req.on('data', chunk => data += chunk);
+      req.on('end', () => resolve(data));
+      req.on('error', reject);
+    });
+    event = stripe.webhooks.constructEvent(rawBody, sig, WEBHOOK_SECRET);
   } catch (err) {
-    console.error('[licence] Webhook signature error:', err.message);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
+    return res.status(400).json({ error: `Webhook error: ${err.message}` });
   }
 
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;
-    const email   = session.customer_details?.email;
-    const name    = session.customer_details?.name || 'Client';
-
-    if (!email) {
-      console.error('[licence] No email in session:', session.id);
-      return res.status(200).json({ received: true });
-    }
-
-    const key = generateProKey();
-    console.log(`[licence] Clé Pro générée pour ${email}: ${key}`);
-
-    try {
-      await sendEmail(email, name, key);
-      console.log(`[licence] Email envoyé à ${email}`);
-    } catch (err) {
-      console.error('[licence] Email error:', err.message);
-      // 200 renvoyé à Stripe pour éviter les retry — investiguer dans les logs Vercel
-    }
+  if (event.type !== 'checkout.session.completed') {
+    return res.status(200).json({ received: true });
   }
 
-  return res.status(200).json({ received: true });
+  const session = event.data.object;
+  const email = session.customer_details?.email;
+  const name = session.customer_details?.name?.split(' ')[0] || 'cher client';
+
+  if (!email) {
+    return res.status(400).json({ error: 'No customer email' });
+  }
+
+  try {
+    const key = generateKey();
+    await sendEmail(email, name, key);
+    return res.status(200).json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: err.message });
+  }
 };
