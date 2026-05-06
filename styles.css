@@ -12,14 +12,14 @@
   --txt2:  #98989f;
   --txt3:  #545458;
   --rec:   #ff453a;
-  --grn:   #52b69a;
+  --grn:   #76c893;
   --amb:   #ff9f0a;
   --blu:   #0a84ff;
   --tea:   #5ac8fa;
   --pur:   #bf5af2;
   /* brand accent (logo green) */
-  --brand: #52b69a;
-  --brand2: #52b69a;
+  --brand: #76c893;
+  --brand2: #76c893;
   /* Canvas */
   --canvas-bg:   #090909;
   --canvas-grid: rgba(255,255,255,.07);
@@ -513,7 +513,7 @@ nav {
   letter-spacing: .5px;
   font-family: 'SF Mono', monospace;
 }
-.feature-tag.grn { background: rgba(82,182,154,.12); color: var(--grn); }
+.feature-tag.grn { background: rgba(118,200,147,.12); color: var(--grn); }
 .feature-tag.blu { background: rgba(10,132,255,.12); color: var(--blu); }
 .feature-tag.tea { background: rgba(90,200,250,.12); color: var(--tea); }
 .feature-tag.red { background: rgba(255,69,58,.12); color: var(--rec); }
