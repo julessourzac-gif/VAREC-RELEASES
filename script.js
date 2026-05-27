@@ -1,7 +1,8 @@
-// ── Canvas preview — couleurs exactes de l'app VAREC ──
+// ── Canvas preview désactivé ──
 (function () {
   const canvas = document.getElementById('varecCanvas');
   if (!canvas) return;
+  return; // désactivé
   const ctx = canvas.getContext('2d');
 
   let W, H, dpr;
@@ -193,35 +194,6 @@
   cards.forEach(c=>obs.observe(c));
 })();
 
-// ── Formulaire licence ──
-(function(){
-  const form=document.getElementById('licenceForm');
-  const success=document.getElementById('formSuccess');
-  if(!form) return;
-  form.addEventListener('submit',async function(e){
-    e.preventDefault();
-    const btn=form.querySelector('.btn-submit');
-    const orig=btn.textContent;
-    btn.textContent='Envoi en cours…';
-    btn.disabled=true;
-    if(form.action.indexOf('YOUR_FORM_ID')!==-1){
-      const data=new FormData(form);
-      const body=[];
-      for(const [k,v] of data.entries()) body.push(k+': '+v);
-      window.location.href='mailto:jules.sourzac@icloud.com?subject=Demande%20de%20licence%20VAREC&body='+encodeURIComponent(body.join('\n'));
-      btn.textContent=orig; btn.disabled=false; return;
-    }
-    try{
-      const r=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
-      if(r.ok){form.style.display='none';success.classList.add('visible');}
-      else throw new Error();
-    }catch{
-      btn.textContent='Erreur — réessayer';
-      btn.style.background='var(--rec)';
-      btn.disabled=false;
-    }
-  });
-})();
 
 // ── Nav opacity on scroll ──
 (function(){
@@ -231,5 +203,102 @@
     nav.style.background=window.scrollY>60
       ?'rgba(28,28,30,.97)'
       :'rgba(28,28,30,.88)';
+  });
+})();
+
+
+// ── Email gate before download / purchase ──
+(function () {
+  const modal     = document.getElementById('email-modal');
+  const form      = document.getElementById('email-form');
+  const input     = document.getElementById('modal-email');
+  const submitBtn = document.getElementById('modal-submit');
+  const closeBtn  = document.getElementById('modal-close');
+  if (!modal) return;
+
+  // Read version from the badge so it stays in sync automatically
+  const badge   = document.querySelector('.version-badge');
+  const version = badge ? (badge.textContent.match(/[\d.]+/) || [''])[0] : '';
+
+  let pendingAction = null;
+
+  function openModal(action) {
+    pendingAction = action;
+    // Pre-fill if user already gave email in this session
+    const saved = sessionStorage.getItem('varec_email');
+    if (saved) input.value = saved;
+    modal.classList.add('open');
+    modal.removeAttribute('aria-hidden');
+    setTimeout(() => input.focus(), 80);
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    pendingAction = null;
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+  // Intercept every element with [data-register]
+  document.querySelectorAll('[data-register]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      if (sessionStorage.getItem('varec_email_done')) return; // already registered
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      openModal({ el: el, type: el.dataset.registerType || 'download', arch: el.dataset.arch || '' });
+    }, true);
+  });
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const email = input.value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      input.focus();
+      input.style.borderColor = '#ff453a';
+      setTimeout(function () { input.style.borderColor = ''; }, 1200);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector('.modal-submit-text').textContent = 'Enregistrement…';
+
+    try {
+      await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, type: pendingAction ? pendingAction.type : 'download', version: version, arch: pendingAction ? pendingAction.arch : '' })
+      });
+    } catch (_) { /* non-blocking */ }
+
+    sessionStorage.setItem('varec_email_done', '1');
+    sessionStorage.setItem('varec_email', email);
+    closeModal();
+
+    // Resume original action
+    const action = pendingAction;
+    pendingAction = null;
+    if (!action) return;
+    const el   = action.el;
+    const href = el.href || el.getAttribute('href');
+    if (!href) return;
+
+    if (href.includes('buy.stripe.com')) {
+      try {
+        const url = new URL(href);
+        url.searchParams.set('prefilled_email', email);
+        window.open(url.toString(), '_blank', 'noopener,noreferrer');
+      } catch (_) { window.open(href, '_blank', 'noopener,noreferrer'); }
+    } else {
+      // Direct file download
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = '';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   });
 })();
