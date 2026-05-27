@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Tag à appliquer (ex: v1.4.21)'
+        description: 'Tag à appliquer (ex: v1.4.25)'
         required: true
 
 jobs:
@@ -20,12 +20,41 @@ jobs:
         with:
           ref: main
 
-      - name: Update version in index.html
+      - name: Resolve tag
+        id: vars
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=${{ inputs.tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check arm64 asset exists
+        id: assets
         env:
-          TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.event.release.tag_name }}
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.vars.outputs.tag }}
         run: |
           VER="${TAG#v}"
+          HAS_ARM64=$(gh release view "$TAG" \
+            --repo ${{ github.repository }} \
+            --json assets --jq \
+            "[.assets[].name | select(endswith(\"-arm64.dmg\"))] | length > 0")
+          HAS_INTEL=$(gh release view "$TAG" \
+            --repo ${{ github.repository }} \
+            --json assets --jq \
+            "[.assets[].name | select(test(\"^VAREC-[0-9.]+\\.dmg$\"))] | length > 0")
+          echo "arm64=$HAS_ARM64" >> $GITHUB_OUTPUT
+          echo "intel=$HAS_INTEL" >> $GITHUB_OUTPUT
+          echo "ver=$VER" >> $GITHUB_OUTPUT
 
+      - name: Update version in index.html
+        env:
+          TAG: ${{ steps.vars.outputs.tag }}
+          VER: ${{ steps.assets.outputs.ver }}
+          HAS_ARM64: ${{ steps.assets.outputs.arm64 }}
+          HAS_INTEL: ${{ steps.assets.outputs.intel }}
+        run: |
           DATE=$(python3 -c "
           import datetime
           months = ['janvier','février','mars','avril','mai','juin',
@@ -37,52 +66,59 @@ jobs:
           python3 <<PYEOF
           import re, os
 
-          tag  = os.environ['TAG']
-          ver  = tag.lstrip('v')
-          date = '$DATE'
+          tag      = os.environ['TAG']
+          ver      = os.environ['VER']
+          date     = '$DATE'
+          has_arm  = os.environ['HAS_ARM64'] == 'true'
+          has_intel = os.environ['HAS_INTEL'] == 'true'
 
           with open('index.html', 'r') as f:
               html = f.read()
 
-          # Nav CTA  (↓ v1.4.17)
+          # Nav CTA et badge version — toujours
           html = re.sub(r'↓ v[\d.]+', f'↓ {tag}', html)
-
-          # Hero version badge  (v1.4.17 · macOS)
           html = re.sub(r'v[\d.]+ · macOS', f'{tag} · macOS', html)
-
-          # Download card version + date
           html = re.sub(
               r'Dernière version : v[\d.]+ · [^<]+',
               f'Dernière version : {tag} · {date}',
               html
           )
 
-          # DMG arm64 link
-          html = re.sub(
-              r'releases/download/v[\d.]+/VAREC-[\d.]+-arm64\.dmg',
-              f'releases/download/{tag}/VAREC-{ver}-arm64.dmg',
-              html
-          )
+          # Lien arm64 — seulement si le DMG existe dans cette release
+          if has_arm:
+              html = re.sub(
+                  r'releases/download/v[\d.]+/VAREC-[\d.]+-arm64\.dmg',
+                  f'releases/download/{tag}/VAREC-{ver}-arm64.dmg',
+                  html
+              )
 
-          # DMG Intel link  ([\d.]+ ne matche pas le tiret de -arm64)
-          html = re.sub(
-              r'releases/download/v[\d.]+/VAREC-[\d.]+\.dmg',
-              f'releases/download/{tag}/VAREC-{ver}.dmg',
-              html
-          )
+          # Lien Intel — seulement si DMG Intel présent dans cette release
+          if has_intel:
+              html = re.sub(
+                  r'releases/download/v[\d.]+/VAREC-[\d.]+\.dmg',
+                  f'releases/download/{tag}/VAREC-{ver}.dmg',
+                  html
+              )
 
           with open('index.html', 'w') as f:
               f.write(html)
 
-          print(f'index.html mis à jour → {tag} ({date})')
+          arm_status  = '✓ mis à jour' if has_arm  else '— inchangé (pas de DMG arm64)'
+          intel_status = '✓ mis à jour' if has_intel else '— inchangé (pas de DMG Intel)'
+          print(f'index.html → {tag} ({date})')
+          print(f'  arm64  : {arm_status}')
+          print(f'  intel  : {intel_status}')
           PYEOF
 
       - name: Commit and push
+        env:
+          TAG: ${{ steps.vars.outputs.tag }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add index.html
           git diff --cached --quiet && echo "Rien à committer" && exit 0
-          git commit -m "chore: bump version to ${{ github.event.release.tag_name }}"
+          git commit -m "chore: bump version to $TAG"
           git pull --rebase origin main
           git push origin main
+
