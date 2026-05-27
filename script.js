@@ -205,3 +205,94 @@
       :'rgba(28,28,30,.88)';
   });
 })();
+
+// ── Email gate before download / purchase ──
+(function () {
+  const modal     = document.getElementById('email-modal');
+  const form      = document.getElementById('email-form');
+  const input     = document.getElementById('modal-email');
+  const submitBtn = document.getElementById('modal-submit');
+  const closeBtn  = document.getElementById('modal-close');
+  if (!modal) return;
+
+  const badge   = document.querySelector('.version-badge');
+  const version = badge ? (badge.textContent.match(/[\d.]+/) || [''])[0] : '';
+
+  let pendingAction = null;
+
+  function openModal(action) {
+    pendingAction = action;
+    const saved = sessionStorage.getItem('varec_email');
+    if (saved) input.value = saved;
+    modal.classList.add('open');
+    modal.removeAttribute('aria-hidden');
+    setTimeout(() => input.focus(), 80);
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    pendingAction = null;
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+  document.querySelectorAll('[data-register]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      if (sessionStorage.getItem('varec_email_done')) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      openModal({ el: el, type: el.dataset.registerType || 'download', arch: el.dataset.arch || '' });
+    }, true);
+  });
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const email = input.value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      input.focus();
+      input.style.borderColor = '#ff453a';
+      setTimeout(function () { input.style.borderColor = ''; }, 1200);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector('.modal-submit-text').textContent = 'Enregistrement…';
+
+    try {
+      await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, type: pendingAction ? pendingAction.type : 'download', version: version, arch: pendingAction ? pendingAction.arch : '' })
+      });
+    } catch (_) { /* non-blocking */ }
+
+    sessionStorage.setItem('varec_email_done', '1');
+    sessionStorage.setItem('varec_email', email);
+    closeModal();
+
+    const action = pendingAction;
+    pendingAction = null;
+    if (!action) return;
+    const el   = action.el;
+    const href = el.href || el.getAttribute('href');
+    if (!href) return;
+
+    if (href.includes('buy.stripe.com')) {
+      try {
+        const url = new URL(href);
+        url.searchParams.set('prefilled_email', email);
+        window.open(url.toString(), '_blank', 'noopener,noreferrer');
+      } catch (_) { window.open(href, '_blank', 'noopener,noreferrer'); }
+    } else {
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = '';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  });
+})();

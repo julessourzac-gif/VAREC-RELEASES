@@ -174,11 +174,11 @@
       <div class="download-title">Télécharger VAREC</div>
       <p class="download-sub">Gratuit à télécharger. Licence requise pour une utilisation commerciale.</p>
       <div class="download-buttons">
-        <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/download/v1.4.30/VAREC-1.4.30-arm64.dmg" class="btn-download">
+        <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/download/v1.4.30/VAREC-1.4.30-arm64.dmg" class="btn-download" data-register data-register-type="download" data-arch="arm64">
           <span class="btn-download-title">Apple Silicon</span>
           <span class="btn-download-sub">macOS · arm64 · ~95 MB</span>
         </a>
-        <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/download/v1.4.30/VAREC-1.4.30.dmg" class="btn-download intel">
+        <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/download/v1.4.30/VAREC-1.4.30.dmg" class="btn-download intel" data-register data-register-type="download" data-arch="intel">
           <span class="btn-download-title">Mac Intel</span>
           <span class="btn-download-sub">macOS · x86_64 · ~101 MB</span>
         </a>
@@ -278,7 +278,7 @@
           </div>
           <div class="compare-col pro">
             <!-- Remplacer YOUR_STRIPE_LINK par le lien de paiement Stripe -->
-            <a href="https://buy.stripe.com/9B6dR98O29zg6YY2AO9IQ00" class="btn-compare-pro" target="_blank" rel="noopener">
+            <a href="https://buy.stripe.com/9B6dR98O29zg6YY2AO9IQ00" class="btn-compare-pro" target="_blank" rel="noopener" data-register data-register-type="purchase">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
               Acheter la licence
             </a>
@@ -313,6 +313,28 @@
     <div class="footer-copy">© 2026 BERNIK — VAREC macOS Field Recorder</div>
   </div>
 </footer>
+
+<!-- EMAIL GATE MODAL -->
+<div id="email-modal" class="email-modal-backdrop" aria-hidden="true">
+  <div class="email-modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" id="modal-close" aria-label="Fermer">&times;</button>
+    <div class="modal-icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </div>
+    <h2 id="modal-title">Avant de continuer</h2>
+    <p class="modal-desc">Entrez votre email pour accéder au téléchargement et recevoir les notes de mise à jour.</p>
+    <form id="email-form" novalidate>
+      <div class="modal-field">
+        <input type="email" id="modal-email" name="email" placeholder="votre@email.com" required autocomplete="email">
+      </div>
+      <p class="modal-privacy">Aucun spam. Email utilisé uniquement pour les informations de version.</p>
+      <button type="submit" class="modal-submit" id="modal-submit">
+        <span class="modal-submit-text">Continuer</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
 
 <script src="script.js"></script>
 </body>
