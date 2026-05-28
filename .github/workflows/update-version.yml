@@ -43,7 +43,7 @@ jobs:
           HAS_INTEL=$(gh release view "$TAG" \
             --repo ${{ github.repository }} \
             --json assets --jq \
-            "[.assets[].name | select(test(\"^VAREC-[0-9.]+\\.dmg$\"))] | length > 0")
+            "[.assets[].name | select(endswith(\".dmg\") and (endswith(\"-arm64.dmg\") | not))] | length > 0")
           echo "arm64=$HAS_ARM64" >> $GITHUB_OUTPUT
           echo "intel=$HAS_INTEL" >> $GITHUB_OUTPUT
           echo "ver=$VER" >> $GITHUB_OUTPUT
@@ -121,4 +121,3 @@ jobs:
           git commit -m "chore: bump version to $TAG"
           git pull --rebase origin main
           git push origin main
-
