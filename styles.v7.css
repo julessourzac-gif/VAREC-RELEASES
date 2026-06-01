@@ -83,11 +83,10 @@ body > nav {
   line-height: 1;
 }
 .nav-bernik {
-  height: 46px;
+  height: 26px;
   width: auto;
   flex-shrink: 0;
   display: block;
-  margin-left: -4px;
 }
 .nav-links {
   display: flex;
@@ -863,7 +862,7 @@ footer {
   .nav-inner { gap: 10px; padding: 0 16px; }
   .nav-logo { height: 24px; }
   .nav-by { font-size: 13px; }
-  .nav-bernik { height: 38px; }
+  .nav-bernik { height: 22px; }
 
   /* Drawer */
   .nav-links {
