@@ -664,6 +664,47 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   border: 1px solid var(--bdr2);
 }
 .btn-download.intel:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.28); transform: translateY(-2px); }
+
+/* Untested platform buttons (Windows / Linux) */
+.download-untested-label {
+  margin: 28px 0 14px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--txt3);
+}
+.btn-download.untested {
+  background: rgba(255,255,255,.03);
+  color: var(--txt2);
+  border: 1px solid var(--bdr);
+  position: relative;
+  opacity: 0.78;
+}
+.btn-download.untested:hover {
+  background: rgba(255,255,255,.06);
+  border-color: var(--bdr2);
+  transform: translateY(-1px);
+  box-shadow: none;
+  opacity: 1;
+}
+.btn-download.untested .btn-download-title { color: var(--txt); font-size: 14px; }
+.btn-download.untested .btn-download-sub { opacity: 0.55; }
+.btn-download-badge {
+  position: absolute;
+  top: -9px;
+  right: 12px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--amb);
+  color: #000;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  white-space: nowrap;
+}
+
 .github-link {
   color: var(--txt2);
   font-size: 14px;
