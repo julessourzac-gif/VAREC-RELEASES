@@ -1087,8 +1087,8 @@ footer {
 }
 .doc-container {
   display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 60px;
+  grid-template-columns: 200px 1fr;
+  gap: 48px;
   align-items: start;
 }
 
@@ -1545,7 +1545,20 @@ footer {
 .video-modal-caption span { color: var(--txt2); font-size: 13px; }
 
 /* ── Responsive overrides for resource pages ── */
-@media (max-width: 900px) {
+@media (max-width: 820px) {
+  .doc-container {
+    grid-template-columns: 170px 1fr;
+    gap: 28px;
+  }
+  .doc-toc-list a { font-size: 12.5px; }
+  .video-featured {
+    grid-template-columns: 1fr;
+  }
+  .video-featured-info {
+    padding: 0 24px 28px;
+  }
+}
+@media (max-width: 640px) {
   .doc-container {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -1566,14 +1579,9 @@ footer {
     margin-left: 0;
     border-left: none;
     padding-left: 0;
+    font-size: 13px;
   }
   .doc-toc-list a.active { border-left: none; }
-  .video-featured {
-    grid-template-columns: 1fr;
-  }
-  .video-featured-info {
-    padding: 0 24px 28px;
-  }
 }
 @media (max-width: 600px) {
   #resources-hero { padding: 110px 0 60px; }
