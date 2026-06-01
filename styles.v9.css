@@ -1315,6 +1315,17 @@ footer {
   border-left-color: var(--brand);
   font-weight: 600;
 }
+.doc-toc-group {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--txt3);
+  padding: 14px 0 4px;
+  margin-left: -16px;
+  padding-left: 14px;
+}
+.doc-toc-group:first-child { padding-top: 0; }
 
 /* Doc content */
 .doc-content {
