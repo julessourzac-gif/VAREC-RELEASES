@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Manuel utilisateur VAREC — Field recorder multipiste pour Mac. Installation, configuration, enregistrement, timecode, sound report, raccourcis clavier.">
+<title>VAREC — Manuel utilisateur</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" style="display:flex;align-items:center;"><img src="logo.png" alt="VAREC" class="nav-logo"></a>
+    <ul class="nav-links">
+      <li><a href="index.html#preview">Aperçu</a></li>
+      <li><a href="index.html#features">Fonctionnalités</a></li>
+      <li><a href="ressources.html" class="active">Ressources</a></li>
+      <li><a href="index.html#download">Télécharger</a></li>
+      <li><a href="index.html#licence">Acheter</a></li>
+    </ul>
+    <a href="index.html#download" class="nav-cta">↓ v1.4.35</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="doc-crumbs">
+  <div class="container">
+    <a href="ressources.html">← Ressources</a>
+    <span class="crumbs-sep">/</span>
+    <span class="crumbs-current">Manuel utilisateur</span>
+  </div>
+</div>
+
+<!-- MANUAL LAYOUT -->
+<div class="doc-wrap">
+  <div class="container doc-container">
+
+    <!-- TOC SIDEBAR -->
+    <aside class="doc-toc">
+      <div class="doc-toc-title">Sommaire</div>
+      <nav class="doc-toc-list">
+        <a href="#intro">1. Présentation</a>
+        <a href="#install">2. Installation</a>
+        <a href="#quick">3. Démarrage rapide</a>
+        <a href="#interface">4. Interface</a>
+        <a href="#recording">5. Enregistrement</a>
+        <a href="#timecode">6. Timecode</a>
+        <a href="#multidisk">7. Multi-disque</a>
+        <a href="#metering">8. VU mètres & analyse</a>
+        <a href="#report">9. Sound Report PDF</a>
+        <a href="#cloud">10. Partage cloud</a>
+        <a href="#crash">11. Crash Recovery</a>
+        <a href="#midi">12. Contrôle MIDI</a>
+        <a href="#shortcuts">13. Raccourcis clavier</a>
+        <a href="#faq">14. FAQ</a>
+      </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <article class="doc-content">
+
+      <header class="doc-header">
+        <span class="doc-eyebrow">Manuel utilisateur · v1.4.35</span>
+        <h1>VAREC — Manuel utilisateur</h1>
+        <p class="doc-lede">Bienvenue dans la documentation officielle de VAREC, le field recorder multipiste professionnel pour macOS. Ce manuel couvre toutes les fonctionnalités de la version 1.4.35.</p>
+      </header>
+
+      <section id="intro" class="doc-section">
+        <h2>1. Présentation</h2>
+        <p>VAREC est un enregistreur audio multipiste destiné aux professionnels du son sur le terrain (cinéma, documentaire, reportage, captation live). Il fonctionne nativement sur macOS (Apple Silicon et Intel) et exploite l'interface audio CoreAudio de votre Mac.</p>
+        <ul>
+          <li>Jusqu'à <strong>512 canaux</strong> simultanés</li>
+          <li>WAV 16, 24 et <strong>32-bit Float</strong></li>
+          <li>Fréquences d'échantillonnage jusqu'à <strong>192 kHz</strong></li>
+          <li>Timecode <strong>LTC, Tentacle BLE, Time of Day</strong></li>
+          <li>Enregistrement <strong>multi-disque</strong> simultané (redondance)</li>
+          <li><strong>Sound Report PDF</strong> intégré</li>
+        </ul>
+      </section>
+
+      <section id="install" class="doc-section">
+        <h2>2. Installation</h2>
+        <h3>Configuration requise</h3>
+        <ul>
+          <li>macOS 12 Monterey ou supérieur</li>
+          <li>Apple Silicon (M1, M2, M3, M4) ou Intel x86_64</li>
+          <li>Interface audio CoreAudio (intégrée ou externe)</li>
+          <li>4 Go de RAM minimum (8 Go recommandés au-delà de 64 canaux)</li>
+        </ul>
+        <h3>Installation</h3>
+        <ol>
+          <li>Téléchargez le fichier <code>.dmg</code> correspondant à votre Mac depuis <a href="index.html#download">la page Télécharger</a>.</li>
+          <li>Ouvrez le DMG puis glissez l'application <code>VAREC.app</code> dans le dossier <code>Applications</code>.</li>
+          <li>Au premier lancement, autorisez l'accès au micro et au système de fichiers depuis les <em>Réglages Système → Confidentialité et sécurité</em>.</li>
+          <li>Sélectionnez votre interface audio dans le sélecteur <strong>Source audio</strong> en haut à droite.</li>
+        </ol>
+        <div class="doc-callout">
+          <strong>Astuce.</strong> Pour les sessions avec un grand nombre de canaux, branchez votre interface audio avant de lancer VAREC afin que CoreAudio l'expose dès le démarrage.
+        </div>
+      </section>
+
+      <section id="quick" class="doc-section">
+        <h2>3. Démarrage rapide</h2>
+        <ol>
+          <li>Lancez VAREC.</li>
+          <li>Sélectionnez votre <strong>interface audio</strong> et le <strong>nombre de canaux</strong> dans la barre supérieure.</li>
+          <li>Choisissez la <strong>fréquence</strong> et la <strong>profondeur de bits</strong> (recommandé : 48 kHz / 32-bit Float).</li>
+          <li>Choisissez un ou plusieurs <strong>disques</strong> de destination dans le panneau Disques.</li>
+          <li>Cliquez sur le bouton <strong>REC</strong> (ou pressez la barre d'espace).</li>
+          <li>Arrêtez l'enregistrement avec <strong>STOP</strong>. Le fichier WAV poly est immédiatement disponible.</li>
+        </ol>
+      </section>
+
+      <section id="interface" class="doc-section">
+        <h2>4. Interface</h2>
+        <p>L'interface se compose de quatre zones principales :</p>
+        <ul>
+          <li><strong>Barre supérieure</strong> — REC/STOP, timer, timecode, source audio, fréquence/bits, sélecteur de scène &amp; take.</li>
+          <li><strong>Liste des canaux</strong> — Un strip par canal : numéro, nom (renommable), arming (R), solo/mute, gain, VU mètre, peak.</li>
+          <li><strong>Panneau Disques</strong> — Affiche les disques actifs, l'espace libre, le débit d'écriture en temps réel. Clic droit pour ouvrir dans le Finder.</li>
+          <li><strong>Panneau Métadonnées</strong> — Scène, take, notes, marqueurs.</li>
+        </ul>
+        <h3>Modes d'affichage</h3>
+        <ul>
+          <li><strong>Standard</strong> — vue par défaut, strips horizontaux.</li>
+          <li><strong>Fader</strong> — strips verticaux avec faders.</li>
+          <li><strong>Compact</strong> — vue dense pour les sessions à très haut nombre de canaux.</li>
+        </ul>
+      </section>
+
+      <section id="recording" class="doc-section">
+        <h2>5. Enregistrement multipiste</h2>
+        <h3>Armer les canaux</h3>
+        <p>Cliquez sur le bouton <strong>R</strong> du strip pour armer un canal. Seuls les canaux armés sont enregistrés. Maintenez <kbd>Alt</kbd> en cliquant pour armer tout / rien.</p>
+        <h3>Format de fichier</h3>
+        <p>VAREC produit un fichier <strong>WAV polyphonique</strong> par session (BWF avec iXML embarqué). Les métadonnées suivantes sont incluses :</p>
+        <ul>
+          <li>Timestamp BWF (<code>OriginationTime</code>, <code>OriginationDate</code>)</li>
+          <li>Timecode de départ et frame rate</li>
+          <li>Scène, take, notes</li>
+          <li>Nom de chaque piste (<code>iXML/TRACK_LIST</code>)</li>
+          <li>Marqueurs horodatés TC</li>
+        </ul>
+        <h3>Profondeur de bits</h3>
+        <p>Le <strong>32-bit Float</strong> est recommandé : aucune limite de headroom, aucune saturation numérique. Les fichiers sont compatibles Pro Tools, Reaper, Davinci Resolve, Avid Media Composer.</p>
+      </section>
+
+      <section id="timecode" class="doc-section">
+        <h2>6. Timecode</h2>
+        <p>VAREC supporte trois sources de timecode, sélectionnables au clic sur la zone TC de la barre supérieure :</p>
+        <h3>LTC (Linear Timecode)</h3>
+        <p>Reçoit le LTC sur un canal d'entrée audio dédié. Hystérésis zero-crossing avec PLL pour une lecture stable même en présence de bruit. Jam sync automatique sur perte de signal.</p>
+        <h3>Tentacle BLE</h3>
+        <p>Connexion Bluetooth Low Energy aux Tentacle Sync E. Lecture du TC sans câble. Latence compensée.</p>
+        <h3>Time of Day (TOD)</h3>
+        <p>Utilise l'horloge système comme source TC. Idéal pour le documentaire et le reportage où la synchronisation à l'heure réelle simplifie la post-production.</p>
+        <div class="doc-callout">
+          <strong>BWF/iXML.</strong> Le timecode de départ est inscrit dans le header BWF (<code>TimeReference</code>) et dans le bloc iXML, garantissant la compatibilité avec tous les NLE professionnels.
+        </div>
+      </section>
+
+      <section id="multidisk" class="doc-section">
+        <h2>7. Multi-disque simultané</h2>
+        <p>VAREC peut écrire le même fichier WAV sur plusieurs disques simultanément. C'est une <strong>vraie redondance temps réel</strong>, pas une copie post-enregistrement.</p>
+        <ul>
+          <li>Chaque disque actif reçoit son propre flux d'écriture indépendant.</li>
+          <li>Si un disque se déconnecte ou tombe en panne pendant l'enregistrement, les autres continuent sans interruption.</li>
+          <li>Le débit d'écriture est affiché par disque en temps réel.</li>
+          <li>Menu contextuel sur chaque disque : ouvrir dans le Finder, démonter, exclure du prochain enregistrement.</li>
+        </ul>
+      </section>
+
+      <section id="metering" class="doc-section">
+        <h2>8. VU mètres &amp; outils d'analyse</h2>
+        <h3>Modes de metering</h3>
+        <ul>
+          <li><strong>Instant Peak</strong> — niveau échantillon par échantillon.</li>
+          <li><strong>RMS + PPM</strong> — RMS lissé avec aiguille PPM par-dessus.</li>
+          <li><strong>True Peak</strong> — détection inter-sample peaks (4× oversampling).</li>
+        </ul>
+        <p>Indicateur de clip rouge latché dès 0 dBFS. Barre peak rouge persistante jusqu'au reset (clic sur le strip).</p>
+        <h3>Analyseur de phase</h3>
+        <p>Analyse de phase à la demande sur 15 secondes pour deux canaux. Affiche le coefficient de corrélation et le délai estimé. Le délai peut être appliqué au monitoring (sans toucher au fichier enregistré) et est noté dans les métadonnées du fichier.</p>
+        <h3>Spectrogramme &amp; histogramme</h3>
+        <p>Analyse spectrale FFT par canal. Histogramme de distribution des niveaux pour identifier rapidement les anomalies (souffle, saturation).</p>
+      </section>
+
+      <section id="report" class="doc-section">
+        <h2>9. Sound Report PDF</h2>
+        <p>Le Sound Report est généré automatiquement à partir des métadonnées de session. Exportez-le via <strong>Fichier → Exporter Sound Report PDF</strong>.</p>
+        <h3>Contenu</h3>
+        <ul>
+          <li>En-tête de production (titre, réalisateur, ingénieur son, lieu, date)</li>
+          <li>Liste exhaustive des prises : scène, take, TC IN, TC OUT, durée</li>
+          <li>Notes et marqueurs de peak par prise</li>
+          <li>Statistiques de session (nb. de prises, durée totale, espace utilisé)</li>
+        </ul>
+        <p>L'aperçu intégré permet de vérifier le rendu avant export. L'impression directe utilise <code>printToPDF</code> d'Electron pour un PDF natif vectoriel.</p>
+      </section>
+
+      <section id="cloud" class="doc-section">
+        <h2>10. Partage cloud</h2>
+        <p>VAREC intègre l'upload direct des prises vers :</p>
+        <ul>
+          <li><strong>Smash</strong> — partage par lien direct, expiration configurable.</li>
+          <li><strong>Dropbox</strong> — upload OAuth dans un dossier dédié.</li>
+          <li><strong>Cloudflare R2</strong> — S3-compatible, configuration par profil.</li>
+        </ul>
+        <p>Le lien de partage est copié dans le presse-papiers à la fin de l'upload. Tout se fait sans quitter VAREC.</p>
+      </section>
+
+      <section id="crash" class="doc-section">
+        <h2>11. Crash Recovery</h2>
+        <p>VAREC est conçu pour qu'<strong>aucune coupure n'entraîne de perte de fichiers</strong> :</p>
+        <ul>
+          <li>Les headers WAV (taille des chunks <code>data</code>) sont mis à jour en continu pendant l'enregistrement.</li>
+          <li>Le projet est écrit de manière atomique (écriture dans un fichier temporaire puis renommage).</li>
+          <li>Un watchdog surveille la latence d'écriture et alerte si un disque ralentit.</li>
+          <li>En cas de coupure de courant ou de crash, les fichiers WAV présents sur disque sont lisibles immédiatement, jusqu'au dernier bloc écrit.</li>
+        </ul>
+      </section>
+
+      <section id="midi" class="doc-section">
+        <h2>12. Contrôle MIDI</h2>
+        <p>VAREC peut être contrôlé par des messages MIDI (CC ou Notes) depuis une surface de contrôle ou une régie. Configuration dans <strong>Préférences → MIDI</strong> :</p>
+        <ul>
+          <li>REC / STOP</li>
+          <li>Marqueur</li>
+          <li>Incrément Take</li>
+          <li>Sélection scène</li>
+        </ul>
+        <p>Mode apprentissage : cliquez sur "Apprendre" puis envoyez le message MIDI à assigner.</p>
+      </section>
+
+      <section id="shortcuts" class="doc-section">
+        <h2>13. Raccourcis clavier</h2>
+        <table class="doc-table">
+          <thead><tr><th>Action</th><th>Raccourci</th></tr></thead>
+          <tbody>
+            <tr><td>REC / STOP</td><td><kbd>Espace</kbd></td></tr>
+            <tr><td>Ajouter un marqueur</td><td><kbd>M</kbd></td></tr>
+            <tr><td>Incrémenter Take</td><td><kbd>⌘</kbd> + <kbd>↑</kbd></td></tr>
+            <tr><td>Nouvelle scène</td><td><kbd>⌘</kbd> + <kbd>N</kbd></td></tr>
+            <tr><td>Mode Compact</td><td><kbd>⌘</kbd> + <kbd>1</kbd></td></tr>
+            <tr><td>Mode Fader</td><td><kbd>⌘</kbd> + <kbd>2</kbd></td></tr>
+            <tr><td>Ouvrir Sound Report</td><td><kbd>⌘</kbd> + <kbd>R</kbd></td></tr>
+            <tr><td>Préférences</td><td><kbd>⌘</kbd> + <kbd>,</kbd></td></tr>
+            <tr><td>Reset peaks</td><td><kbd>⌘</kbd> + <kbd>K</kbd></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="faq" class="doc-section">
+        <h2>14. FAQ</h2>
+        <div class="doc-faq">
+          <h3>Comment activer ma licence ?</h3>
+          <p>Ouvrez <strong>VAREC → À propos → Licence</strong> et collez le numéro reçu par email après votre achat. La licence est perpétuelle, liée à votre adresse email.</p>
+
+          <h3>Puis-je enregistrer plus de 64 canaux sans licence ?</h3>
+          <p>Non, la version sans licence est limitée à 64 canaux. La version complète débloque jusqu'à 512 canaux.</p>
+
+          <h3>VAREC fonctionne-t-il avec Dante / AVB / MADI ?</h3>
+          <p>Oui, tant que votre interface est exposée par CoreAudio. C'est le cas de Dante Virtual Soundcard, des cartes RME MADI, Focusrite Red, etc.</p>
+
+          <h3>Pourquoi le 32-bit Float ?</h3>
+          <p>Le 32-bit Float offre une dynamique pratiquement illimitée (~1500 dB). Vous ne pouvez plus saturer numériquement : un crête à +20 dBFS reste parfaitement récupérable en post.</p>
+
+          <h3>Que se passe-t-il si mon Mac tombe en panne ?</h3>
+          <p>Les fichiers WAV sur disque restent lisibles jusqu'au dernier bloc écrit grâce à la mise à jour continue des headers (voir <a href="#crash">Crash Recovery</a>).</p>
+
+          <h3>Où sont stockées les sessions ?</h3>
+          <p>Chaque session crée un dossier <code>VAREC/SCENE/</code> sur chaque disque actif, contenant les fichiers WAV et un fichier de projet <code>.varec.json</code>.</p>
+
+          <h3>Comment contacter le support ?</h3>
+          <p>Écrivez à <a href="mailto:contact@bernik.io">contact@bernik.io</a>. Joignez les logs (<strong>VAREC → Aide → Révéler les logs</strong>) si vous rapportez un bug.</p>
+        </div>
+      </section>
+
+      <footer class="doc-footer-nav">
+        <a href="ressources.html" class="doc-back">← Retour aux ressources</a>
+        <a href="videos.html" class="doc-next">Voir les vidéos explicatives →</a>
+      </footer>
+
+    </article>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <img src="logo.png" alt="VAREC" class="footer-logo">
+    <ul class="footer-links">
+      <li><a href="index.html#preview">Aperçu</a></li>
+      <li><a href="index.html#features">Fonctionnalités</a></li>
+      <li><a href="ressources.html">Ressources</a></li>
+      <li><a href="index.html#download">Télécharger</a></li>
+      <li><a href="index.html#licence">Acheter</a></li>
+      <li><a href="https://github.com/julessourzac-gif/VAREC-RELEASES" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <div class="footer-copy">© 2026 BERNIK — VAREC macOS Field Recorder</div>
+  </div>
+</footer>
+
+<script>
+// TOC active section highlight
+(function(){
+  const links = document.querySelectorAll('.doc-toc-list a');
+  const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  if (!sections.length) return;
+  function onScroll(){
+    const y = window.scrollY + 120;
+    let active = sections[0];
+    for (const s of sections) { if (s.offsetTop <= y) active = s; }
+    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+<script src="script.js"></script>
+</body>
+</html>
