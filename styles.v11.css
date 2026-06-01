@@ -117,6 +117,9 @@ body > nav {
 }
 .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
 
+/* Hide Télécharger li in desktop nav (doublon avec bouton version) — visible dans le drawer mobile */
+.nav-link-dl { display: none; }
+
 /* ── Hamburger (mobile only) ── */
 .nav-burger {
   display: none;
@@ -862,6 +865,7 @@ footer {
   .nav-burger { display: flex; margin-left: auto; }
   .nav-inner { gap: 10px; padding: 0 16px; }
   .nav-logo { height: 24px; }
+  .nav-link-dl { display: list-item; }
   .nav-by { font-size: 13px; }
   .nav-bernik { height: 38px; }
 
