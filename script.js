@@ -197,12 +197,55 @@
 
 // ── Nav opacity on scroll ──
 (function(){
-  const nav=document.querySelector('nav');
+  const nav=document.querySelector('body > nav');
   if(!nav) return;
   window.addEventListener('scroll',()=>{
     nav.style.background=window.scrollY>60
       ?'rgba(28,28,30,.97)'
       :'rgba(28,28,30,.88)';
+  });
+})();
+
+// ── Mobile burger menu ──
+(function(){
+  const nav = document.querySelector('body > nav');
+  if (!nav) return;
+  const burger = nav.querySelector('.nav-burger');
+  if (!burger) return;
+
+  function close() {
+    nav.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  function toggle() {
+    const opened = nav.classList.toggle('open');
+    burger.setAttribute('aria-expanded', opened ? 'true' : 'false');
+    document.body.style.overflow = opened ? 'hidden' : '';
+  }
+
+  burger.addEventListener('click', function(e){
+    e.stopPropagation();
+    toggle();
+  });
+  // Close when tapping a link
+  nav.querySelectorAll('.nav-links a').forEach(function(a){
+    a.addEventListener('click', close);
+  });
+  // Close when tapping outside
+  document.addEventListener('click', function(e){
+    if (nav.classList.contains('open') && !nav.contains(e.target)) close();
+  });
+  // Close on Escape
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') close();
+  });
+  // Close when crossing back to desktop width
+  let lastIsMobile = window.matchMedia('(max-width: 768px)').matches;
+  window.addEventListener('resize', function(){
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (lastIsMobile && !isMobile) close();
+    lastIsMobile = isMobile;
   });
 })();
 
