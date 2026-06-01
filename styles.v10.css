@@ -987,7 +987,8 @@ footer {
 
 @media (max-width: 420px) {
   .nav-logo { height: 22px; }
-  .nav-by, .nav-bernik { display: none; }
+  .nav-by { font-size: 12px; }
+  .nav-bernik { height: 34px; }
   .nav-inner { padding: 0 14px; }
   .hero-content h1 { font-size: 28px; }
   .download-title { font-size: 22px; }
