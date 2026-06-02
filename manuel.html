@@ -777,6 +777,50 @@
 </div>
 
 <!-- FOOTER -->
+<!-- MOBILE TOC DRAWER -->
+<div id="toc-overlay" class="toc-overlay"></div>
+<div id="toc-drawer" class="toc-drawer" role="dialog" aria-label="Sommaire">
+  <div class="toc-drawer-handle"></div>
+  <div class="toc-drawer-header">
+    <span class="toc-drawer-title">Sommaire</span>
+    <button class="toc-drawer-close" onclick="document.getElementById('toc-drawer').classList.remove('open');document.getElementById('toc-overlay').classList.remove('open');document.getElementById('toc-fab').setAttribute('aria-expanded','false');document.body.style.overflow='';" aria-label="Fermer">&times;</button>
+  </div>
+  <nav class="toc-drawer-list">
+    <div class="toc-drawer-group">Démarrer</div>
+    <a href="#intro">1. Présentation</a>
+    <a href="#install">2. Installation</a>
+    <a href="#quick">3. Démarrage rapide</a>
+    <div class="toc-drawer-group">Interface</div>
+    <a href="#interface">4. Vue d'ensemble</a>
+    <a href="#patch">5. Interfaces audio</a>
+    <div class="toc-drawer-group">Enregistrement</div>
+    <a href="#recording">6. Enregistrement multipiste</a>
+    <a href="#stereo-groups">7. Liens stéréo &amp; groupes</a>
+    <a href="#notes">8. Notes de prise</a>
+    <a href="#multidisk">9. Multi-disque simultané</a>
+    <div class="toc-drawer-group">Timecode &amp; métadonnées</div>
+    <a href="#timecode">10. Timecode</a>
+    <a href="#report">11. Sound Report PDF</a>
+    <div class="toc-drawer-group">Monitoring &amp; cloud</div>
+    <a href="#metering">12. VU mètres &amp; analyse</a>
+    <a href="#cloud">13. Partage cloud</a>
+    <div class="toc-drawer-group">Fiabilité</div>
+    <a href="#crash">14. Crash Recovery</a>
+    <div class="toc-drawer-group">Contrôle &amp; configuration</div>
+    <a href="#midi">15. Contrôle MIDI</a>
+    <a href="#projects">16. Fichiers projet (.varec)</a>
+    <a href="#prefs">17. Préférences</a>
+    <div class="toc-drawer-group">Référence</div>
+    <a href="#shortcuts">18. Raccourcis clavier</a>
+    <a href="#faq">19. FAQ &amp; Dépannage</a>
+  </nav>
+</div>
+
+<button id="toc-fab" class="toc-fab" aria-expanded="false" aria-label="Afficher le sommaire">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="15" y2="18"/></svg>
+  Sommaire
+</button>
+
 <footer>
   <div class="footer-inner">
     <img src="logo.png" alt="VAREC" class="footer-logo">
@@ -795,8 +839,9 @@
 <script>
 // TOC active section highlight
 (function(){
-  const links = document.querySelectorAll('.doc-toc-list a');
-  const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  const links = document.querySelectorAll('.doc-toc-list a, .toc-drawer-list a');
+  const tocLinks = document.querySelectorAll('.doc-toc-list a');
+  const sections = Array.from(tocLinks).map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
   if (!sections.length) return;
   function onScroll(){
     const y = window.scrollY + 120;
@@ -806,6 +851,35 @@
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+})();
+
+// Mobile TOC drawer
+(function(){
+  const btn = document.getElementById('toc-fab');
+  const drawer = document.getElementById('toc-drawer');
+  const overlay = document.getElementById('toc-overlay');
+  if (!btn || !drawer) return;
+
+  function open() {
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', function() {
+    drawer.classList.contains('open') ? close() : open();
+  });
+  overlay.addEventListener('click', close);
+  drawer.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', close);
+  });
 })();
 </script>
 <script src="script.js"></script>
