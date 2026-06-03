@@ -705,6 +705,43 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   white-space: nowrap;
 }
 
+.beta-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 100px;
+  background: rgba(255,159,10,.14);
+  border: 1px solid rgba(255,159,10,.45);
+  color: var(--amb);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-family: 'SF Mono', 'Fira Code', Menlo, monospace;
+  white-space: nowrap;
+  line-height: 1;
+}
+.beta-badge.sm {
+  font-size: 9px;
+  padding: 2px 6px;
+  letter-spacing: 1px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.beta-badge.hero {
+  font-size: 12px;
+  padding: 5px 12px;
+  margin-top: 14px;
+  margin-bottom: 4px;
+}
+.download-beta-note {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--amb);
+  font-weight: 500;
+  letter-spacing: .1px;
+}
+
 .github-link {
   color: var(--txt2);
   font-size: 14px;
