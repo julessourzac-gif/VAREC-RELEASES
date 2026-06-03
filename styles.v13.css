@@ -1220,6 +1220,32 @@ footer {
   border-color: rgba(255,255,255,.22);
   box-shadow: 0 20px 50px rgba(0,0,0,.4);
 }
+.coming-soon-sticker {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: var(--amb);
+  color: #1a1a1c;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  font-family: 'SF Mono', 'Fira Code', Menlo, monospace;
+  white-space: nowrap;
+  line-height: 1;
+  transform: rotate(8deg);
+  box-shadow: 0 6px 18px rgba(255,159,10,.35), 0 0 0 3px rgba(255,159,10,.15);
+  pointer-events: none;
+  transition: transform .25s ease;
+}
+.resource-card:hover .coming-soon-sticker {
+  transform: rotate(8deg) scale(1.06);
+}
 .resource-icon-wrap {
   width: 56px;
   height: 56px;
