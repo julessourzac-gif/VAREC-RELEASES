@@ -1220,6 +1220,18 @@ footer {
   border-color: rgba(255,255,255,.22);
   box-shadow: 0 20px 50px rgba(0,0,0,.4);
 }
+.resource-card.disabled {
+  cursor: default;
+  opacity: .85;
+}
+.resource-card.disabled:hover {
+  transform: none;
+  border-color: var(--bdr2);
+  box-shadow: none;
+}
+.resource-card.disabled .resource-cta {
+  opacity: .6;
+}
 .coming-soon-sticker {
   position: absolute;
   top: 18px;
