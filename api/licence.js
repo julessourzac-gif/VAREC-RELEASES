@@ -68,24 +68,21 @@ async function sendEmail(to, name, key) {
   }
 }
 
-async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const sig = req.headers['stripe-signature'];
   const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
-  if (!sig || !WEBHOOK_SECRET || !process.env.STRIPE_SECRET_KEY) {
-    return res.status(400).json({ error: 'Stripe webhook not configured' });
-  }
 
   let event;
   try {
     const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
     const rawBody = await new Promise((resolve, reject) => {
-      const chunks = [];
-      req.on('data', chunk => chunks.push(Buffer.from(chunk)));
-      req.on('end', () => resolve(Buffer.concat(chunks)));
+      let data = '';
+      req.on('data', chunk => data += chunk);
+      req.on('end', () => resolve(data));
       req.on('error', reject);
     });
     event = stripe.webhooks.constructEvent(rawBody, sig, WEBHOOK_SECRET);
@@ -113,9 +110,4 @@ async function handler(req, res) {
     console.error(err);
     return res.status(500).json({ error: err.message });
   }
-}
-
-module.exports = handler;
-// Stripe needs the unparsed request body to verify the webhook signature,
-// so the Vercel body parser must stay off for this endpoint.
-module.exports.config = { api: { bodyParser: false } };
+};

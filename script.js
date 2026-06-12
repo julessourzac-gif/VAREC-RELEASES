@@ -199,20 +199,11 @@
 (function(){
   const nav=document.querySelector('body > nav');
   if(!nav) return;
-  let scrolled=null,ticking=false;
-  function apply(){
-    ticking=false;
-    const isScrolled=window.scrollY>60;
-    if(isScrolled===scrolled) return;
-    scrolled=isScrolled;
-    nav.style.background=isScrolled?'rgba(28,28,30,.97)':'rgba(28,28,30,.88)';
-  }
   window.addEventListener('scroll',()=>{
-    if(ticking) return;
-    ticking=true;
-    requestAnimationFrame(apply);
-  },{passive:true});
-  apply();
+    nav.style.background=window.scrollY>60
+      ?'rgba(28,28,30,.97)'
+      :'rgba(28,28,30,.88)';
+  });
 })();
 
 // ── Mobile burger menu ──
@@ -265,7 +256,7 @@
   const input     = document.getElementById('modal-email');
   const submitBtn = document.getElementById('modal-submit');
   const closeBtn  = document.getElementById('modal-close');
-  if (!modal || !form || !input || !submitBtn) return;
+  if (!modal) return;
 
   const badge   = document.querySelector('.version-badge');
   const version = badge ? (badge.textContent.match(/[\d.]+/) || [''])[0] : '';
@@ -287,7 +278,7 @@
     pendingAction = null;
   }
 
-  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
 
@@ -310,10 +301,8 @@
       return;
     }
 
-    const submitText = submitBtn.querySelector('.modal-submit-text');
-    const submitLabel = submitText ? submitText.textContent : '';
     submitBtn.disabled = true;
-    if (submitText) submitText.textContent = 'Enregistrement…';
+    submitBtn.querySelector('.modal-submit-text').textContent = 'Enregistrement…';
 
     try {
       await fetch('/api/register', {
@@ -322,10 +311,6 @@
         body: JSON.stringify({ email: email, type: pendingAction ? pendingAction.type : 'download', version: version, arch: pendingAction ? pendingAction.arch : '' })
       });
     } catch (_) { /* non-blocking */ }
-    finally {
-      submitBtn.disabled = false;
-      if (submitText) submitText.textContent = submitLabel;
-    }
 
     sessionStorage.setItem('varec_email_done', '1');
     sessionStorage.setItem('varec_email', email);
