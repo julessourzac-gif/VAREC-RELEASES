@@ -18,8 +18,7 @@ async function logCustomer({ email, type, version = '', arch = '', licenseKey = 
     'X-GitHub-Api-Version': '2022-11-28',
   };
 
-  const MAX_ATTEMPTS = 5;
-  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+  for (let attempt = 0; attempt < 3; attempt++) {
     const getResp = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, { headers });
 
     let sha = null;
@@ -46,12 +45,7 @@ async function logCustomer({ email, type, version = '', arch = '', licenseKey = 
     });
 
     if (putResp.ok) return;
-    if (putResp.status === 409) {
-      // Concurrent write → another request bumped the SHA. Back off with
-      // jitter, then re-read and retry so we don't drop the customer row.
-      await new Promise(r => setTimeout(r, 120 * (attempt + 1) + Math.random() * 120));
-      continue;
-    }
+    if (putResp.status === 409) continue; // SHA conflict → retry
     const err = await putResp.json().catch(() => ({}));
     throw new Error(`GitHub write error ${putResp.status}: ${JSON.stringify(err)}`);
   }
