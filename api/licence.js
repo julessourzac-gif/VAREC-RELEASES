@@ -98,6 +98,14 @@ async function handler(req, res) {
   }
 
   const session = event.data.object;
+
+  // Les abonnements (mode=subscription) sont gérés par le flux magic link
+  // existant — ce webhook ne délivre une clé permanente que pour un
+  // paiement one-shot.
+  if (session.mode !== 'payment') {
+    return res.status(200).json({ received: true });
+  }
+
   const email = session.customer_details?.email;
   const name = session.customer_details?.name?.split(' ')[0] || 'cher client';
 

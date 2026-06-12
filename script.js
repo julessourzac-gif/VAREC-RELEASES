@@ -310,22 +310,16 @@
       return;
     }
 
-    const submitText = submitBtn.querySelector('.modal-submit-text');
-    const submitLabel = submitText ? submitText.textContent : '';
-    submitBtn.disabled = true;
-    if (submitText) submitText.textContent = 'Enregistrement…';
-
+    // Fire-and-forget : ne pas attendre la réponse, sinon le geste
+    // utilisateur expire et Safari bloque le window.open vers Stripe.
     try {
-      await fetch('/api/register', {
+      fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, type: pendingAction ? pendingAction.type : 'download', version: version, arch: pendingAction ? pendingAction.arch : '' })
-      });
+        body: JSON.stringify({ email: email, type: pendingAction ? pendingAction.type : 'download', version: version, arch: pendingAction ? pendingAction.arch : '' }),
+        keepalive: true
+      }).catch(function () { /* non-blocking */ });
     } catch (_) { /* non-blocking */ }
-    finally {
-      submitBtn.disabled = false;
-      if (submitText) submitText.textContent = submitLabel;
-    }
 
     sessionStorage.setItem('varec_email_done', '1');
     sessionStorage.setItem('varec_email', email);
