@@ -60,15 +60,14 @@ Aucune date de lancement à annoncer d'ici là.
 
 ### À corriger avant le lancement commercial
 
-- **Webhook licence legacy (`api/licence.js`)** : ce fichier émet une **clé permanente**
-  (`type=1, expiry=0`) et envoie *la clé* par email (Resend). Or l'activation réelle
-  (**magic-link + abonnement**) est gérée par un **projet Vercel dédié**, distinct de ce
-  dépôt. `api/licence.js` est donc **probablement obsolète**. Vérifier vers quel endpoint
-  pointe le webhook Stripe : s'il cible le backend dédié, **retirer/désactiver
-  `api/licence.js`** (et le câblage `STRIPE_WEBHOOK_SECRET`) dans ce dépôt pour éviter
-  qu'un email « clé permanente » ne parte en parallèle du magic-link. Le cycle
-  d'abonnement (renouvellement sur `invoice.paid`, révocation à la résiliation) relève de
-  ce backend dédié.
+- **Webhook licence legacy supprimé** : `api/licence.js` (qui émettait une **clé
+  permanente** envoyée par email via Resend) a été **retiré** — confirmé inutilisé côté
+  Stripe. L'activation réelle (**magic-link + abonnement**) est gérée par un **projet
+  Vercel dédié**, distinct de ce dépôt ; le cycle d'abonnement (renouvellement sur
+  `invoice.paid`, révocation à la résiliation) y relève. Devenus inutiles dans ce dépôt :
+  la dépendance npm `stripe` (à élaguer de `package.json` lors d'une régénération du
+  lockfile) et les variables d'environnement `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`,
+  `RESEND_API_KEY`, `VAREC_SIGN_KEY` (à retirer du projet Vercel).
 - **Palier gratuit** : le site décrit un palier gratuit perpétuel (64 ch) + « 30 jours »
   sur certaines fonctions, alors que le brief parle d'un **essai gratuit 30 jours sans
   CB**. Réconcilier le cadrage.
