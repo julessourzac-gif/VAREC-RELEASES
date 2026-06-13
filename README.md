@@ -60,13 +60,15 @@ Aucune date de lancement à annoncer d'ici là.
 
 ### À corriger avant le lancement commercial
 
-- **Webhook licence (`api/licence.js`)** : la version actuelle (et la seule de
-  l'historique) émet une **clé permanente** (`type=1, expiry=0`) et envoie *la clé* par
-  email. Le modèle visé est un **abonnement mensuel** activé par **magic-link**. À
-  aligner : émettre/renouveler une licence **expirante** sur `invoice.paid`,
-  **révoquer** à la résiliation, et envoyer un **magic-link** (et non une clé) via
-  Resend — en coordination avec l'activation magic-link de l'app VAREC. Corriger aussi
-  la copie « lien d'activation envoyé par email » qui ne correspond pas au code actuel.
+- **Webhook licence legacy (`api/licence.js`)** : ce fichier émet une **clé permanente**
+  (`type=1, expiry=0`) et envoie *la clé* par email (Resend). Or l'activation réelle
+  (**magic-link + abonnement**) est gérée par un **projet Vercel dédié**, distinct de ce
+  dépôt. `api/licence.js` est donc **probablement obsolète**. Vérifier vers quel endpoint
+  pointe le webhook Stripe : s'il cible le backend dédié, **retirer/désactiver
+  `api/licence.js`** (et le câblage `STRIPE_WEBHOOK_SECRET`) dans ce dépôt pour éviter
+  qu'un email « clé permanente » ne parte en parallèle du magic-link. Le cycle
+  d'abonnement (renouvellement sur `invoice.paid`, révocation à la résiliation) relève de
+  ce backend dédié.
 - **Palier gratuit** : le site décrit un palier gratuit perpétuel (64 ch) + « 30 jours »
   sur certaines fonctions, alors que le brief parle d'un **essai gratuit 30 jours sans
   CB**. Réconcilier le cadrage.
