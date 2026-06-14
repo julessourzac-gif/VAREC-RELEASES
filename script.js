@@ -181,7 +181,7 @@
 
 // ── Scroll reveal ──
 (function(){
-  const cards=document.querySelectorAll('.feature-card');
+  const cards=document.querySelectorAll('.feature-row');
   if(!('IntersectionObserver' in window)){cards.forEach(c=>c.classList.add('visible'));return;}
   const obs=new IntersectionObserver((entries)=>{
     entries.forEach((e,i)=>{
