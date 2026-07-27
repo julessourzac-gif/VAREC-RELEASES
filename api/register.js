@@ -14,8 +14,12 @@ module.exports = async function handler(req, res) {
   try {
     await logCustomer({ email, type, version, arch });
   } catch (err) {
-    console.error('logCustomer:', err);
+    // L'enregistrement a échoué : on le remonte en 5xx pour qu'il apparaisse
+    // dans les erreurs Vercel, et pas seulement noyé dans les logs. Le front
+    // (script.js) ignore la réponse, donc le téléchargement n'est pas bloqué.
+    console.error('logCustomer FAILED', { type, version, arch, error: err && err.message });
+    return res.status(500).json({ ok: false, logged: false });
   }
 
-  return res.status(200).json({ ok: true });
+  return res.status(200).json({ ok: true, logged: true });
 };

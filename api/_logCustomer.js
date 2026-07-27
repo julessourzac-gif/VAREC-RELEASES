@@ -4,8 +4,7 @@ async function logCustomer({ email, type, version = '', arch = '', licenseKey = 
   const token = process.env.CUSTOMERS_GITHUB_TOKEN;
   const repo  = process.env.CUSTOMERS_REPO;
   if (!token || !repo) {
-    console.warn('CUSTOMERS_GITHUB_TOKEN or CUSTOMERS_REPO not set — skipping log');
-    return;
+    throw new Error('CUSTOMERS_GITHUB_TOKEN or CUSTOMERS_REPO not set');
   }
 
   const path    = 'customers.csv';
@@ -28,7 +27,10 @@ async function logCustomer({ email, type, version = '', arch = '', licenseKey = 
       const data = await getResp.json();
       sha = data.sha;
       current = Buffer.from(data.content, 'base64').toString('utf-8');
-    } else if (getResp.status === 404) {
+    } else if (getResp.status === 404 || getResp.status === 409) {
+      // 404 = le dépôt existe mais pas le CSV ; 409 = dépôt encore vide
+      // (aucun commit, donc pas de branche par défaut). Dans les deux cas
+      // le PUT ci-dessous crée le fichier — sans sha.
       current = 'date,email,type,version,arch,license_key\n';
     } else {
       throw new Error(`GitHub read error ${getResp.status}`);
