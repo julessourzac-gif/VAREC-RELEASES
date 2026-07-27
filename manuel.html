@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Manuel utilisateur VAREC v1.5.26 — Field recorder multipiste pour Mac. Installation, configuration, enregistrement, timecode, sound report, raccourcis clavier, dépannage.">
+<meta name="description" content="Manuel utilisateur VAREC v1.5.28 — Field recorder multipiste pour Mac. Installation, configuration, enregistrement, timecode, sound report, raccourcis clavier, dépannage.">
 <title>VAREC — Manuel utilisateur</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
@@ -28,7 +28,7 @@
       <li><a href="ressources.html" class="active">Ressources</a></li>
       <li class="nav-link-dl"><a href="index.html#download">Télécharger</a></li>
     </ul>
-    <a href="index.html#download" class="nav-cta">↓ v1.5.26 <span class="beta-badge sm">BETA</span></a>
+    <a href="index.html#download" class="nav-cta">↓ v1.5.28 <span class="beta-badge sm">BETA</span></a>
     <button class="nav-burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -91,9 +91,9 @@
     <article class="doc-content">
 
       <header class="doc-header">
-        <span class="doc-eyebrow">Manuel utilisateur · v1.5.26 · macOS</span>
+        <span class="doc-eyebrow">Manuel utilisateur · v1.5.28 · macOS</span>
         <h1>VAREC — Manuel utilisateur</h1>
-        <p class="doc-lede">Documentation officielle de VAREC 1.5.26, le field recorder multipiste professionnel pour macOS. Ce manuel couvre chaque fonction de l'application — de l'installation aux outils d'analyse avancés, en passant par la configuration timecode et la génération des sound reports.</p>
+        <p class="doc-lede">Documentation officielle de VAREC 1.5.28, le field recorder multipiste professionnel pour macOS. Ce manuel couvre chaque fonction de l'application — de l'installation aux outils d'analyse avancés, en passant par la configuration timecode et la génération des sound reports.</p>
       </header>
 
       <!-- ===================== 1. PRÉSENTATION ===================== -->
@@ -135,7 +135,7 @@
 
         <h3>Installation</h3>
         <ol>
-          <li>Téléchargez le fichier <code>VAREC-1.5.26-arm64.dmg</code> (Apple Silicon) ou <code>VAREC-1.5.26.dmg</code> (Intel) depuis <a href="index.html#download">la page Télécharger</a> ou directement sur <a href="https://varec.bernik.io" target="_blank" rel="noopener">varec.bernik.io</a>. Les DMG sont signés Developer ID et notarisés Apple (Gatekeeper ✓).</li>
+          <li>Téléchargez le fichier <code>VAREC-1.5.28-arm64.dmg</code> (Apple Silicon) ou <code>VAREC-1.5.28.dmg</code> (Intel) depuis <a href="index.html#download">la page Télécharger</a> ou directement sur <a href="https://varec.bernik.io" target="_blank" rel="noopener">varec.bernik.io</a>. Les DMG sont signés Developer ID et notarisés Apple (Gatekeeper ✓).</li>
           <li>Double-cliquez le DMG puis glissez l'application <code>VAREC.app</code> dans le dossier <strong>Applications</strong>.</li>
           <li>Au premier lancement, macOS demande l'autorisation d'accès au microphone et au système de fichiers. Acceptez les deux.</li>
           <li>Ouvrez l'onglet <strong>PATCH</strong> et sélectionnez votre interface audio en entrée puis en sortie.</li>
@@ -266,9 +266,9 @@
         <h3>Formes d'onde live</h3>
         <p>Pendant l'enregistrement, VAREC trace la forme d'onde de chaque canal armé en lecture seule du WAV en cours d'écriture — <strong>sans jamais interférer avec la capture</strong>.</p>
         <ul>
-          <li>Le bouton <strong>« 〜 »</strong> (près des sélecteurs de vue) affiche une piste de forme d'onde par canal armé : sous le VU mètre en mode horizontal, à côté en mode vertical. En vue verticale, la forme d'onde se trace verticalement (temps sur l'axe Y) et un VU mètre translucide se superpose, les deux restant lisibles.</li>
-          <li>Les canaux visibles mais non armés affichent un VU grisé (signal live).</li>
-          <li>Dans le <strong>panneau solo</strong>, la forme d'onde interactive est tracée depuis le début de la prise, sous les outils d'analyse (spectre / spectrogramme). Sélectionnez un passage pour le <strong>réécouter dans le moniteur</strong> (signal live atténué) : la plage in/out sélectionnée est écrite comme <strong>note horodatée</strong> dans l'iXML <code>&lt;NOTE&gt;</code> du fichier WAV.</li>
+          <li>Le bouton <strong>« 〜 »</strong> (près des sélecteurs de vue) affiche une piste de forme d'onde par canal armé : sous le VU mètre en mode horizontal, à côté en mode vertical. En vue verticale, la forme d'onde se trace verticalement (temps sur l'axe Y), les <strong>samples les plus récents en haut</strong>, avec un VU mètre translucide superposé — les deux restent lisibles. Le rafraîchissement est rapide et sans surcoût mémoire pendant l'enregistrement.</li>
+          <li>Les canaux <strong>patchés mais non armés</strong> affichent leur niveau live en VU grisé.</li>
+          <li>Dans le <strong>panneau solo</strong>, la forme d'onde interactive est tracée depuis le début de la prise, sous les outils d'analyse (spectre / spectrogramme). Sélectionnez un passage pour le <strong>réécouter dans le moniteur</strong> (signal live atténué) : la plage in/out sélectionnée est écrite comme <strong>note horodatée</strong> dans l'iXML <code>&lt;NOTE&gt;</code> du fichier WAV. Pendant la sélection, la forme d'onde se <strong>fige</strong> pour faciliter le repérage (un simple clic reprend le live) ; le point de clic reste précis même avec une taille de police agrandie (zoom).</li>
         </ul>
 
         <h3>Formats audio</h3>
@@ -395,6 +395,7 @@
           <li>Si un disque se déconnecte ou tombe en panne pendant l'enregistrement, les autres continuent sans interruption.</li>
           <li>Le débit d'écriture est affiché par disque en temps réel.</li>
           <li>Menu contextuel sur chaque disque : ouvrir dans le Finder, démonter, exclure du prochain enregistrement.</li>
+          <li>À la fin d'une prise, le récapitulatif des fichiers regroupe les copies redondantes (« × N disques ») au lieu de lister chaque fichier en double.</li>
         </ul>
 
         <h3>Sélection des disques</h3>
@@ -423,14 +424,18 @@
         <ul>
           <li>TC courant et <strong>statut détaillé</strong> (âge de la dernière trame reçue).</li>
           <li><strong>Source</strong> : Time of Day / Tentacle / LTC.</li>
-          <li><strong>Frame rate</strong>, entrée et canal LTC.</li>
+          <li><strong>Frame rate</strong>, entrée LTC (détection <strong>Auto</strong> ou choix manuel du canal).</li>
           <li>Appareils <strong>Tentacle</strong> : connexion et scan Bluetooth à la demande.</li>
         </ul>
         <p>Card fermée, une <strong>LED d'état</strong> (interne / connecté / détecté / sans signal) accompagne le TC en direct et une sous-ligne « source · fps ». Les réglages restent en miroir dans <strong>Réglages → Timecode</strong>. La source et le frame rate sont verrouillés pendant l'enregistrement.</p>
 
         <h3>LTC (Linear Timecode)</h3>
-        <p>Reçoit le LTC sur un canal d'entrée audio dédié. VAREC utilise une hystérésis zero-crossing avec PLL pour une lecture stable même en présence de bruit ou de hum. Jam sync automatique sur perte de signal puis reprise.</p>
-        <p>Assignez l'entrée timecode dans <strong>Préférences → Timecode → Entrée LTC</strong> en sélectionnant le canal audio source.</p>
+        <p>Reçoit le LTC sur un canal d'entrée audio dédié. VAREC utilise une hystérésis zero-crossing avec PLL pour une lecture stable même en présence de bruit ou de hum. Jam sync automatique sur perte de signal puis reprise. Le LTC est décodé <strong>même si le canal n'est pas armé</strong> — le timecode reste verrouillé pendant l'enregistrement.</p>
+        <p>Deux façons de désigner l'entrée LTC dans la card TC ou dans <strong>Préférences → Timecode → Entrée LTC</strong> :</p>
+        <ul>
+          <li><strong>Auto</strong> — VAREC détecte automatiquement le canal porteur d'un signal LTC parmi les canaux patchés et s'y verrouille, sans réglage manuel.</li>
+          <li><strong>Manuel</strong> — vous sélectionnez vous-même le canal audio source.</li>
+        </ul>
 
         <h3>Tentacle Sync E (Bluetooth)</h3>
         <p>Appairez le module Tentacle Sync E avec votre Mac via Bluetooth. VAREC le détecte automatiquement et lit le TC sans câble. La latence est compensée. C'est la solution la plus pratique en tournage léger.</p>
