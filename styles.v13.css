@@ -315,6 +315,17 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   background: var(--bg);
   text-align: center;
 }
+/* Deux aperçus côte à côte en desktop, empilés en mobile (bascule à 768px,
+   même point de rupture que la nav). minmax(0,1fr) évite que la largeur
+   intrinsèque des vidéos ne fasse déborder les colonnes. */
+.preview-duo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+  max-width: 1160px;
+  margin: 0 auto;
+}
 .preview-frame {
   display: inline-block;
   background: var(--canvas-bg);
@@ -964,6 +975,7 @@ footer {
 
   /* Sections */
   #preview, #features, #download, #licence { padding: 60px 0; }
+  .preview-duo { grid-template-columns: 1fr; gap: 20px; }
   .section-title { font-size: clamp(24px, 6vw, 32px); }
   .section-desc { font-size: 15px; }
   .section-header { margin-bottom: 40px; }
