@@ -258,8 +258,19 @@
   const closeBtn  = document.getElementById('modal-close');
   if (!modal) return;
 
-  const badge   = document.querySelector('.version-badge');
+  // Repli au niveau de la page. .version-badge a disparu en 3bd0c74 : le
+  // numéro vit désormais dans le CTA de la nav (« ↓ v1.5.32 »).
+  const badge   = document.querySelector('.version-badge, .nav-cta');
   const version = badge ? (badge.textContent.match(/[\d.]+/) || [''])[0] : '';
+
+  // Version réellement servie, lue dans le tag de la release :
+  // .../releases/download/v1.5.32/VAREC-1.5.32-arm64.dmg → 1.5.32
+  // Les plateformes ne sont pas alignées (macOS 1.5.32, Windows/Linux 1.4.35),
+  // donc une valeur unique de page serait fausse pour une partie des liens.
+  function versionFromHref(href) {
+    const m = /\/download\/v?([\d][\d.]*)\//.exec(href || '');
+    return m ? m[1].replace(/\.$/, '') : '';
+  }
 
   let pendingAction = null;
 
@@ -304,6 +315,9 @@
     // À lire avant closeModal(), qui remet pendingAction à null.
     const action = pendingAction;
 
+    const actionHref = action && action.el ? (action.el.href || action.el.getAttribute('href') || '') : '';
+    const ver        = versionFromHref(actionHref) || version;
+
     // Enregistrement en arrière-plan : le téléchargement ne doit pas attendre
     // l'aller-retour réseau (~1 s en production). keepalive garantit l'envoi
     // même si le navigateur quitte la page dans la foulée.
@@ -312,7 +326,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         keepalive: true,
-        body: JSON.stringify({ email: email, type: action ? action.type : 'download', version: version, arch: action ? action.arch : '' })
+        body: JSON.stringify({ email: email, type: action ? action.type : 'download', version: ver, arch: action ? action.arch : '' })
       }).catch(function () { /* non-blocking */ });
     } catch (_) { /* non-blocking */ }
 
