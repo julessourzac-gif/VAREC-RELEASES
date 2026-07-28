@@ -291,7 +291,7 @@
     }, true);
   });
 
-  form.addEventListener('submit', async function (e) {
+  form.addEventListener('submit', function (e) {
     e.preventDefault();
     const email = input.value.trim();
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -301,23 +301,27 @@
       return;
     }
 
-    submitBtn.disabled = true;
-    submitBtn.querySelector('.modal-submit-text').textContent = 'Enregistrement…';
+    // À lire avant closeModal(), qui remet pendingAction à null.
+    const action = pendingAction;
 
+    // Enregistrement en arrière-plan : le téléchargement ne doit pas attendre
+    // l'aller-retour réseau (~1 s en production). keepalive garantit l'envoi
+    // même si le navigateur quitte la page dans la foulée.
     try {
-      await fetch('/api/register', {
+      fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, type: pendingAction ? pendingAction.type : 'download', version: version, arch: pendingAction ? pendingAction.arch : '' })
-      });
+        keepalive: true,
+        body: JSON.stringify({ email: email, type: action ? action.type : 'download', version: version, arch: action ? action.arch : '' })
+      }).catch(function () { /* non-blocking */ });
     } catch (_) { /* non-blocking */ }
 
     sessionStorage.setItem('varec_email_done', '1');
     sessionStorage.setItem('varec_email', email);
     closeModal();
 
-    const action = pendingAction;
-    pendingAction = null;
+    // Déclenché de façon synchrone, dans le geste utilisateur : après un await,
+    // les navigateurs bloquent window.open et fiabilisent mal les téléchargements.
     if (!action) return;
     const el   = action.el;
     const href = el.href || el.getAttribute('href');
