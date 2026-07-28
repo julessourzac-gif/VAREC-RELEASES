@@ -4,5 +4,6 @@
 User-agent: *
 Disallow: /tarifs.html
 Disallow: /tarifs
+Disallow: /test-couleurs.html
 Disallow: /api/
 Allow: /
