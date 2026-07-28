@@ -181,8 +181,10 @@
 
 // ── Scroll reveal ──
 (function(){
-  const cards=document.querySelectorAll('.feature-row');
+  const cards=document.querySelectorAll('.feature-row, .step, .news-item, .use-card');
   if(!('IntersectionObserver' in window)){cards.forEach(c=>c.classList.add('visible'));return;}
+  // Les cartes v14 ne sont masquées que si ce script tourne (cf. .js-reveal).
+  document.documentElement.classList.add('js-reveal');
   const obs=new IntersectionObserver((entries)=>{
     entries.forEach((e,i)=>{
       if(e.isIntersecting){
@@ -355,5 +357,43 @@
       a.click();
       document.body.removeChild(a);
     }
+  });
+})();
+
+// ── Lightbox des captures d'écran ──
+(function () {
+  const box   = document.getElementById('lightbox');
+  const img   = document.getElementById('lightbox-img');
+  const cap   = document.getElementById('lightbox-cap');
+  const close = document.getElementById('lightbox-close');
+  const shots = document.querySelectorAll('[data-shot]');
+  if (!box || !shots.length) return;
+
+  function open(src, caption, alt) {
+    img.src = src;
+    img.alt = alt || caption || '';
+    cap.textContent = caption || '';
+    box.classList.add('open');
+    box.removeAttribute('aria-hidden');
+    document.body.style.overflow = 'hidden';
+    close.focus();
+  }
+  function hide() {
+    box.classList.remove('open');
+    box.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    img.src = '';
+  }
+
+  shots.forEach(function (el) {
+    el.addEventListener('click', function () {
+      const inner = el.querySelector('img');
+      open(el.dataset.shot, el.dataset.cap || '', inner ? inner.alt : '');
+    });
+  });
+  close.addEventListener('click', hide);
+  box.addEventListener('click', function (e) { if (e.target === box) hide(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && box.classList.contains('open')) hide();
   });
 })();

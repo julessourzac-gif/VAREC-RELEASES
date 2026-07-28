@@ -16,6 +16,51 @@ Ce dépôt contient également la landing page publique de VAREC (`index.html`, 
 2. Vercel détecte automatiquement le site statique — aucun build nécessaire
 3. Cliquer sur « Deploy »
 
+### Architecture de la page d'accueil (v14)
+
+`index.html` suit désormais cet enchaînement — chaque bloc est une section autonome,
+repérable par son `id` :
+
+| Ordre | Section | Rôle |
+|---|---|---|
+| 1 | `#hero` | Promesse + 2 CTA + 4 chiffres clés (`.hero-kpis`) |
+| 2 | `#shots` | **Galerie de captures** réelles, cliquables (lightbox) |
+| 3 | `#preview` | Les deux vidéos de démo (vue horizontale / verticale) |
+| 4 | `#workflow` | Le parcours en 4 étapes : patcher → enregistrer → vérifier → livrer |
+| 5 | `#features` | Grille des 12 fonctions principales |
+| 6 | `#deep` | 3 blocs texte + capture : analyse, fiabilité, livraison |
+| 7 | `#news` | Nouveautés de la 1.5 (6 cartes) |
+| 8 | `#usecases` | 4 terrains : fiction, documentaire, live, podcast |
+| 9 | `#specs` | Tableau de spécifications (capture, sync, analyse, livraison) |
+| 10 | `#download` | Téléchargements (inchangé, gate e-mail conservée) |
+| 11 | `#faq` | 7 questions en `<details>` natifs |
+| 12 | `#licence` | Bloc bêta (voir « Statut commercial » plus bas) |
+| 13 | `footer` | Footer 4 colonnes |
+
+### Identité visuelle
+
+La charte suit le dernier logo BERNIK : dégradé **ambre → rose** (`#ffce72 → #ff6faf`)
+en remplacement de l'ancien vert.
+
+- Tokens dans `styles.v14.css` : `--brand`, `--amber`, `--pink`, `--grad`, `--grad-soft`,
+  `--on-brand`. Les boutons utilisent `var(--grad)`, les labels de section `var(--brand)`.
+- Les anciens filtres `hue-rotate()` appliqués aux logos ont été supprimés : les
+  fichiers sont désormais aux bonnes couleurs.
+- Assets recolorés : `logo-v2.png` (VAREC), `bernik-v2.png` (Bernik, texte blanc pour
+  fond sombre), `favicon-v2.png`, `og-preview.png` (carte de partage 1200×630, qui
+  n'existait pas et était pourtant référencée dans les balises OG).
+- Les fichiers d'origine (`logo.png`, `favicon.png`, `BERNIK * transoarent.png`) sont
+  conservés : `email-lancement.html` pointe encore sur l'ancien mark.
+
+### Captures d'écran
+
+Les visuels de `shots/` sont des **captures réelles** (aucune maquette) : recadrages de
+`VAREC screenshot.png` et images extraites de `VAREC2.m4v` (source 3600×2262), exportées
+en WebP. Pour en ajouter une : déposer le fichier dans `shots/`, puis créer un
+`<button class="shot" data-shot="…" data-cap="…">` dans `#shots` — la lightbox
+(`script.js`) prend le relais automatiquement. Classes de largeur disponibles :
+`.shot` (moitié), `.shot.third` (tiers), `.shot.wide` (pleine largeur).
+
 ### Configurer le formulaire de licence
 
 Le formulaire de demande de licence utilise [Formspree](https://formspree.io) :
