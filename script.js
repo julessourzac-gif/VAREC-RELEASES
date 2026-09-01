@@ -249,6 +249,152 @@
   });
 })();
 
+// ── Liens de téléchargement : recalage sur la dernière version publiée ──
+//
+// Les href du HTML sont un repli statique, pas la source de vérité : ils
+// dérivent à chaque release (la page a servi 1.5.35 sous un bouton annoncé
+// 1.5.37, et le lien Windows pointait sur un nom de fichier inexistant).
+// Au chargement, on relit les releases et on recale chaque bouton.
+//
+// Chaque plateforme est résolue INDÉPENDAMMENT, sur la release la plus récente
+// qui porte réellement SON binaire : une release publiée sans asset — ou ne
+// portant que les DMG macOS — ne doit pas casser les autres plateformes.
+(function () {
+  var API = 'https://api.github.com/repos/julessourzac-gif/VAREC-RELEASES/releases?per_page=100';
+  var CACHE_KEY = 'varec_releases';
+  var CACHE_TTL = 10 * 60 * 1000;
+
+  // Ancrés sur $ : écarte les .blockmap qui accompagnent chaque binaire.
+  var MATCHERS = {
+    arm64: function (n) { return /-arm64\.dmg$/i.test(n); },
+    intel: function (n) { return /^VAREC-[\d.]+\.dmg$/i.test(n); },
+    win:   function (n) { return /\.exe$/i.test(n); },
+    linux: function (n) { return /\.AppImage$/i.test(n); }
+  };
+
+  function readCache() {
+    try {
+      var raw = sessionStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      var o = JSON.parse(raw);
+      return (Date.now() - o.at < CACHE_TTL) ? o.data : null;
+    } catch (_) { return null; }
+  }
+
+  function writeCache(data) {
+    try {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), data: data }));
+    } catch (_) { /* quota ou navigation privée : le cache est optionnel */ }
+  }
+
+  function loadReleases() {
+    var hit = readCache();
+    if (hit) return Promise.resolve(hit);
+    return fetch(API, { headers: { Accept: 'application/vnd.github+json' } })
+      .then(function (r) {
+        if (!r.ok) throw new Error('GitHub ' + r.status);
+        return r.json();
+      })
+      .then(function (all) {
+        // La réponse brute pèse plusieurs centaines de Ko (corps des notes de
+        // version) : on ne met en cache que ce qui sert aux boutons.
+        var slim = all
+          .filter(function (r) { return !r.draft; })
+          .map(function (r) {
+            return {
+              tag: r.tag_name,
+              published_at: r.published_at,
+              assets: (r.assets || []).map(function (a) {
+                return { name: a.name, url: a.browser_download_url, size: a.size };
+              })
+            };
+          })
+          .sort(function (a, b) {
+            return new Date(b.published_at) - new Date(a.published_at);
+          });
+        writeCache(slim);
+        return slim;
+      });
+  }
+
+  function findFor(releases, match) {
+    for (var i = 0; i < releases.length; i++) {
+      var assets = releases[i].assets;
+      for (var j = 0; j < assets.length; j++) {
+        if (match(assets[j].name)) return { release: releases[i], asset: assets[j] };
+      }
+    }
+    return null;
+  }
+
+  function mb(bytes) { return Math.round(bytes / 1048576) + ' MB'; }
+
+  function frDate(iso) {
+    try {
+      return new Date(iso).toLocaleDateString('fr-FR', {
+        day: 'numeric', month: 'long', year: 'numeric'
+      });
+    } catch (_) { return ''; }
+  }
+
+  // Le CTA de nav et le bandeau version contiennent aussi un badge BETA et une
+  // pastille : on ne réécrit que le nœud texte, jamais l'innerHTML.
+  function firstTextNode(el, re) {
+    if (!el) return null;
+    for (var i = 0; i < el.childNodes.length; i++) {
+      var n = el.childNodes[i];
+      if (n.nodeType === 3 && re.test(n.nodeValue)) return n;
+    }
+    return null;
+  }
+
+  function apply(releases) {
+    var newest = null;
+
+    Object.keys(MATCHERS).forEach(function (arch) {
+      var hit = findFor(releases, MATCHERS[arch]);
+      if (!hit) return;
+
+      var btn = document.querySelector('[data-register][data-arch="' + arch + '"]');
+      if (btn) {
+        btn.href = hit.asset.url;
+        var sub = btn.querySelector('.btn-download-sub');
+        if (sub) {
+          // « macOS · arm64 · ~95 MB » → « macOS · arm64 · v1.5.35 · 95 MB ».
+          // La version par bouton est nécessaire : les plateformes ne sont pas
+          // toujours alignées sur la même release. Idempotent si rejoué.
+          var parts = sub.textContent.split('·').map(function (s) { return s.trim(); });
+          sub.textContent = parts.slice(0, 2)
+            .concat([hit.release.tag, mb(hit.asset.size)])
+            .join(' · ');
+        }
+      }
+
+      if (!newest || new Date(hit.release.published_at) > new Date(newest.published_at)) {
+        newest = hit.release;
+      }
+    });
+
+    if (!newest) return; // aucune release téléchargeable : on garde le repli
+
+    // CTA de nav, présent sur les quatre pages.
+    var ctaText = firstTextNode(document.querySelector('.nav-cta'), /v\d/);
+    if (ctaText) ctaText.nodeValue = ctaText.nodeValue.replace(/v\d[\d.]*\d/, newest.tag);
+
+    // Bandeau « Dernière version : … », page d'accueil uniquement.
+    var infoText = firstTextNode(document.querySelector('.v-info'), /Derni/);
+    if (infoText) {
+      var d = frDate(newest.published_at);
+      infoText.nodeValue = 'Dernière version : ' + newest.tag + (d ? ' · ' + d : '');
+    }
+  }
+
+  if (typeof fetch !== 'function') return;
+  loadReleases().then(apply).catch(function () {
+    /* hors ligne, quota API atteint : les href statiques du HTML font foi */
+  });
+})();
+
 // ── Email gate before download / purchase ──
 (function () {
   const modal     = document.getElementById('email-modal');
