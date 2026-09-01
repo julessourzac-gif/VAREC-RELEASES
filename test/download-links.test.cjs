@@ -92,6 +92,26 @@ async function run(fetchImpl, scenario) {
   check('CTA de nav intact',
     doc.querySelector('.nav-cta').textContent.trim().replace(/\s+/g, ' '), '↓ v1.5.35 BETA');
 
+  // ── Assets déposés APRÈS la publication de la release ──
+  // GitHub ne rejoue pas l'évènement `release: published` quand on ajoute un
+  // binaire à une release déjà publiée : un pipeline qui ne réagit qu'à cet
+  // évènement fige les liens pour toujours. La résolution au chargement, elle,
+  // voit le nouvel asset sans qu'aucun workflow n'ait à être relancé.
+  const LATE = JSON.parse(JSON.stringify(RELEASES));
+  LATE[0].assets = [
+    { name: 'VAREC-1.5.37-arm64.dmg', size: 98986125, browser_download_url: `${DL}/v1.5.37/VAREC-1.5.37-arm64.dmg` },
+    { name: 'VAREC-1.5.37.dmg',       size: 106505880, browser_download_url: `${DL}/v1.5.37/VAREC-1.5.37.dmg` },
+  ];
+  const lateFetch = async () => ({ ok: true, status: 200, json: async () => LATE });
+  doc = await run(lateFetch, 'DMG ajoutés après publication → repris sans relancer de workflow');
+
+  check('arm64 suit la release fraîchement pourvue',
+    href('arm64'), `${DL}/v1.5.37/VAREC-1.5.37-arm64.dmg`);
+  check('win reste sur sa propre dernière release pourvue',
+    href('win'), `${DL}/v1.5.28/VAREC.Setup.1.5.28.exe`);
+  check('CTA de nav suit la version désormais servable',
+    doc.querySelector('.nav-cta').textContent.trim().replace(/\s+/g, ' '), '↓ v1.5.37 BETA');
+
   console.log(failures === 0 ? '\n✓ tous les cas passent' : `\n✗ ${failures} échec(s)`);
   process.exit(failures === 0 ? 0 : 1);
 })();
