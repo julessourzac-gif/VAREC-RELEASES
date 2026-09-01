@@ -75,39 +75,48 @@ jobs:
           with open('index.html', 'r') as f:
               html = f.read()
 
-          # Nav CTA et badge version — toujours
-          html = re.sub(r'↓ v[\d.]+', f'↓ {tag}', html)
-          html = re.sub(r'v[\d.]+ · macOS', f'{tag} · macOS', html)
-          html = re.sub(
-              r'Dernière version : v[\d.]+ · [^<]+',
-              f'Dernière version : {tag} · {date}',
-              html
-          )
-
-          # Lien arm64 — seulement si le DMG existe dans cette release
-          if has_arm:
+          # Le bandeau ne s'avance jamais devant les liens. Il était mis à jour
+          # inconditionnellement alors que les liens attendaient, eux, la
+          # présence d'un DMG : une release publiée sans binaire faisait donc
+          # annoncer par la page une version qu'elle ne pouvait pas servir
+          # (bandeau v1.5.38, liens v1.5.35). C'est l'écart constaté en
+          # production sur v1.5.36, v1.5.37 et v1.5.38.
+          if not (has_arm or has_intel):
+              print(f'::warning::{tag} publiée sans DMG macOS — index.html laissé inchangé')
+              print(f'index.html → inchangé (aucun binaire à servir pour {tag})')
+          else:
+              html = re.sub(r'↓ v[\d.]+', f'↓ {tag}', html)
+              html = re.sub(r'v[\d.]+ · macOS', f'{tag} · macOS', html)
               html = re.sub(
-                  r'releases/download/v[\d.]+/VAREC-[\d.]+-arm64\.dmg',
-                  f'releases/download/{tag}/VAREC-{ver}-arm64.dmg',
+                  r'Dernière version : v[\d.]+ · [^<]+',
+                  f'Dernière version : {tag} · {date}',
                   html
               )
 
-          # Lien Intel — seulement si DMG Intel présent dans cette release
-          if has_intel:
-              html = re.sub(
-                  r'releases/download/v[\d.]+/VAREC-[\d.]+\.dmg',
-                  f'releases/download/{tag}/VAREC-{ver}.dmg',
-                  html
-              )
+              # Lien arm64 — seulement si le DMG existe dans cette release
+              if has_arm:
+                  html = re.sub(
+                      r'releases/download/v[\d.]+/VAREC-[\d.]+-arm64\.dmg',
+                      f'releases/download/{tag}/VAREC-{ver}-arm64.dmg',
+                      html
+                  )
 
-          with open('index.html', 'w') as f:
-              f.write(html)
+              # Lien Intel — seulement si DMG Intel présent dans cette release
+              if has_intel:
+                  html = re.sub(
+                      r'releases/download/v[\d.]+/VAREC-[\d.]+\.dmg',
+                      f'releases/download/{tag}/VAREC-{ver}.dmg',
+                      html
+                  )
 
-          arm_status  = '✓ mis à jour' if has_arm  else '— inchangé (pas de DMG arm64)'
-          intel_status = '✓ mis à jour' if has_intel else '— inchangé (pas de DMG Intel)'
-          print(f'index.html → {tag} ({date})')
-          print(f'  arm64  : {arm_status}')
-          print(f'  intel  : {intel_status}')
+              with open('index.html', 'w') as f:
+                  f.write(html)
+
+              arm_status  = '✓ mis à jour' if has_arm  else '— inchangé (pas de DMG arm64)'
+              intel_status = '✓ mis à jour' if has_intel else '— inchangé (pas de DMG Intel)'
+              print(f'index.html → {tag} ({date})')
+              print(f'  arm64  : {arm_status}')
+              print(f'  intel  : {intel_status}')
           PYEOF
 
       - name: Commit and push
@@ -121,3 +130,15 @@ jobs:
           git commit -m "chore: bump version to $TAG"
           git pull --rebase origin main
           git push origin main
+
+      # Trois releases (v1.5.36, v1.5.37, v1.5.38) sont parties sans binaire
+      # sans que rien ne le signale : le job restait vert, la page continuait
+      # de servir v1.5.35. Une release macOS sans DMG est un échec de
+      # publication, elle doit teindre le run en rouge et notifier.
+      - name: Fail if release ships no macOS DMG
+        if: steps.assets.outputs.arm64 != 'true' && steps.assets.outputs.intel != 'true'
+        env:
+          TAG: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo "::error::$TAG publiée sans aucun DMG macOS — les binaires ne sont pas remontés depuis le dépôt privé VAREC."
+          exit 1
