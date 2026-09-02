@@ -2,6 +2,9 @@
   "name": "varec-landing",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "test": "node test/download-links.test.cjs"
+  },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "stripe": "^14.0.0"
