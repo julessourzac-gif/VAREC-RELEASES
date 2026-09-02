@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Manuel utilisateur VAREC v1.5.28 — Field recorder multipiste pour Mac. Installation, configuration, enregistrement, timecode, sound report, raccourcis clavier, dépannage.">
+<meta name="description" content="Manuel utilisateur VAREC v1.5.38 — Field recorder multipiste pour Mac. Installation, configuration, enregistrement, timecode, sound report, raccourcis clavier, dépannage.">
 <title>VAREC — Manuel utilisateur</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
@@ -91,9 +91,9 @@
     <article class="doc-content">
 
       <header class="doc-header">
-        <span class="doc-eyebrow">Manuel utilisateur · v1.5.28 · macOS</span>
+        <span class="doc-eyebrow">Manuel utilisateur · v1.5.38 · macOS</span>
         <h1>VAREC — Manuel utilisateur</h1>
-        <p class="doc-lede">Documentation officielle de VAREC 1.5.28, le field recorder multipiste professionnel pour macOS. Ce manuel couvre chaque fonction de l'application — de l'installation aux outils d'analyse avancés, en passant par la configuration timecode et la génération des sound reports.</p>
+        <p class="doc-lede">Documentation officielle de VAREC 1.5.38, le field recorder multipiste professionnel pour macOS. Ce manuel couvre chaque fonction de l'application — de l'installation aux outils d'analyse avancés, en passant par la configuration timecode et la génération des sound reports.</p>
       </header>
 
       <!-- ===================== 1. PRÉSENTATION ===================== -->
@@ -135,7 +135,7 @@
 
         <h3>Installation</h3>
         <ol>
-          <li>Téléchargez le fichier <code>VAREC-1.5.28-arm64.dmg</code> (Apple Silicon) ou <code>VAREC-1.5.28.dmg</code> (Intel) depuis <a href="index.html#download">la page Télécharger</a> ou directement sur <a href="https://varec.bernik.io" target="_blank" rel="noopener">varec.bernik.io</a>. Les DMG sont signés Developer ID et notarisés Apple (Gatekeeper ✓).</li>
+          <li>Téléchargez le fichier <code>VAREC-1.5.38-arm64.dmg</code> (Apple Silicon) ou <code>VAREC-1.5.38.dmg</code> (Intel) depuis <a href="index.html#download">la page Télécharger</a> ou directement sur <a href="https://varec.bernik.io" target="_blank" rel="noopener">varec.bernik.io</a>. Les DMG sont signés Developer ID et notarisés Apple (Gatekeeper ✓).</li>
           <li>Double-cliquez le DMG puis glissez l'application <code>VAREC.app</code> dans le dossier <strong>Applications</strong>.</li>
           <li>Au premier lancement, macOS demande l'autorisation d'accès au microphone et au système de fichiers. Acceptez les deux.</li>
           <li>Ouvrez l'onglet <strong>PATCH</strong> et sélectionnez votre interface audio en entrée puis en sortie.</li>
@@ -148,6 +148,10 @@
         <div class="doc-callout">
           <strong>Astuce.</strong> Pour les sessions avec un grand nombre de canaux, branchez votre interface audio <em>avant</em> de lancer VAREC afin que CoreAudio l'expose dès le démarrage. Si l'interface est branchée après, utilisez le bouton <strong>🔍 Scan</strong> dans l'onglet PATCH pour relancer la détection.
         </div>
+
+        <h3>Mises à jour</h3>
+        <p>VAREC vous signale les nouvelles versions et indique <strong>combien de versions vous séparent de la plus récente</strong>. Si vous avez sauté plusieurs mises à jour, le bouton <strong>Nouveautés</strong> ouvre le détail version par version, de la plus récente à la plus ancienne — les cinq dernières sont développées, un lien renvoie vers l'ensemble des notes au-delà.</p>
+        <p>Les notes sont rendues en texte mis en forme : titres, gras et listes s'affichent correctement plutôt qu'avec leurs marques de formatage brutes.</p>
       </section>
 
       <!-- ===================== 3. DÉMARRAGE RAPIDE ===================== -->
@@ -166,8 +170,18 @@
           <strong>Auto-sauvegarde.</strong> Le projet est sauvegardé toutes les 5 secondes en tâche de fond. Vous pouvez fermer l'application sans craindre de perdre des prises ou des métadonnées.
         </div>
         <div class="doc-callout">
-          <strong>Reprise automatique.</strong> Au lancement, VAREC rouvre directement votre dernière session (projet, réglages, faders, mode éco, compensation de latence) sans passer par l'écran d'accueil. Le modal réapparaît uniquement si aucun projet récent n'est trouvé. Pour éviter tout gel au démarrage avec certaines interfaces (Dante, etc.), aucun flux audio n'est ouvert tant que vous n'armez pas un canal ou ne lancez pas d'enregistrement.
+          <strong>Reprise automatique.</strong> Au lancement, VAREC rouvre directement votre dernière session (projet, réglages, faders, mode éco, compensation de latence) sans passer par l'écran d'accueil. Le modal réapparaît uniquement si aucun projet récent n'est trouvé.
         </div>
+        <div class="doc-callout">
+          <strong>Démarrage.</strong> La fenêtre apparaît en <strong>environ 2 secondes</strong> et la barre de progression va jusqu'au bout. L'ouverture de l'interface audio au lancement ne bloque plus jusqu'à treize secondes lorsqu'elle ne répond pas — la patience complète est conservée dès que vous armez ou changez d'interface vous-même. Les VU mètres sont vivants dès l'ouverture, sans avoir à armer quoi que ce soit.
+        </div>
+
+        <h3>Tour guidé</h3>
+        <p>Un tour guidé de <strong>17 étapes</strong> parcourt l'application : patch et armement, transport, forme d'onde et réécoute, notes de prise, disques / split / false take, outils d'analyse, notifications, sound report et cloud.</p>
+        <ul>
+          <li><kbd>Esc</kbd> ferme le tour, les <strong>flèches</strong> naviguent. Pendant un enregistrement, <kbd>Esc</kbd> ne déclenche pas l'arrêt d'urgence.</li>
+          <li>Une étape dont la cible est absente de votre configuration est simplement sautée.</li>
+        </ul>
       </section>
 
       <!-- ===================== 4. INTERFACE ===================== -->
@@ -199,6 +213,11 @@
           <li><strong>Compact</strong> — vue dense pour les sessions à très haut nombre de canaux.</li>
         </ul>
         <p>Bascule entre orientation <strong>Horizontale</strong> et <strong>Verticale</strong> avec <kbd>Tab</kbd>. La touche <kbd>Z</kbd> active le zoom adaptatif (tous les canaux à la taille maximale possible).</p>
+        <p>La touche <kbd>W</kbd> affiche ou masque les <strong>pistes de forme d'onde</strong>. Elles démarrent <strong>désactivées</strong> au lancement comme à l'ouverture d'un projet, et ne s'activent qu'à la demande.</p>
+
+        <div class="doc-callout">
+          <strong>Espacement des pistes.</strong> L'écart entre deux canaux est <strong>identique dans les quatre vues</strong>, qu'une paire stéréo soit voisine ou non. Une paire stéréo occupe la largeur d'un canal mono en vue verticale, comme en mode forme d'onde.
+        </div>
 
         <h3>Thèmes &amp; polices</h3>
         <p>Le menu <strong>Vue → Thème</strong> propose cinq apparences :</p>
@@ -225,8 +244,21 @@
         <ul>
           <li><strong>Interface d'entrée</strong> — celle dont vous allez enregistrer les canaux.</li>
           <li><strong>Interface de sortie</strong> — destination du monitoring casque / régie.</li>
-          <li><strong>Sample rate</strong> — <em>AUTO</em> pour utiliser le taux natif, ou forcez 44 100 / 48 000 / 88 200 / 96 000 / 192 000 Hz.</li>
+          <li><strong>Sample rate</strong> — <em>AUTO</em> pour utiliser le taux natif, ou une valeur forcée. Les menus n'affichent que les fréquences <strong>réellement acceptées par l'interface</strong>, lues auprès de CoreAudio : sur une interface à 48 kHz fixe (une Allen &amp; Heath SQ par exemple), 44,1 et 96 kHz ne sont tout simplement pas proposées.</li>
           <li><strong>Buffer</strong> — 512 / 1024 / 2048 / 4096 / 8192 frames. Augmentez si vous constatez des <code>xrun</code> (dropouts).</li>
+        </ul>
+
+        <div class="doc-callout">
+          <strong>Changement de fréquence.</strong> Le réglage cible l'interface par son <strong>UID</strong> plutôt que par son nom, et <strong>relit la valeur après l'avoir écrite</strong> : un refus silencieux du pilote est signalé comme tel, au lieu d'être annoncé comme un succès suivi d'un retour inexpliqué à l'ancienne fréquence. Le flux est fermé avant le changement, la confirmation du périphérique attendue, puis le flux rouvert.
+        </div>
+
+        <h3>Interface absente ou lente à répondre</h3>
+        <p>Au démarrage comme au changement d'interface, VAREC <strong>patiente</strong> — plusieurs tentatives — au lieu d'abandonner au premier refus. C'est utile aux interfaces USB, Thunderbolt ou Dante lentes à se synchroniser. L'ouverture est visible à l'écran et le message d'erreur n'apparaît qu'en cas d'échec réel.</p>
+        <ul>
+          <li>L'interface est mémorisée par une <strong>clé stable</strong>, et non par son rang dans la liste du système — un rang qui change dès qu'un périphérique est branché ou débranché. VAREC ne restaure donc plus une autre interface que la vôtre sans le signaler.</li>
+          <li>Si l'interface attendue est <strong>absente</strong>, VAREC démarre sur la première disponible et vous le dit clairement, en la nommant.</li>
+          <li>Si la nouvelle interface ne répond pas, VAREC revient à la précédente <strong>en conservant patch et armements</strong>, au lieu de tout effacer.</li>
+          <li>Un projet préparé sur une grosse interface s'ouvre sur une interface plus petite : le nombre de canaux du monitoring <strong>s'ajuste à l'interface réellement utilisée</strong>, comme le faisait déjà l'enregistrement.</li>
         </ul>
 
         <div class="doc-callout">
@@ -264,11 +296,22 @@
         <p>Lorsque l'option est cochée dans le menu <strong>Enregistrement</strong>, VAREC pose automatiquement un marqueur dans le header BWF chaque fois qu'un pic dépasse 0 dBFS. Ces marqueurs apparaissent ensuite dans le Sound Report.</p>
 
         <h3>Formes d'onde live</h3>
-        <p>Pendant l'enregistrement, VAREC trace la forme d'onde de chaque canal armé en lecture seule du WAV en cours d'écriture — <strong>sans jamais interférer avec la capture</strong>.</p>
+        <p>Pendant l'enregistrement, VAREC trace la forme d'onde de chaque canal armé <strong>à la source</strong>, directement sur l'audio entrant — l'approche retenue par Reaper. Aucune relecture ni décodage du disque n'a lieu pendant la prise, et la capture n'est jamais touchée.</p>
+        <p>Le gain est double : le défilement devient fluide sur toutes les pistes <em>et</em> la charge diminue. Sur une session de 32 pistes :</p>
+        <table class="doc-table">
+          <thead><tr><th>Mesure</th><th>Avant (relecture du WAV)</th><th>Depuis la 1.5.30</th></tr></thead>
+          <tbody>
+            <tr><td>Rafraîchissement par piste</td><td>0,8 Hz</td><td><strong>18,7 Hz</strong> (×23)</td></tr>
+            <tr><td>Pic de charge du buffer audio</td><td>jusqu'à 26 %</td><td><strong>0,8 %</strong> (plat)</td></tr>
+            <tr><td>Mémoire</td><td>non bornée</td><td><strong>bornée</strong></td></tr>
+          </tbody>
+        </table>
+        <p>Un cache multi-résolution garde les longues prises légères.</p>
         <ul>
-          <li>Le bouton <strong>« 〜 »</strong> (près des sélecteurs de vue) affiche une piste de forme d'onde par canal armé : sous le VU mètre en mode horizontal, à côté en mode vertical. En vue verticale, la forme d'onde se trace verticalement (temps sur l'axe Y), les <strong>samples les plus récents en haut</strong>, avec un VU mètre translucide superposé — les deux restent lisibles. Le rafraîchissement est rapide et sans surcoût mémoire pendant l'enregistrement.</li>
+          <li>Le bouton <strong>« 〜 »</strong> (près des sélecteurs de vue) ou la touche <kbd>W</kbd> affiche une piste de forme d'onde par canal armé : sous le VU mètre en mode horizontal, à côté en mode vertical. En vue verticale, la forme d'onde se trace verticalement (temps sur l'axe Y), les <strong>samples les plus récents en haut</strong>, avec un VU mètre translucide superposé — les deux restent lisibles.</li>
+          <li>Les <strong>paires stéréo</strong> se comportent comme les canaux mono. En vue forme d'onde horizontale, chaque barre VU occupe la moitié de la hauteur de la piste, superposée à sa propre voie du tracé.</li>
           <li>Les canaux <strong>patchés mais non armés</strong> affichent leur niveau live en VU grisé.</li>
-          <li>Dans le <strong>panneau solo</strong>, la forme d'onde interactive est tracée depuis le début de la prise, sous les outils d'analyse (spectre / spectrogramme). Sélectionnez un passage pour le <strong>réécouter dans le moniteur</strong> (signal live atténué) : la plage in/out sélectionnée est écrite comme <strong>note horodatée</strong> dans l'iXML <code>&lt;NOTE&gt;</code> du fichier WAV. Pendant la sélection, la forme d'onde se <strong>fige</strong> pour faciliter le repérage (un simple clic reprend le live) ; le point de clic reste précis même avec une taille de police agrandie (zoom).</li>
+          <li>Dans le <strong>panneau solo</strong>, la forme d'onde interactive est tracée depuis le début de la prise, sous les outils d'analyse (spectre / spectrogramme). Sélectionnez un passage pour le <strong>réécouter dans le moniteur</strong> (signal live atténué) : la plage in/out sélectionnée est écrite comme <strong>note horodatée</strong> dans l'iXML <code>&lt;NOTE&gt;</code> du fichier WAV. La réécoute <strong>respecte l'état de la sortie moniteur</strong> : si celle-ci est désactivée, aucun son ne sort et VAREC l'indique. Pendant la sélection, la forme d'onde se <strong>fige</strong> pour faciliter le repérage (un simple clic reprend le live) ; le point de clic reste précis même avec une taille de police agrandie (zoom).</li>
         </ul>
 
         <h3>Formats audio</h3>
@@ -370,7 +413,20 @@
             <tr><td><strong>Nom</strong></td><td>Double-clic pour renommer (apparaîtra dans le nom de fichier et dans iXML).</td></tr>
           </tbody>
         </table>
-        <p><strong>✕ MUTE</strong> et <strong>✕ SOLO</strong> (en haut de la zone canaux) désactivent tous les mutes ou tous les solos en un clic.</p>
+        <p><strong>✕ MUTE</strong> et <strong>✕ SOLO</strong> (en haut de la zone canaux) désactivent tous les mutes ou tous les solos en un clic. <strong>✕ SOLO</strong> libère aussi l'analyseur de spectre, qui ne continue plus de tourner en arrière-plan sur le canal précédemment soloé.</p>
+
+        <h3>Solo &amp; monitoring</h3>
+        <p>Le solo est un <strong>état d'écoute temporaire</strong>. Il n'est pas mémorisé dans le fichier de session : une session ne s'ouvre jamais avec un canal soloé.</p>
+        <ul>
+          <li>Le bouton <strong>S</strong>, la touche <kbd>S</kbd> et le double-clic sur une paire stéréo agissent tous sur l'écoute réelle, dans <strong>toutes les vues</strong> — bouton et monitoring restent cohérents.</li>
+          <li><strong>Appairer en stéréo un canal soloé</strong> déplace le solo sur le canal gauche, plutôt que de laisser un canal soloé invisible dans la liste.</li>
+          <li><strong>Quitter le mode fader</strong> libère les solos de groupe, dont les boutons sont masqués dans ce mode.</li>
+          <li>L'outil <strong>⊕ Phase</strong> place son canal de référence en solo — avec un indicateur visible — et le libère quelle que soit la façon dont le panneau est fermé. L'action <em>Effacer le délai</em> ne touche pas aux solos.</li>
+        </ul>
+
+        <div class="doc-callout">
+          <strong>Sélection requise.</strong> La touche <kbd>S</kbd> n'agit que sur un canal <em>sélectionné</em>, contrairement à <kbd>A</kbd> et <kbd>M</kbd>.
+        </div>
       </section>
 
       <!-- ===================== 8. NOTES DE PRISE ===================== -->
@@ -400,6 +456,12 @@
 
         <h3>Sélection des disques</h3>
         <p>Dans le panneau Disques (à gauche de la zone canaux), cochez chaque disque cible. L'espace libre est affiché et mis à jour pendant l'enregistrement. Une alerte apparaît dès qu'un disque passe sous le seuil de sécurité (configurable dans les préférences).</p>
+
+        <div class="doc-callout">
+          <strong>Fausse redondance détectée.</strong> Un disque de secours situé sur le <strong>même disque physique</strong> que la destination d'enregistrement produisait un jeu complet de fichiers en double, annoncé « × 2 disques » — sans la moindre redondance réelle. Ce cas est désormais détecté et le disque écarté, avec un avertissement. Deux volumes montés depuis le même SSD ne protègent de rien : c'est la panne du disque physique qui compte.
+        </div>
+
+        <p>Le débranchement du disque d'enregistrement est détecté y compris lorsque la carte disque pointe un <strong>sous-dossier</strong> du volume. Les chemins écrits en <code>~/…</code> sont résolus pour l'espace disque comme pour l'ouverture dans le Finder.</p>
 
         <div class="doc-callout">
           <strong>Astuce.</strong> Pour un projet critique, branchez un SSD Thunderbolt en plus du SSD interne. La perte d'un disque ne compromet pas la prise. Le Sound Report indique sur quel(s) disque(s) chaque fichier a été écrit.
@@ -488,6 +550,7 @@
       <!-- ===================== 12. VU MÈTRES & ANALYSE ===================== -->
       <section id="metering" class="doc-section">
         <h2>12. VU mètres &amp; outils d'analyse</h2>
+        <p>Les VU mètres sont <strong>actifs dès l'ouverture de l'application</strong> : il n'est pas nécessaire d'armer un canal pour vérifier ses entrées. Les canaux <strong>patchés mais non armés</strong> affichent leur niveau live en grisé.</p>
 
         <h3>Modes de metering</h3>
         <ul>
@@ -495,7 +558,7 @@
           <li><strong>RMS + PPM</strong> — barre RMS large + aiguille PPM fine superposée. Le mode classique broadcast.</li>
           <li><strong>True Peak</strong> — détection inter-sample peaks (4× oversampling). Indispensable pour le mastering broadcast aux normes EBU R128.</li>
         </ul>
-        <p>L'indicateur de clip rouge est latché dès 0 dBFS — la barre peak rouge reste persistante jusqu'au reset (clic sur le strip ou <kbd>⌥</kbd>+<kbd>R</kbd>). Les VU mètres stéréo sont conformes à ±0,5 dB (EBU R128) : lissage en domaine d'amplitude linéaire pour une convergence rapide et peak hold accumulé entre chunks pour ne perdre aucun pic court (clap, percussion).</p>
+        <p>L'indicateur de clip rouge est latché dès 0 dBFS — la barre peak rouge reste persistante jusqu'au reset (clic sur le strip ou <kbd>⌥</kbd>+<kbd>R</kbd>). Les VU mètres stéréo sont conformes à ±0,5 dB (EBU R128) : lissage en domaine d'amplitude linéaire pour une convergence rapide et peak hold accumulé entre chunks pour ne perdre aucun pic court (clap, percussion). Les voies <strong>L et R d'une paire stéréo mesurent exactement de la même façon</strong> — écart nul sur un signal identique, vérifié.</p>
 
         <h3>Réglages</h3>
         <table class="doc-table">
@@ -512,6 +575,10 @@
 
         <h3>Outils d'analyse (mode solo)</h3>
         <p>Passez un canal en solo pour ouvrir la suite d'analyse. Les quatre outils — <strong>Spectre</strong>, <strong>Spectrogramme</strong>, <strong>Peak</strong> et <strong>Phase</strong> — plus l'outil <strong>Loudness</strong> partagent un <strong>rail de paramètres unifié</strong> : panneau de réglages à gauche, canvas à droite. Réglages communs : axe fréquence <strong>Lin / Log</strong>, <strong>palette</strong> de spectrogramme (Classique / Magma / Viridis / Gris / Heat) et <strong>maintien de crête</strong> (peak-hold) désactivable. Sur une paire stéréo, la source d'analyse se choisit entre <strong>L / R / L+R</strong>.</p>
+
+        <div class="doc-callout">
+          <strong>Mode Éco.</strong> Le mode éco <strong>masque</strong> les outils d'analyse — spectre, spectrogramme, peak, loudness, phase — au lieu d'afficher un canvas noir. La forme d'onde et la réécoute restent disponibles.
+        </div>
 
         <h3>Fenêtre d'analyse détachable</h3>
         <p>Le panneau d'analyse se <strong>détache</strong> dans une fenêtre indépendante, redimensionnable et <strong>toujours au premier plan</strong> ; il disparaît alors de la fenêtre principale (réintégration en un clic). Un sélecteur d'outils occupe sa barre du haut, avec choix du canal analysé (mono / stéréo) et une case <strong>« suivre le solo »</strong>. Le rendu passe par un transport <strong>MessagePort</strong> zéro-copie : Loudness et Spectre sont rendus nativement (texte et grille vectoriels, basse latence), les autres outils en miroir image rapide (~30 fps).</p>
@@ -587,7 +654,14 @@
           <li>En cas d'<strong>arrêt d'urgence</strong> (déconnexion d'interface, erreur PortAudio, exception non gérée), les fichiers en cours sont <strong>correctement finalisés</strong> — métadonnées écrites, fichiers fermés — et l'enregistrement ne peut pas continuer silencieusement en arrière-plan.</li>
           <li>Une alerte s'affiche si l'espace disque passe sous <strong>10 Go</strong> pendant l'enregistrement.</li>
           <li>Les crashs natifs (audio, CoreAudio, Bluetooth) sont journalisés dans <code>logs/crash-native.log</code> ; un crash du renderer entraîne un unique rechargement automatique.</li>
+          <li>Le <strong>mode d'écriture est figé au démarrage de la prise</strong> et l'instance de traitement épinglée. Si elle disparaît en cours de route, VAREC déclenche un <strong>arrêt d'urgence</strong> plutôt que de laisser la prise se poursuivre sans destination d'écriture.</li>
+          <li>Le <strong>repli disque</strong> fonctionne réellement : si le dossier de projet devient inaccessible (disque éjecté, dossier protégé), l'écriture bascule effectivement vers le Bureau. Les erreurs disque sont expliquées en clair plutôt qu'affichées sous forme de message système brut.</li>
+          <li>Les VU mètres restent vivants en <strong>mode de repli</strong> : leur source suit la destination réelle du signal.</li>
         </ul>
+
+        <div class="doc-callout">
+          <strong>Prise enregistrée vide.</strong> Jusqu'à la 1.5.36, une prise pouvait se terminer avec <strong>0 octet d'audio sans la moindre erreur</strong> : compteur qui tourne, bouton rouge, VU vivants, et un fichier illisible à l'arrivée — le seul indice à l'écran étant une forme d'onde restée plate. La cause a été corrigée à la racine. Si vous utilisez une version antérieure à la 1.5.36, la mise à jour est vivement recommandée.
+        </div>
 
         <h3>En cas de coupure</h3>
         <p>Coupure de courant, kernel panic, débranchement d'un disque : les fichiers WAV présents sur disque restent <strong>parfaitement lisibles jusqu'au dernier bloc écrit</strong>. Aucun outil de récupération n'est nécessaire.</p>
@@ -652,15 +726,16 @@
       <!-- ===================== 17. PRÉFÉRENCES ===================== -->
       <section id="prefs" class="doc-section">
         <h2>17. Préférences</h2>
-        <p>Accessibles via <kbd>⌘</kbd>+<kbd>,</kbd> ou le bouton <strong>⚙</strong> dans la barre de transport. Les préférences sont regroupées en six onglets.</p>
+        <p>Accessibles via <kbd>⌘</kbd>+<kbd>,</kbd> ou le bouton <strong>⚙</strong> dans la barre de transport. Les préférences sont regroupées en sept onglets.</p>
 
         <h3>Général</h3>
         <ul>
           <li><strong>Mode Fader</strong> — faders virtuels par canal et par groupe.</li>
           <li><strong>Mode Compact</strong> — densité d'affichage maximale.</li>
-          <li><strong>Mode Éco</strong> — réduit le CPU pour de très grands nombres de canaux (utile au-delà de 128 ch).</li>
+          <li><strong>Mode Éco</strong> — réduit le CPU pour de très grands nombres de canaux (utile au-delà de 128 ch). Masque les outils d'analyse ; forme d'onde et réécoute restent disponibles.</li>
           <li><strong>Pré-roll</strong> — 0 / 2 / 5 / 10 s.</li>
         </ul>
+        <p>La <strong>taille et la position de la fenêtre</strong> sont conservées d'une ouverture à l'autre, avec retour automatique à une position visible si l'écran concerné a été débranché.</p>
 
         <h3>Audio</h3>
         <ul>
@@ -692,6 +767,18 @@
           <li>Constantes d'attaque et de release</li>
           <li>Presets utilisateur</li>
         </ul>
+
+        <h3>Notifications</h3>
+        <p><strong>12 familles de notifications</strong> peuvent être coupées individuellement — cloud, timecode, notes, mises à jour, TP Clip, etc.</p>
+        <p><strong>Cinq alertes critiques restent toujours actives</strong> et ne peuvent pas être désactivées, les rater compromettant la prise :</p>
+        <ul>
+          <li>Erreur disque</li>
+          <li>Fichier non finalisé</li>
+          <li>Arrêt d'urgence</li>
+          <li>Erreur d'interface audio</li>
+          <li>Sample rate</li>
+        </ul>
+        <p>Une notification coupée reste <strong>consignée dans le log</strong> (<em>Aide → Afficher le log</em>) : la couper la retire de l'écran, pas de l'historique.</p>
 
         <h3>Cloud &amp; MIDI</h3>
         <p>Voir <a href="#cloud">§13 Partage cloud</a> et <a href="#midi">§15 Contrôle MIDI</a>.</p>
@@ -726,9 +813,14 @@
             <tr><td><kbd>⌘</kbd>+<kbd>3</kbd></td><td>Onglet METADATA</td></tr>
             <tr><td><kbd>Tab</kbd></td><td>Orientation canaux Horizontale ↔ Verticale</td></tr>
             <tr><td><kbd>Z</kbd></td><td>Zoom adaptatif : voir tous les canaux</td></tr>
+            <tr><td><kbd>W</kbd></td><td>Afficher / masquer les pistes de forme d'onde</td></tr>
             <tr><td><kbd>?</kbd></td><td>Afficher la liste des raccourcis</td></tr>
           </tbody>
         </table>
+
+        <div class="doc-callout">
+          <strong>Flèches en vue verticale.</strong> L'orientation des flèches de navigation est <strong>inversée</strong> en vue verticale, pour les canaux comme pour l'analyseur : c'est cohérent avec le sens de lecture à l'écran, mais différent de la vue horizontale.
+        </div>
 
         <h3>Canaux</h3>
         <table class="doc-table">
@@ -736,10 +828,10 @@
           <tbody>
             <tr><td><kbd>T</kbd></td><td>Ajouter un canal</td></tr>
             <tr><td><kbd>⌘</kbd>+<kbd>T</kbd></td><td>Batch Inputs (création en lot)</td></tr>
-            <tr><td><kbd>A</kbd></td><td>Armer / Désarmer le canal sélectionné</td></tr>
+            <tr><td><kbd>A</kbd> ou <kbd>R</kbd></td><td>Armer / Désarmer — <kbd>R</kbd> reprend le libellé du bouton du strip</td></tr>
             <tr><td><kbd>⌥</kbd>+clic ARM</td><td>Armer tout / rien</td></tr>
-            <tr><td><kbd>M</kbd></td><td>Mute le canal sélectionné</td></tr>
-            <tr><td><kbd>S</kbd></td><td>Solo le canal sélectionné</td></tr>
+            <tr><td><kbd>M</kbd></td><td>Mute le canal</td></tr>
+            <tr><td><kbd>S</kbd></td><td>Solo — nécessite un canal <strong>sélectionné</strong>, contrairement à <kbd>A</kbd> et <kbd>M</kbd></td></tr>
             <tr><td><kbd>⌘</kbd>+<kbd>G</kbd></td><td>Créer un groupe à partir de la sélection</td></tr>
           </tbody>
         </table>
