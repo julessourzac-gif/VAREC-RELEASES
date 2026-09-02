@@ -315,14 +315,12 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   background: var(--bg);
   text-align: center;
 }
-/* Deux aperçus côte à côte en desktop, empilés en mobile (bascule à 768px,
-   même point de rupture que la nav). minmax(0,1fr) évite que la largeur
-   intrinsèque des vidéos ne fasse déborder les colonnes. */
-.preview-duo {
+/* Un seul lecteur, centré et large. minmax(0,1fr) évite que la largeur
+   intrinsèque de la vidéo ne fasse déborder la colonne. */
+.preview-solo {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
   max-width: 1160px;
   margin: 0 auto;
 }
@@ -334,7 +332,7 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   overflow: hidden;
   box-shadow: 0 32px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.06);
   position: relative;
-  max-width: 860px;
+  max-width: 1160px;
   width: 100%;
 }
 .preview-frame .win-bar {
@@ -362,7 +360,7 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
 .preview-video {
   width: 100%;
   display: block;
-  max-height: 600px;
+  max-height: 80vh;
   object-fit: contain;
   background: #000;
 }
@@ -975,7 +973,7 @@ footer {
 
   /* Sections */
   #preview, #features, #download, #licence { padding: 60px 0; }
-  .preview-duo { grid-template-columns: 1fr; gap: 20px; }
+  .preview-video { max-height: 60vh; }
   .section-title { font-size: clamp(24px, 6vw, 32px); }
   .section-desc { font-size: 15px; }
   .section-header { margin-bottom: 40px; }
