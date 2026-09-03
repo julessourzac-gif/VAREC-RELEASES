@@ -28,6 +28,81 @@ Tant que `YOUR_FORM_ID` est présent, le formulaire bascule automatiquement en `
 
 ---
 
+## Version anglaise du site (`/en/`)
+
+Le site est bilingue depuis la v1.5.38. Le **français reste à la racine**, l'anglais
+vit sous `/en/` :
+
+| Français | Anglais |
+|---|---|
+| `index.html` | `en/index.html` |
+| `ressources.html` | `en/resources.html` |
+| `videos.html` | `en/videos.html` |
+| `manuel.html` | `en/manual.html` |
+
+`tarifs.html` et `email-lancement.html` restent monolingues (la première n'est ni
+indexée ni liée, la seconde n'est pas une page du site).
+
+### Les pages EN sont des jumelles structurelles des pages FR
+
+Mêmes `id`, mêmes `class`, mêmes attributs `data-*`, **mêmes ancres** (`#preview`,
+`#features`, `#download`, et les 19 ancres du manuel). Seuls diffèrent le texte, les
+attributs lisibles par un humain (`alt`, `aria-label`, `placeholder`, `content`) et
+les chemins.
+
+C'est ce qui permet à `script.js`, à la feuille de style et au test de fonctionner sur
+les deux langues sans le moindre branchement. **Toute modification de copie ou de
+structure côté FR doit être répercutée dans `/en/`** — rien ne le fait automatiquement.
+
+### Chemins d'assets
+
+Les pages EN vivent dans un sous-dossier : un chemin relatif y résoudrait en
+`/en/logo.png` → 404. Elles référencent donc **tous** leurs assets en absolu depuis la
+racine (`/logo.png`, `/styles.v14.css`, `/script.js`, `/favicon.png`), et leurs liens
+internes en `/en/…`.
+
+### Sélecteur de langue
+
+Un bloc `.lang-switch` dans la nav **et** dans le footer des huit pages. Chaque lien
+pointe vers la contrepartie de la page courante, jamais vers l'accueil. Pas de
+redirection automatique : l'URL demandée fait foi.
+
+### Contrat `data-v-label` entre le HTML et `script.js`
+
+Le bandeau « dernière version » de l'accueil est réécrit au chargement par `script.js`.
+Le libellé ne vit plus dans le script mais dans le HTML :
+
+```html
+<div class="v-info" data-v-label="Dernière version : ">…   <!-- FR -->
+<div class="v-info" data-v-label="Latest version: ">…      <!-- EN -->
+```
+
+`script.js` lit cet attribut et repère le nœud texte par sa non-vacuité, plus par un
+`/Derni/` français. La date suit `<html lang>` (`fr-FR` ou `en-GB`).
+**Si vous changez ce libellé dans le HTML, changez-le aussi dans
+`update-version.yml`** — le workflow s'en sert comme ancre de sa regex.
+
+### Le workflow de version touche désormais deux fichiers
+
+`.github/workflows/update-version.yml` réécrit `index.html` **et** `en/index.html` à
+chaque release (CTA, liens DMG, bandeau), chacun avec son libellé et sa date localisée.
+La garde « release sans DMG macOS → on ne touche à rien » vaut pour les deux.
+
+### SEO
+
+`canonical` + `hreflang` (`fr`, `en`, `x-default`) sur les huit pages, `og:locale`
+là où un bloc Open Graph existe, et un `sitemap.xml` à la racine déclaré dans
+`robots.txt`. **Une page ajoutée sous `/` ou `/en/` doit être déclarée dans le
+sitemap avec son alternate.**
+
+### Tests
+
+`npm test` rejoue tous les scénarios de recalage des liens de téléchargement sur
+`index.html` **et** `en/index.html`, et vérifie que chaque accueil affiche le bandeau
+dans sa propre langue.
+
+---
+
 ## Statut commercial — bêta fermée
 
 L'app VAREC est en **bêta de validation**. Conformément au brief produit, le site

@@ -6,3 +6,6 @@ Disallow: /tarifs.html
 Disallow: /tarifs
 Disallow: /api/
 Allow: /
+
+# Le sitemap déclare les huit URLs FR + EN avec leurs alternates hreflang.
+Sitemap: https://varec.bernik.io/sitemap.xml
