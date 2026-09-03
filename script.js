@@ -329,9 +329,13 @@
 
   function mb(bytes) { return Math.round(bytes / 1048576) + ' MB'; }
 
-  function frDate(iso) {
+  // Le même script sert les pages FR (racine) et EN (/en/). La langue est lue
+  // sur <html lang>, jamais devinée depuis le navigateur : l'URL demandée fait
+  // foi. en-GB plutôt que en-US pour garder l'ordre jour-mois du français.
+  function localeDate(iso) {
+    var tag = document.documentElement.lang === 'en' ? 'en-GB' : 'fr-FR';
     try {
-      return new Date(iso).toLocaleDateString('fr-FR', {
+      return new Date(iso).toLocaleDateString(tag, {
         day: 'numeric', month: 'long', year: 'numeric'
       });
     } catch (_) { return ''; }
@@ -381,11 +385,16 @@
     var ctaText = firstTextNode(document.querySelector('.nav-cta'), /v\d/);
     if (ctaText) ctaText.nodeValue = ctaText.nodeValue.replace(/v\d[\d.]*\d/, newest.tag);
 
-    // Bandeau « Dernière version : … », page d'accueil uniquement.
-    var infoText = firstTextNode(document.querySelector('.v-info'), /Derni/);
+    // Bandeau « Dernière version : … », page d'accueil uniquement. Le libellé
+    // vient du HTML (data-v-label) et non d'ici : il change avec la langue de
+    // la page, alors que le repérage du nœud, lui, doit rester le même. .v-info
+    // n'a qu'un seul nœud texte, entre la pastille .v-dot et le badge BETA.
+    var vinfo = document.querySelector('.v-info');
+    var infoText = firstTextNode(vinfo, /\S/);
     if (infoText) {
-      var d = frDate(newest.published_at);
-      infoText.nodeValue = 'Dernière version : ' + newest.tag + (d ? ' · ' + d : '');
+      var d = localeDate(newest.published_at);
+      var label = vinfo.getAttribute('data-v-label') || 'Dernière version : ';
+      infoText.nodeValue = label + newest.tag + (d ? ' · ' + d : '');
     }
   }
 

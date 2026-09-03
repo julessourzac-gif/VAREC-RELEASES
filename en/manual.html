@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="VAREC v1.5.38 user manual — Multitrack field recorder for Mac. Installation, setup, recording, timecode, sound report, keyboard shortcuts, troubleshooting.">
+<title>VAREC — User manual</title>
+<link rel="canonical" href="https://varec.bernik.io/en/manual.html">
+<link rel="alternate" hreflang="fr" href="https://varec.bernik.io/manuel.html">
+<link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/manual.html">
+<link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/manuel.html">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.v14.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="https://bernik.io" class="nav-brand" target="_blank" rel="noopener">
+      <img src="/logo.png" alt="VAREC" class="nav-logo">
+      <span class="nav-by">by</span>
+      <img src="/BERNIK%202%20transoarent.png" alt="Bernik" class="nav-bernik">
+    </a>
+    <ul class="nav-links">
+      <li><a href="/en/index.html#preview">Overview</a></li>
+      <li><a href="/en/index.html#features">Features</a></li>
+      <li><a href="/en/resources.html" class="active">Resources</a></li>
+      <li class="nav-link-dl"><a href="/en/index.html#download">Download</a></li>
+    </ul>
+    <a href="/en/index.html#download" class="nav-cta">↓ v1.5.38 <span class="beta-badge sm">BETA</span></a>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <a href="/manuel.html" class="lang-opt" hreflang="fr" lang="fr">FR</a>
+      <a href="/en/manual.html" class="lang-opt active" hreflang="en" lang="en" aria-current="true">EN</a>
+    </div>
+    <button class="nav-burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="doc-crumbs">
+  <div class="container">
+    <a href="/en/resources.html">← Resources</a>
+    <span class="crumbs-sep">/</span>
+    <span class="crumbs-current">User manual</span>
+  </div>
+</div>
+
+<!-- MANUAL LAYOUT -->
+<div class="doc-wrap">
+  <div class="container doc-container">
+
+    <!-- TOC SIDEBAR -->
+    <aside class="doc-toc">
+      <div class="doc-toc-title">Contents</div>
+      <nav class="doc-toc-list">
+        <div class="doc-toc-group">Getting started</div>
+        <a href="#intro">1. Overview</a>
+        <a href="#install">2. Installation</a>
+        <a href="#quick">3. Quick start</a>
+
+        <div class="doc-toc-group">Interface</div>
+        <a href="#interface">4. The interface at a glance</a>
+        <a href="#patch">5. Audio interfaces</a>
+
+        <div class="doc-toc-group">Recording</div>
+        <a href="#recording">6. Multitrack recording</a>
+        <a href="#stereo-groups">7. Stereo links &amp; groups</a>
+        <a href="#notes">8. Take notes</a>
+        <a href="#multidisk">9. Simultaneous multi-disk</a>
+
+        <div class="doc-toc-group">Timecode &amp; metadata</div>
+        <a href="#timecode">10. Timecode</a>
+        <a href="#report">11. PDF Sound Report</a>
+
+        <div class="doc-toc-group">Monitoring &amp; cloud</div>
+        <a href="#metering">12. VU meters &amp; analysis</a>
+        <a href="#cloud">13. Cloud sharing</a>
+
+        <div class="doc-toc-group">Reliability</div>
+        <a href="#crash">14. Crash Recovery</a>
+
+        <div class="doc-toc-group">Control &amp; configuration</div>
+        <a href="#midi">15. MIDI control</a>
+        <a href="#projects">16. Project files (.varec)</a>
+        <a href="#prefs">17. Preferences</a>
+
+        <div class="doc-toc-group">Reference</div>
+        <a href="#shortcuts">18. Keyboard shortcuts</a>
+        <a href="#faq">19. FAQ &amp; Troubleshooting</a>
+      </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <article class="doc-content">
+
+      <header class="doc-header">
+        <span class="doc-eyebrow">User manual · v1.5.38 · macOS</span>
+        <h1>VAREC — User manual</h1>
+        <p class="doc-lede">The official documentation for VAREC 1.5.38, the professional multitrack field recorder for macOS. This manual covers every feature of the application — from installation to the advanced analysis tools, by way of timecode setup and sound report generation.</p>
+      </header>
+
+      <!-- ===================== 1. PRÉSENTATION ===================== -->
+      <section id="intro" class="doc-section">
+        <h2>1. Overview</h2>
+        <p>VAREC is a multitrack audio recorder built for sound professionals working in the field: film, documentary, news, live capture and post-production. The application is native to macOS, works through your Mac's CoreAudio audio interface and takes full advantage of both Apple Silicon and Intel x86_64 architectures.</p>
+        <p>The interface is designed to stay <strong>minimal and readable on set</strong>, while still exposing the professional features you cannot do without: external timecode, stereo pairs, BWF metadata, an exportable sound report, cloud upload and reusable project files.</p>
+
+        <h3>Key features</h3>
+        <ul>
+          <li>Multitrack capture of up to <strong>512 channels</strong> simultaneously (depending on your CoreAudio interface)</li>
+          <li>Formats <strong>16 / 24-bit PCM WAV</strong>, <strong>32-bit float WAV</strong> and <strong>RF64</strong> (files &gt; 4 GB with no splitting)</li>
+          <li>Sample rates from 44.1 kHz to <strong>192 kHz</strong></li>
+          <li>Timecode sources: <strong>LTC</strong>, <strong>MIDI MTC</strong>, <strong>Tentacle Sync E</strong> (Bluetooth BLE), <strong>Time of Day</strong>, frame rates up to <strong>60 fps</strong> (drop / non-drop)</li>
+          <li>Simultaneous multi-disk (true real-time redundancy, not a post-recording copy)</li>
+          <li>Complete BWF / iXML metadata (scene, take, notes, engineer, track list)</li>
+          <li>Sound Report exportable as <strong>PDF / CSV / HTML</strong> + email delivery with attachments</li>
+          <li>Automatic upload to <strong>SwissTransfer</strong>, Smash, Dropbox or Cloudflare R2</li>
+          <li>Instant Peak / RMS+PPM / True Peak VU meters with configurable peak hold</li>
+          <li>Analysis tools: <strong>Loudness LUFS</strong> (EBU R128 / BS.1770-4), spectrum, spectrogram and phase — in a detachable window</li>
+          <li><strong>Live waveforms</strong> during recording, with playback and range annotation</li>
+          <li>MIDI mapping for transport and faders</li>
+          <li>Crash Recovery: WAV headers written continuously, so no file is corrupted if power is cut</li>
+        </ul>
+      </section>
+
+      <!-- ===================== 2. INSTALLATION ===================== -->
+      <section id="install" class="doc-section">
+        <h2>2. Installation</h2>
+
+        <h3>System requirements</h3>
+        <ul>
+          <li>macOS 12 Monterey or later</li>
+          <li>Apple Silicon (M1, M2, M3, M4) or Intel x86_64</li>
+          <li>CoreAudio-compatible audio interface (built in or external)</li>
+          <li>4 GB of RAM minimum (8 GB recommended beyond 64 channels)</li>
+          <li>Enough free disk space — a fast drive (internal SSD, or external USB 3 / Thunderbolt SSD) is strongly recommended</li>
+        </ul>
+
+        <h3>Installation</h3>
+        <ol>
+          <li>Download <code>VAREC-1.5.38-arm64.dmg</code> (Apple Silicon) or <code>VAREC-1.5.38.dmg</code> (Intel) from <a href="/en/index.html#download">the download page</a> or directly at <a href="https://varec.bernik.io" target="_blank" rel="noopener">varec.bernik.io</a>. The DMGs are Developer ID signed and notarised by Apple (Gatekeeper ✓).</li>
+          <li>Double-click the DMG, then drag <code>VAREC.app</code> into your <strong>Applications</strong>.</li>
+          <li>On first launch, macOS asks for microphone and file system permission. Grant both.</li>
+          <li>Open the <strong>PATCH</strong> tab and select your audio interface for input, then for output.</li>
+        </ol>
+
+        <div class="doc-callout">
+          <strong>Microphone permission.</strong> On macOS, microphone access must be granted under <em>System Settings → Privacy &amp; Security → Microphone</em>. Without it, VAREC sees no input channels at all — the list in the PATCH tab stays empty.
+        </div>
+
+        <div class="doc-callout">
+          <strong>Tip.</strong> For sessions with a large channel count, connect your audio interface <em>before</em> launching VAREC, so that CoreAudio exposes it at startup. If you connect it afterwards, use the <strong>🔍 Scan</strong> button in the PATCH tab to run detection again.
+        </div>
+
+        <h3>Updates</h3>
+        <p>VAREC tells you when a new version is available, and shows <strong>how many versions behind the latest you are</strong>. If you have skipped several updates, the <strong>What's new</strong> button opens the detail version by version, newest first — the five most recent are expanded, and a link takes you to the full set of notes beyond that.</p>
+        <p>The notes are rendered as formatted text: headings, bold and lists display properly rather than showing their raw formatting marks.</p>
+      </section>
+
+      <!-- ===================== 3. DÉMARRAGE RAPIDE ===================== -->
+      <section id="quick" class="doc-section">
+        <h2>3. Quick start</h2>
+        <p>A first recording in six steps:</p>
+        <ol>
+          <li>Launch VAREC.</li>
+          <li>Tab <strong>PATCH</strong> : select your audio interface for input and output. Leave the <em>sample rate</em> set to <em>AUTO</em> to use the native rate.</li>
+          <li>Tab <strong>REC</strong> : add the channels you need with the <kbd>T</kbd> key, or use <kbd>⌘</kbd>+<kbd>T</kbd> to create them in bulk (Batch Inputs).</li>
+          <li>Choose the <strong>bit depth</strong> and the <strong>format</strong> (recommended: 48 kHz / 32-bit float poly WAV).</li>
+          <li>Choose one or more destination <strong>disks</strong> in the Disks panel.</li>
+          <li>Press <kbd>Space</kbd> or click <strong>REC</strong>. Stop with a second <kbd>Space</kbd> (split) or the STOP button. The WAV file is available immediately.</li>
+        </ol>
+        <div class="doc-callout">
+          <strong>Auto-save.</strong> The project is saved every 5 seconds in the background. You can close the application without any risk of losing takes or metadata.
+        </div>
+        <div class="doc-callout">
+          <strong>Automatic resume.</strong> On launch, VAREC reopens your last session directly (project, settings, faders, eco mode, latency compensation) without going through the welcome screen. The dialog only reappears if no recent project is found.
+        </div>
+        <div class="doc-callout">
+          <strong>Startup.</strong> The window appears in <strong>about 2 seconds</strong> and the progress bar runs all the way through. Opening the audio interface at launch no longer blocks for up to thirteen seconds when the device fails to respond — the full waiting behaviour is kept for when you arm a channel or switch interface yourself. The VU meters are live from the moment the window opens, with nothing to arm first.
+        </div>
+
+        <h3>Guided tour</h3>
+        <p>A guided tour of <strong>17 steps</strong> walks through the application: patch and arming, transport, waveform and playback, take notes, disks / split / false take, analysis tools, notifications, sound report and cloud.</p>
+        <ul>
+          <li><kbd>Esc</kbd> closes the tour, the <strong>arrow keys</strong> navigate. During a recording, <kbd>Esc</kbd> does not trigger the emergency stop.</li>
+          <li>Any step whose target is not present in your setup is simply skipped.</li>
+        </ul>
+      </section>
+
+      <!-- ===================== 4. INTERFACE ===================== -->
+      <section id="interface" class="doc-section">
+        <h2>4. The interface at a glance</h2>
+        <p>The main window is organised into three areas and three tabs.</p>
+
+        <h3>Areas</h3>
+        <ul>
+          <li><strong>Transport bar</strong> (top): REC/STOP button, false take, panic, timer (TC, TOD or ELA), scene &amp; take selectors, sample rate, audio source.</li>
+          <li><strong>Channel area</strong> (centre): one strip per channel — number, name, ARM / MUTE / SOLO / LINK controls, gain, VU meter, peak indicator.</li>
+          <li><strong>Footer</strong> : disk status with live free space, cloud status, licence and version indicators.</li>
+        </ul>
+
+        <h3>REC / PATCH / METADATA tabs</h3>
+        <table class="doc-table">
+          <thead><tr><th>Tab</th><th>Shortcut</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><strong>REC</strong></td><td><kbd>⌘</kbd>+<kbd>1</kbd></td><td>Recording view: channel strips, VU meters, transport.</td></tr>
+            <tr><td><strong>PATCH</strong></td><td><kbd>⌘</kbd>+<kbd>2</kbd></td><td>Input/output interface selection and channel assignment.</td></tr>
+            <tr><td><strong>METADATA</strong></td><td><kbd>⌘</kbd>+<kbd>3</kbd></td><td>Project, scene and take metadata, naming template.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Display modes</h3>
+        <ul>
+          <li><strong>Standard</strong> — horizontal strips, the default view.</li>
+          <li><strong>Fader</strong> — vertical strips with virtual faders per channel and per group.</li>
+          <li><strong>Compact</strong> — a dense view for sessions with very high channel counts.</li>
+        </ul>
+        <p>Switch between <strong>Horizontal</strong> and <strong>Vertical</strong> orientation with <kbd>Tab</kbd>. The <kbd>Z</kbd> key enables adaptive zoom (every channel at the largest possible size).</p>
+        <p>The <kbd>W</kbd> key shows or hides the <strong>waveform tracks</strong>. They start out <strong>disabled</strong> both at launch and when opening a project, and are only enabled on request.</p>
+
+        <div class="doc-callout">
+          <strong>Track spacing.</strong> The gap between two channels is <strong>identical across all four views</strong>, whether or not a stereo pair is adjacent. A stereo pair takes the width of a mono channel in vertical view, as it does in waveform mode.
+        </div>
+
+        <h3>Themes &amp; fonts</h3>
+        <p>The <strong>View → Theme</strong> menu offers five appearances:</p>
+        <ul>
+          <li><strong>Dark</strong> — the default, optimised for night shoots and long reading sessions.</li>
+          <li><strong>Light</strong> — suited to daytime indoor use.</li>
+          <li><strong>Minimal</strong> — greyscale only.</li>
+          <li><strong>OLED</strong> — pure black, to save battery on an OLED display.</li>
+          <li><strong>High contrast</strong> — maximum legibility in direct sunlight.</li>
+        </ul>
+        <p>Four font families are available under <strong>View → Font</strong> : System, Monospace, Rounded, Serif.</p>
+        <p>The interface and contextual help are available in <strong>French, English and German</strong> (the <strong>View → Language</strong>).</p>
+      </section>
+
+      <!-- ===================== 5. INTERFACES AUDIO ===================== -->
+      <section id="patch" class="doc-section">
+        <h2>5. Audio interfaces (PATCH)</h2>
+        <p>The <strong>PATCH</strong> tab is where you select your audio interfaces. VAREC builds on CoreAudio: any Mac-compatible interface can be used, including Dante Virtual Soundcard, RME MADI, Focusrite Red and others.</p>
+
+        <h3>Detection</h3>
+        <p>At launch, VAREC automatically scans for available interfaces. The <strong>🔍 Scan</strong> button re-runs detection on the fly — after plugging in a USB interface or starting a Dante VSC, for instance.</p>
+
+        <h3>Selection</h3>
+        <ul>
+          <li><strong>Input interface</strong> — the one whose channels you are going to record.</li>
+          <li><strong>Output interface</strong> — the destination for headphone / control room monitoring.</li>
+          <li><strong>Sample rate</strong> — <em>AUTO</em> to use the native rate, or force a value. The menus only list the rates <strong>the interface actually accepts</strong>, read from CoreAudio: on an interface locked to 48 kHz (an Allen &amp; Heath SQ, say), 44.1 and 96 kHz are simply not offered.</li>
+          <li><strong>Buffer</strong> — 512 / 1024 / 2048 / 4096 / 8192 frames. Increase it if you get <code>xrun</code> (dropouts).</li>
+        </ul>
+
+        <div class="doc-callout">
+          <strong>Changing sample rate.</strong> The setting addresses the interface by its <strong>UID</strong> rather than by name, and <strong>reads the value back after writing it</strong> : a silent refusal from the driver is reported as such, instead of being announced as a success followed by an unexplained return to the old rate. The stream is closed before the change, the device's confirmation awaited, then the stream reopened.
+        </div>
+
+        <h3>Missing or slow-responding interface</h3>
+        <p>At startup and when switching interface, VAREC <strong>waits</strong> — retrying several times — instead of giving up on the first refusal. This helps USB, Thunderbolt or Dante interfaces that are slow to lock. Opening is visible on screen, and the error message only appears on a genuine failure.</p>
+        <ul>
+          <li>The interface is remembered by a <strong>stable key</strong>, not by its position in the system list — a position that shifts as soon as any device is plugged in or removed. VAREC therefore no longer restores an interface other than yours without saying so.</li>
+          <li>If the expected interface is <strong>missing</strong>, VAREC starts on the first available one and tells you clearly, naming it.</li>
+          <li>If the new interface does not respond, VAREC falls back to the previous one <strong>keeping the patch and arming intact</strong>, instead of clearing everything.</li>
+          <li>A project prepared on a large interface opens on a smaller one: the monitoring channel count <strong>adjusts to the interface actually in use</strong>, as recording already did.</li>
+        </ul>
+
+        <div class="doc-callout">
+          <strong>Switching on the fly.</strong> Changing the interface or the sample rate during a recording is not possible. Stop the take first. VAREC displays an error message if you try to change mid-take.
+        </div>
+
+        <div class="doc-callout">
+          <strong>Safe opening.</strong> Every interface is pre-tested off the display thread before being opened: one that fails to start (a Dante Virtual Soundcard with no clock or network, for example) shows a clear message without ever freezing the application. Bluetooth audio devices (AirPods and the like) are deliberately hidden from the list — their latency and clock make them unsuitable for multitrack recording.
+        </div>
+      </section>
+
+      <!-- ===================== 6. ENREGISTREMENT ===================== -->
+      <section id="recording" class="doc-section">
+        <h2>6. Multitrack recording</h2>
+
+        <h3>Arming channels</h3>
+        <p>Click the <strong>R</strong> button on the strip (or the <kbd>A</kbd> key on the selected channel) to arm it. Only armed channels produce an audio file. Hold <kbd>⌥</kbd> while clicking to arm all or none.</p>
+
+        <h3>Starting a take</h3>
+        <p>Press <kbd>Space</kbd> or click the red <strong>REC</strong> button. The counter starts, WAV files are opened for every armed channel and written continuously to all active disks.</p>
+
+        <h3>Split &amp; False Take</h3>
+        <ul>
+          <li><strong>Split</strong> — a second <kbd>Space</kbd> during recording closes the current files cleanly and opens new ones. The take number increments automatically.</li>
+          <li><strong>Stop</strong> — the square button, or Recording → Stop. WAV headers are finalised with the real file size.</li>
+          <li><strong>False Take</strong> (<strong>✕</strong> , orange) — marks the current take for exclusion from the sound report. Useful after a mis-trigger or a ruined take.</li>
+          <li><strong>Panic</strong> (<kbd>⌥</kbd>+<kbd>P</kbd>) — closes and finalises every file in a critical situation. A last resort.</li>
+          <li><strong>Reset Peaks</strong> (<kbd>⌥</kbd>+<kbd>R</kbd>) — clears the hold values on the VU meters.</li>
+        </ul>
+
+        <h3>Pre-roll</h3>
+        <p>A pre-roll of 0, 2, 5 or 10 seconds can be enabled in the preferences. When you start a take, VAREC includes the seconds preceding the trigger (continuously captured in a ring buffer).</p>
+
+        <h3>Auto Peak Marker</h3>
+        <p>When the option is ticked in the <strong>Recording</strong> menu, VAREC automatically places a marker in the BWF header whenever a peak exceeds 0 dBFS. Those markers then appear in the Sound Report.</p>
+
+        <h3>Live waveforms</h3>
+        <p>During recording, VAREC draws the waveform of every armed channel <strong>at the source</strong>, straight from the incoming audio — the approach Reaper takes. Nothing is read back or decoded from disk during the take, and the capture is never touched.</p>
+        <p>The gain is twofold: scrolling becomes smooth across every track <em>and</em> load goes down. On a 32-track session:</p>
+        <table class="doc-table">
+          <thead><tr><th>Measurement</th><th>Before (reading back the WAV)</th><th>Since 1.5.30</th></tr></thead>
+          <tbody>
+            <tr><td>Refresh rate per track</td><td>0.8 Hz</td><td><strong>18.7 Hz</strong> (×23)</td></tr>
+            <tr><td>Audio buffer load peak</td><td>up to 26%</td><td><strong>0,8 %</strong> (flat)</td></tr>
+            <tr><td>Memory</td><td>unbounded</td><td><strong>bounded</strong></td></tr>
+          </tbody>
+        </table>
+        <p>A multi-resolution cache keeps long takes light.</p>
+        <ul>
+          <li>The <strong>« 〜 »</strong> button (next to the view selectors), or the <kbd>W</kbd> key, shows one waveform track per armed channel: below the VU meter in horizontal mode, beside it in vertical mode. In vertical view the waveform is drawn vertically (time on the Y axis), with the <strong>most recent samples at the top</strong>, and a translucent VU meter overlaid — both stay readable.</li>
+          <li>The <strong>stereo pairs</strong> behave like mono channels. In horizontal waveform view, each VU bar takes half the track height, overlaid on its own side of the trace.</li>
+          <li>Channels that are <strong>patched but not armed</strong> show their live level on a greyed-out meter.</li>
+          <li>In the <strong>solo panel</strong>, the interactive waveform is drawn from the start of the take, below the analysis tools (spectrum / spectrogram). Select a passage to <strong>play it back through the monitor</strong> (the live signal is attenuated): the selected in/out range is written as a <strong>timestamped note</strong> in the WAV file's iXML <code>&lt;NOTE&gt;</code> field. Playback <strong>respects the state of the monitor output</strong> : if it is disabled, nothing is heard and VAREC says so. While you select, the waveform <strong>freezes</strong> to make spotting easier (a single click resumes live); the click point stays accurate even at an enlarged font size (zoom).</li>
+        </ul>
+
+        <h3>Audio formats</h3>
+        <table class="doc-table">
+          <thead><tr><th>Format</th><th>Bits</th><th>Encoding</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td><strong>WAV 16</strong></td><td>16-bit</td><td>Signed PCM</td><td>Maximum compatibility, compact files.</td></tr>
+            <tr><td><strong>WAV 24</strong></td><td>24-bit</td><td>Signed PCM (3 bytes/sample)</td><td>The broadcast standard.</td></tr>
+            <tr><td><strong>WAV 32F</strong></td><td>32-bit</td><td>IEEE 754 float</td><td>Post-production, unlimited headroom, digitally impossible to clip.</td></tr>
+            <tr><td><strong>RF64</strong></td><td>24- or 32-bit</td><td>Same as WAV, extended header</td><td>Files &gt; 4 GB with no splitting.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>File mode</h3>
+        <ul>
+          <li><strong>MONO</strong> — one WAV file per armed channel (a stereo pair gives one stereo file).</li>
+          <li><strong>POLY</strong> — a single multichannel file holding every armed channel. This is the recommended mode for film and post.</li>
+        </ul>
+
+        <h3>File naming</h3>
+        <p>In the <strong>METADATA</strong> tab you define a naming template using tokens:</p>
+        <table class="doc-table">
+          <thead><tr><th>Token</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td><code>{projet}</code></td><td>Project name</td></tr>
+            <tr><td><code>{scene}</code></td><td>Current scene (e.g. <code>S01A</code>)</td></tr>
+            <tr><td><code>{take}</code></td><td>Take number (incremented on every split)</td></tr>
+            <tr><td><code>{ch}</code></td><td>Channel number (e.g. <code>CH03</code>)</td></tr>
+            <tr><td><code>{nom}</code></td><td>Channel name</td></tr>
+            <tr><td><code>{date}</code></td><td>Today's date, ISO format</td></tr>
+            <tr><td><code>{ingenieur}</code></td><td>Sound engineer's initials</td></tr>
+          </tbody>
+        </table>
+        <div class="doc-callout">
+          <strong>Take numbering per scene.</strong> The take number is tied to the current scene: on every scene change, VAREC scans the actual folder on disk and resumes at the highest number + 1. Numbering therefore survives going back to an earlier scene, and reopening the project. As long as no scene has been entered, the filename no longer injects a fake one (no more misleading <code>SC01</code> ), and those takes are labelled <strong>NO SCENE</strong> in the Sound Report.
+        </div>
+
+        <h3>BWF / iXML metadata</h3>
+        <p>Every file automatically includes:</p>
+        <ul>
+          <li>BWF timestamp (<code>OriginationTime</code>, <code>OriginationDate</code>)</li>
+          <li>Start timecode and frame rate (<code>TimeReference</code>) — pre-roll is accounted for, so nothing drifts when conforming in post</li>
+          <li>Scene, take, notes</li>
+          <li>The name of each track in <code>iXML/TRACK_LIST</code> — both channels of a stereo pair and of the MAIN MIX are declared there</li>
+          <li>EBU 3285-compliant bext loudness fields ("not supplied" rather than 0 LUFS when no measurement is available)</li>
+          <li>TC-stamped markers</li>
+        </ul>
+
+        <h3>Automatic splitting</h3>
+        <p>To avoid oversized files, VAREC can split each take automatically, using per-format thresholds:</p>
+        <table class="doc-table">
+          <thead><tr><th>Format</th><th>Default maximum duration</th><th>Ceiling</th></tr></thead>
+          <tbody>
+            <tr><td>WAV 24</td><td>2 h</td><td>7,200 s</td></tr>
+            <tr><td>WAV 32F</td><td>1 h 30</td><td>5,400 s</td></tr>
+            <tr><td>RF64</td><td>24 h</td><td>86,400 s</td></tr>
+          </tbody>
+        </table>
+        <p>The thresholds are set under <strong>Preferences → Record → Automatic split</strong>.</p>
+        <div class="doc-callout">
+          <strong>The 4 GB safeguard.</strong> For non-RF64 WAV formats (the format is technically capped at 4 GB), VAREC triggers a safety split about a minute before the limit is reached, with byte-accurate detection on the worker side. No take is ever lost to a size overrun. The MAIN MIX file (fader mode) and the backups on secondary disks follow the same split.
+        </div>
+      </section>
+
+      <!-- ===================== 7. LIENS STÉRÉO & GROUPES ===================== -->
+      <section id="stereo-groups" class="doc-section">
+        <h2>7. Stereo links &amp; groups</h2>
+
+        <h3>Stereo links</h3>
+        <p>Two consecutive channels can be linked into a stereo pair. VAREC even offers <strong>automatic detection</strong> of stereo pairs, by analysing the correlation between adjacent channels.</p>
+        <ol>
+          <li>Click the <strong>link</strong> icon on the left-hand channel.</li>
+          <li>The next channel automatically becomes the right side.</li>
+          <li>The VU meters now show L (green) and R (cyan) side by side.</li>
+          <li>The resulting WAV file is interleaved stereo <code>L[0], R[0], L[1], R[1]…</code> with the <code>_STEREO</code>.</li>
+        </ol>
+
+        <div class="doc-callout">
+          <strong>Merged display.</strong> Turn on <em>View → Show input under name</em> to visually merge the two strips of a stereo pair into a single column, gaining display density.
+        </div>
+
+        <h3>Groups</h3>
+        <p>To group several channels together (every track of a drum kit, say, or every track of one actor):</p>
+        <ol>
+          <li>Select several channels (click + <kbd>⇧</kbd>).</li>
+          <li>Press <kbd>⌘</kbd>+<kbd>G</kbd>.</li>
+          <li>Give the group a name.</li>
+        </ol>
+        <p>In <strong>Fader mode</strong>, each group gets a master fader plus MUTE / SOLO buttons applied to all of its channels. Groups also appear in the Sound Report.</p>
+
+        <h3>Per-channel controls</h3>
+        <table class="doc-table">
+          <thead><tr><th>Control</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ARM</strong> (<kbd>A</kbd>)</td><td>Enables the channel for recording.</td></tr>
+            <tr><td><strong>MUTE</strong> (<kbd>M</kbd>)</td><td>Mutes the channel in monitoring (recording continues if the channel is armed).</td></tr>
+            <tr><td><strong>SOLO</strong> (<kbd>S</kbd>)</td><td>Isolates the channel for listening. Multiple solos are cumulative.</td></tr>
+            <tr><td><strong>LINK</strong> (link)</td><td>Creates a stereo pair with the next channel.</td></tr>
+            <tr><td><strong>Name</strong></td><td>Double-click to rename (this appears in the filename and in the iXML).</td></tr>
+          </tbody>
+        </table>
+        <p><strong>✕ MUTE</strong> and <strong>✕ SOLO</strong> (at the top of the channel area) clear every mute or every solo in one click. <strong>✕ SOLO</strong> also releases the spectrum analyser, which no longer keeps running in the background on the previously soloed channel.</p>
+
+        <h3>Solo &amp; monitoring</h3>
+        <p>Solo is a <strong>temporary listening state</strong>. It is not stored in the session file: a session never opens with a channel soloed.</p>
+        <ul>
+          <li>The <strong>S</strong> button, the <kbd>S</kbd> key and double-clicking a stereo pair all act on what you actually hear, in <strong>every view</strong> — button and monitoring stay in agreement.</li>
+          <li><strong>Pairing a soloed channel into stereo</strong> moves the solo onto the left channel, rather than leaving a soloed channel invisible in the list.</li>
+          <li><strong>Leaving fader mode</strong> releases group solos, whose buttons are hidden outside that mode.</li>
+          <li>The <strong>⊕ Phase</strong> tool solos its reference channel — with a visible indicator — and releases it however the panel is closed. The <em>Clear delay</em> action does not touch solos.</li>
+        </ul>
+
+        <div class="doc-callout">
+          <strong>Selection required.</strong> The <kbd>S</kbd> key only acts on a <em>selected</em> channel, unlike <kbd>A</kbd> and <kbd>M</kbd>.
+        </div>
+      </section>
+
+      <!-- ===================== 8. NOTES DE PRISE ===================== -->
+      <section id="notes" class="doc-section">
+        <h2>8. Take notes</h2>
+        <p>During a recording, press <kbd>N</kbd> or click the 📝 icon in the transport bar to open the <strong>NOTES — CURRENT TAKE</strong>.</p>
+        <ul>
+          <li><kbd>↵ Enter</kbd> — saves the note and closes the panel.</li>
+          <li><kbd>⇧</kbd>+<kbd>↵ Enter</kbd> — inserts a line break without closing.</li>
+          <li>The note history for the current take is listed above the input field, TC-stamped.</li>
+        </ul>
+        <p>Notes are attached to the take in the project file and appear in the Sound Report. A TC-stamped marker is also written into the BWF header of every file involved.</p>
+        <p>Beyond text notes, you can drop <strong>quick markers</strong> at any time with a single key, without opening a panel. Peak markers (when the <em>Auto Peak Marker</em> option is on) are added to that same list automatically.</p>
+      </section>
+
+      <!-- ===================== 9. MULTI-DISQUE ===================== -->
+      <section id="multidisk" class="doc-section">
+        <h2>9. Simultaneous multi-disk</h2>
+        <p>VAREC can write the same WAV file to several disks at once. This is <strong>true real-time redundancy</strong> — not a copy made afterwards.</p>
+        <ul>
+          <li>Every active disk gets its own independent write stream.</li>
+          <li>If a disk is disconnected or fails during recording, the others carry on uninterrupted.</li>
+          <li>Write throughput is shown per disk in real time.</li>
+          <li>A context menu on each disk: reveal in Finder, unmount, exclude from the next recording.</li>
+          <li>At the end of a take, the file summary groups redundant copies ("× N disks") instead of listing each file twice.</li>
+        </ul>
+
+        <h3>Choosing disks</h3>
+        <p>In the Disks panel (to the left of the channel area), tick each target disk. Free space is displayed and kept up to date while recording. An alert appears as soon as a disk drops below the safety threshold (configurable in the preferences).</p>
+
+        <div class="doc-callout">
+          <strong>False redundancy detected.</strong> A backup disk sitting on the <strong>same physical drive</strong> as the recording destination used to produce a full duplicate set of files, announced as "× 2 disks" — with no real redundancy whatsoever. That case is now detected and the disk is dropped, with a warning. Two volumes mounted from the same SSD protect against nothing: it is the failure of the physical drive that counts.
+        </div>
+
+        <p>Unplugging the recording disk is detected even when the disk card points at a <strong>subfolder</strong> of the volume. Paths written as <code>~/…</code> are resolved both for free-space reporting and for revealing in Finder.</p>
+
+        <div class="doc-callout">
+          <strong>Tip.</strong> On a critical project, connect a Thunderbolt SSD alongside the internal one. Losing a disk does not compromise the take. The Sound Report records which disk or disks each file was written to.
+        </div>
+
+        <h3>On-disk layout</h3>
+        <p>Each session creates a <code>VAREC/{projet}/{scene}/</code> folder on every active disk, holding the WAV files and a <code>.varec.json</code> project file. The structure is identical across all redundant disks.</p>
+      </section>
+
+      <!-- ===================== 10. TIMECODE ===================== -->
+      <section id="timecode" class="doc-section">
+        <h2>10. Timecode</h2>
+        <p>The <strong>timer</strong> at the top of the window shows one of three counting modes:</p>
+        <ul>
+          <li><strong>TC</strong> — external timecode (analogue LTC, MIDI MTC or Tentacle Sync E over Bluetooth).</li>
+          <li><strong>TOD</strong> — Time Of Day, the system clock.</li>
+          <li><strong>ELA</strong> — Elapsed Time, counted from the start of the take.</li>
+        </ul>
+
+        <h3>The unified Timecode card</h3>
+        <p>Since 1.5.24, every timecode setting lives in a single <strong>TC card</strong>. Clicking the timer (or the fps badge) opens its full panel:</p>
+        <ul>
+          <li>Current TC and <strong>detailed status</strong> (the age of the last frame received).</li>
+          <li><strong>Source</strong> : Time of Day / Tentacle / LTC.</li>
+          <li><strong>Frame rate</strong>, LTC input ( <strong>Auto</strong> detection, or pick the channel manually).</li>
+          <li>Devices <strong>Tentacle</strong> : on-demand Bluetooth connection and scanning.</li>
+        </ul>
+        <p>With the card closed, a <strong>status LED</strong> (internal / connected / detected / no signal) sits beside the live TC, with a "source · fps" sub-line. The settings are still mirrored under <strong>Settings → Timecode</strong>. Source and frame rate are locked while recording.</p>
+
+        <h3>LTC (Linear Timecode)</h3>
+        <p>Receives LTC on a dedicated audio input channel. VAREC uses zero-crossing hysteresis with a PLL for a stable read even in the presence of noise or hum. Automatic jam sync when signal is lost and then returns. LTC is decoded <strong>even when the channel is not armed</strong> — timecode stays locked throughout the recording.</p>
+        <p>Two ways to designate the LTC input, in the TC card or under <strong>Preferences → Timecode → LTC input</strong> :</p>
+        <ul>
+          <li><strong>Auto</strong> — VAREC automatically finds which of the patched channels carries an LTC signal and locks onto it, with no manual setup.</li>
+          <li><strong>Manual</strong> — you pick the source audio channel yourself.</li>
+        </ul>
+
+        <h3>Tentacle Sync E (Bluetooth)</h3>
+        <p>Pair the Tentacle Sync E module with your Mac over Bluetooth. VAREC detects it automatically and reads TC with no cable. Latency is compensated for. This is the most practical option on a light shoot.</p>
+        <p>To keep startup light, the <strong>Bluetooth scan no longer runs at startup</strong> : it starts on your first action (arming, monitoring, recording) when the TC source is Tentacle, or as soon as you explicitly choose that source. The macOS Bluetooth permission prompt then appears at a moment that makes sense, rather than at launch.</p>
+
+        <h3>Time of Day (TOD)</h3>
+        <p>Uses the system clock as the TC source. Ideal for documentary and news work, where syncing to wall-clock time simplifies post-production.</p>
+
+        <h3>TC status</h3>
+        <p>An LED beside the timer shows the state:</p>
+        <ul>
+          <li><strong>Green</strong> — TC received and locked.</li>
+          <li><strong>Amber</strong> — discovery or jam sync in progress.</li>
+          <li><strong>Red</strong> — signal lost.</li>
+        </ul>
+
+        <h3>Frame rate</h3>
+        <p>The frame rate (<strong>23.976 / 24 / 25 / 29.97 / 30 / 50 / 59.94 / 60 fps</strong>, drop-frame or non-drop) is set in the TC card or under <strong>Preferences → Timecode</strong>. The selected frame rate is written into the BWF header (<code>TimeReference</code>) and into the iXML block, guaranteeing compatibility with every professional NLE (Pro Tools, Avid, DaVinci Resolve, Reaper).</p>
+      </section>
+
+      <!-- ===================== 11. SOUND REPORT ===================== -->
+      <section id="report" class="doc-section">
+        <h2>11. PDF Sound Report</h2>
+        <p>The Sound Report is generated on demand from the session metadata. It gathers everything post-production needs to know.</p>
+
+        <h3>Contents</h3>
+        <ul>
+          <li><strong>Production header</strong> — title, director, sound engineer, location, date, contact.</li>
+          <li><strong>Take table</strong> — scene (or "NO SCENE"), take, TC IN, TC OUT, duration, notes (on a dedicated full-width row), engineer, and false take where applicable.</li>
+          <li><strong>Peak per channel</strong> — the true maximum reached during the take (not the meter's instantaneous value), with no duplication for stereo pairs.</li>
+          <li><strong>Peak markers</strong> per take (when Auto Peak Marker is on), with True Peak values de-duplicated.</li>
+          <li><strong>Session statistics</strong> — number of takes, total duration, space used, target disk or disks.</li>
+          <li><strong>Cloud link</strong> per take (when upload is enabled).</li>
+        </ul>
+
+        <h3>Available exports</h3>
+        <table class="doc-table">
+          <thead><tr><th>Export</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td><strong>PDF</strong></td><td>Built-in preview plus direct printing through Electron <code>printToPDF</code>. Natively vector PDF.</td></tr>
+            <tr><td><strong>CSV</strong></td><td>Works with Excel, Google Sheets and databases. Ideal for feeding a production tool.</td></tr>
+            <tr><td><strong>HTML</strong></td><td>A browsable page with clickable cloud links.</td></tr>
+            <tr><td><strong>Email</strong></td><td>Opens your mail client with the PDF and the HTML version attached, and the subject pre-filled.</td></tr>
+          </tbody>
+        </table>
+
+        <p>Available under <strong>File → Export Sound Report</strong> or <kbd>⌘</kbd>+<kbd>R</kbd>.</p>
+      </section>
+
+      <!-- ===================== 12. VU MÈTRES & ANALYSE ===================== -->
+      <section id="metering" class="doc-section">
+        <h2>12. VU meters &amp; analysis tools</h2>
+        <p>The VU meters are <strong>live from the moment the application opens</strong> : you do not need to arm a channel to check its inputs. Channels that are <strong>patched but not armed</strong> show their live level greyed out.</p>
+
+        <h3>Metering modes</h3>
+        <ul>
+          <li><strong>Instant Peak</strong> — sample-by-sample level, ideal for catching the slightest transient.</li>
+          <li><strong>RMS + PPM</strong> — a wide RMS bar with a fine PPM needle overlaid. The classic broadcast mode.</li>
+          <li><strong>True Peak</strong> — inter-sample peak detection (4× oversampling). Essential for broadcast mastering to EBU R128.</li>
+        </ul>
+        <p>The red clip indicator latches at 0 dBFS — the red peak bar stays until you reset it (click the strip, or <kbd>⌥</kbd>+<kbd>R</kbd>). The stereo VU meters are accurate to ±0.5 dB (EBU R128): smoothing in the linear amplitude domain for fast convergence, and peak hold accumulated across chunks so no short peak is lost (a clap, a percussion hit). The <strong>L and R sides of a stereo pair measure identically</strong> — zero deviation on an identical signal, verified.</p>
+
+        <h3>Settings</h3>
+        <table class="doc-table">
+          <thead><tr><th>Parameter</th><th>Range</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td>Attack</td><td>1 – 50 ms</td><td>How fast the bar rises.</td></tr>
+            <tr><td>Release</td><td>50 – 3,000 ms</td><td>How fast it falls.</td></tr>
+            <tr><td>Measurement</td><td>dBFS / dBu</td><td>Display reference.</td></tr>
+            <tr><td>Range</td><td>–24 to –90 dB</td><td>Vertical span of the bar.</td></tr>
+            <tr><td>Peak hold</td><td>0.5 – 30 s</td><td>How long the latched peak stays visible.</td></tr>
+          </tbody>
+        </table>
+        <p>All of these are reachable under <strong>View → VU Meter…</strong> and can be saved as user presets.</p>
+
+        <h3>Analysis tools (solo mode)</h3>
+        <p>Solo a channel to open the analysis suite. The four tools — <strong>Spectrum</strong>, <strong>Spectrogram</strong>, <strong>Peak</strong> and <strong>Phase</strong> — plus the <strong>Loudness</strong> tool — share a <strong>unified parameter rail</strong> : settings panel on the left, canvas on the right. Shared settings: frequency axis <strong>Lin / Log</strong>, <strong>spectrogram</strong> palette (Classic / Magma / Viridis / Grey / Heat), and a <strong>peak hold</strong> that can be switched off. On a stereo pair, the analysis source can be <strong>L / R / L+R</strong>.</p>
+
+        <div class="doc-callout">
+          <strong>Eco mode.</strong> Eco mode <strong>hides</strong> the analysis tools — spectrum, spectrogram, peak, loudness, phase — instead of showing a black canvas. The waveform and playback stay available.
+        </div>
+
+        <h3>Detachable analysis window</h3>
+        <p>The analysis panel <strong>detaches</strong> into an independent window, resizable and <strong>always on top</strong> ; it then disappears from the main window (one click brings it back). A tool selector fills its top bar, with a choice of analysed channel (mono / stereo) and a <strong>"follow solo"</strong>checkbox. Rendering goes through a zero-copy <strong>MessagePort</strong> transport: Loudness and Spectrum are rendered natively (vector text and grid, low latency), the other tools as a fast image mirror (~30 fps).</p>
+
+        <h3>Spectrum &amp; spectrogram</h3>
+        <p>The real-time FFT analyser shows a spectrum (transparent fill, log axis, memory peak hold) and a scrolling spectrogram in the chosen palette. Useful for quickly spotting hiss, an unwanted frequency or a tonal imbalance.</p>
+        <ul>
+          <li><strong>Channel comparison</strong> : overlay another channel's curve ("+ channel" selector, translucent orange trace with a legend) to compare two sources.</li>
+          <li><strong>Click to audition</strong> : click the spectrum to hear the frequency exactly under the cursor; the scroll wheel adjusts the filter's <strong>Q</strong> , and dragging follows the frequency. Cursor position, dB tooltip and filter marker line up exactly.</li>
+        </ul>
+
+        <h3>Phase analyser</h3>
+        <p>The Phase tool computes the <strong>GCC-PHAT</strong> offset between two channels. It runs a 5-second capture, then <strong>analyses automatically</strong> (no click needed), with a live waveform preview while it captures. It reports the correlation coefficient and the estimated delay in milliseconds. The delay can be applied to monitoring (without touching the recorded file) and is noted in the iXML metadata.</p>
+        <p>A typical case: aligning a lavalier and a boom mic to avoid phase cancellation.</p>
+
+        <h3>Loudness tool (LUFS)</h3>
+        <p>The Loudness tool measures perceived level to <strong>BS.1770-4 / EBU R128</strong> and displays, Youlean style, the figures on the left and a large full-height graph on the right (0 → −40 LUFS scale, target line and tolerance band, a short-term curve coloured by deviation, and the integrated level line):</p>
+        <ul>
+          <li><strong>Momentary</strong> (400 ms), <strong>Short-term</strong> (3 s), <strong>Integrated</strong> (gated), <strong>LRA</strong> (loudness range) and <strong>True-Peak</strong>.</li>
+          <li>Deviation <strong>Δ vs target</strong> is colour-coded, with <strong>16 standards</strong> preset (EBU R128, ATSC A/85, Spotify, YouTube, Apple Music, Netflix…) or a custom target.</li>
+        </ul>
+      </section>
+
+      <!-- ===================== 13. CLOUD ===================== -->
+      <section id="cloud" class="doc-section">
+        <h2>13. Cloud sharing</h2>
+        <p>VAREC can upload each take to a cloud service automatically as soon as recording stops, without leaving the application.</p>
+
+        <h3>Supported providers</h3>
+        <ul>
+          <li><strong>SwissTransfer</strong> (Infomaniak) — free, anonymous and hosted in Switzerland, with no sign-up required. Up to 50 GB per transfer, configurable lifetime (1 / 7 / 15 / 30 days), up to 250 downloads per link, optional message and sender email.</li>
+          <li><strong>Smash</strong> — temporary sharing by direct link, with a configurable expiry. Ideal for getting a take to post quickly.</li>
+          <li><strong>Dropbox</strong> — sync to a folder of your choice via OAuth (direct download link).</li>
+          <li><strong>Cloudflare R2</strong> — S3-compatible storage with an HTML sharing page, configured per profile.</li>
+        </ul>
+        <div class="doc-callout">
+          <strong>Beta.</strong> During the beta, cloud upload is unlocked for every tester, with no licence. The former Frame.io and WeTransfer providers have been removed (their APIs were closed by the vendors); affected profiles switch to Smash automatically.
+        </div>
+
+        <h3>Setup</h3>
+        <ol>
+          <li>Open <strong>Preferences → Cloud</strong>.</li>
+          <li>Select the provider and authenticate (OAuth for Dropbox, an API key for R2, instant for Smash).</li>
+          <li>Tick <strong>Automatic upload</strong>.</li>
+        </ol>
+
+        <h3>Status</h3>
+        <p>The cloud card at the bottom of the window always shows one of the following states:</p>
+        <table class="doc-table">
+          <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><em>unconfigured</em></td><td>No provider configured.</td></tr>
+            <tr><td><em>Auto OFF</em></td><td>Provider configured but automatic upload disabled (grey LED).</td></tr>
+            <tr><td><em>ready</em></td><td>Configured and ready to upload the next take.</td></tr>
+            <tr><td><em>uploading</em></td><td>Upload in progress, with a progress bar.</td></tr>
+            <tr><td><em>done</em></td><td>Upload complete. Click to copy the sharing link.</td></tr>
+            <tr><td><em>error</em></td><td>Upload error (click for details). VAREC retries automatically at increasing intervals.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ===================== 14. CRASH RECOVERY ===================== -->
+      <section id="crash" class="doc-section">
+        <h2>14. Crash Recovery</h2>
+        <p>VAREC is built so that <strong>no interruption ever costs you a file</strong>. That robustness rests on several complementary mechanisms.</p>
+
+        <h3>Mechanisms</h3>
+        <ul>
+          <li>The <strong>WAV headers</strong> (the size of the <code>data</code> chunks) are updated continuously while recording — not only at the end.</li>
+          <li>The <strong>project file</strong> <code>.varec.json</code> is written atomically (into a temporary file, then renamed).</li>
+          <li>A <strong>watchdog</strong> monitors write latency per disk and warns if one slows down abnormally (a sign of a disk saturating or dropping off).</li>
+          <li>The project <strong>auto-save</strong> runs every 5 seconds.</li>
+          <li>On an <strong>emergency stop</strong> (interface disconnection, PortAudio error, unhandled exception), the files in progress are <strong>finalised properly</strong> — metadata written, files closed — and recording cannot silently continue in the background.</li>
+          <li>An alert appears if free disk space drops below <strong>10 GB</strong> during recording.</li>
+          <li>Native crashes (audio, CoreAudio, Bluetooth) are logged to <code>logs/crash-native.log</code> ; a renderer crash triggers exactly one automatic reload.</li>
+          <li>The <strong>writing mode is fixed when the take starts</strong> and the processing instance is pinned. If it disappears mid-take, VAREC triggers a <strong>emergency stop</strong> rather than letting the take continue with nowhere to write.</li>
+          <li>The <strong>disk fallback</strong> genuinely works: if the project folder becomes unreachable (disk ejected, folder protected), writing does actually switch to the Desktop. Disk errors are explained in plain language rather than shown as a raw system message.</li>
+          <li>The VU meters stay live in <strong>fallback mode</strong> : their source follows where the signal actually goes.</li>
+        </ul>
+
+        <div class="doc-callout">
+          <strong>Empty recorded take.</strong> Up to 1.5.36, a take could end with <strong>zero bytes of audio and not a single error</strong> : the counter running, the button red, the meters live, and an unreadable file at the end — the only clue on screen being a waveform that stayed flat. The cause has been fixed at the root. If you are running anything older than 1.5.36, updating is strongly recommended.
+        </div>
+
+        <h3>If the power goes</h3>
+        <p>Power cut, kernel panic, a disk unplugged: the WAV files already on disk stay <strong>perfectly readable up to the last block written</strong>. No recovery tool is needed.</p>
+
+        <div class="doc-callout">
+          <strong>Reliability test.</strong> The preferences (<em>Record → Reliability test</em>) run a 30-second dummy take, then verify the integrity of the files produced. Ideal for qualifying a new SSD before a critical shoot.
+        </div>
+      </section>
+
+      <!-- ===================== 15. MIDI ===================== -->
+      <section id="midi" class="doc-section">
+        <h2>15. MIDI control</h2>
+        <p>VAREC accepts MIDI control of the transport and the faders. Ideal for wiring VAREC into a control surface, a footswitch or a pedalboard in the control room.</p>
+
+        <h3>Setup</h3>
+        <ol>
+          <li>Open <strong>Preferences → MIDI</strong>.</li>
+          <li>Select the MIDI input port (USB, Bluetooth or virtual).</li>
+          <li>For each action (<strong>REC</strong>, <strong>STOP</strong>, <strong>PLAY</strong>, <strong>SPLIT</strong>, <strong>Marker</strong>, <strong>Take +1</strong>), click <strong>Learn</strong> then send the Note or CC from your controller. The mapping is stored immediately.</li>
+          <li>For the <strong>faders</strong> : pick the MIDI channel and the base CC. VAREC's channels are assigned in ascending order from that CC.</li>
+        </ol>
+
+        <div class="doc-callout">
+          <strong>Tip.</strong> A MIDI footswitch mapped to REC/STOP frees your hands while recording — useful when working alone, with no assistant.
+        </div>
+      </section>
+
+      <!-- ===================== 16. PROJETS .VAREC ===================== -->
+      <section id="projects" class="doc-section">
+        <h2>16. Project files (.varec)</h2>
+        <p>A <code>.varec</code> file holds a project's entire configuration: it is portable, shareable and reusable.</p>
+
+        <h3>Contents</h3>
+        <ul>
+          <li>Channel list, names, stereo pairs, groups</li>
+          <li>File mode, format, sample rate, buffer size</li>
+          <li>Project metadata (title, engineer, location), naming template</li>
+          <li>Cloud credentials (encrypted locally)</li>
+          <li>TC-stamped markers and take notes</li>
+        </ul>
+
+        <h3>Operations</h3>
+        <table class="doc-table">
+          <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
+          <tbody>
+            <tr><td>New project</td><td><kbd>⌘</kbd>+<kbd>N</kbd></td></tr>
+            <tr><td>Open a project</td><td><kbd>⌘</kbd>+<kbd>O</kbd></td></tr>
+            <tr><td>Save</td><td><kbd>⌘</kbd>+<kbd>S</kbd></td></tr>
+            <tr><td>Save as…</td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>S</kbd></td></tr>
+            <tr><td>Save as template</td><td>—</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Templates</h3>
+        <p>Templates are stored in <code>~/Library/Application Support/VAREC/templates/</code> and can be reused to start a pre-configured project ("8 radio mics + 1 boom + 1 ambience", "16 drum tracks", and so on). A template is now picked from a drop-down menu right in the "new project" form.</p>
+
+        <div class="doc-callout">
+          <strong>Settings restored on open.</strong> When you reopen a project, VAREC restores all of its settings: fader positions, fader mode, eco mode, monitoring and latency compensation. At launch, the last project is reloaded automatically (see <a href="#quick">§3 Quick start</a>). Conversely, <kbd>⌘</kbd>+<kbd>N</kbd> starts from a completely clean state: take and split counters, note histories, TC and cloud links are all reset, and the audio engine is restarted.
+        </div>
+      </section>
+
+      <!-- ===================== 17. PRÉFÉRENCES ===================== -->
+      <section id="prefs" class="doc-section">
+        <h2>17. Preferences</h2>
+        <p>Reachable through <kbd>⌘</kbd>+<kbd>,</kbd> or the <strong>⚙</strong> button in the transport bar. The preferences are grouped into seven tabs.</p>
+
+        <h3>General</h3>
+        <ul>
+          <li><strong>Fader mode</strong> — virtual faders per channel and per group.</li>
+          <li><strong>Compact mode</strong> — maximum display density.</li>
+          <li><strong>Eco mode</strong> — cuts CPU use at very high channel counts (worth it beyond 128 ch). Hides the analysis tools; waveform and playback remain available.</li>
+          <li><strong>Pre-roll</strong> — 0 / 2 / 5 / 10 s.</li>
+        </ul>
+        <p>The <strong>window size and position</strong> are kept from one launch to the next, falling back automatically to a visible position if the display in question has been unplugged.</p>
+
+        <h3>Audio</h3>
+        <ul>
+          <li>Default input and output interfaces</li>
+          <li>Latency compensation (Auto, or a manual offset in ms)</li>
+          <li>Sample rate policy (AUTO or forced)</li>
+        </ul>
+
+        <h3>Record</h3>
+        <ul>
+          <li>Automatic split per format (see §6)</li>
+          <li>Logging of <code>xrun</code> to a log file</li>
+          <li>Recording reliability test</li>
+          <li>Auto Peak Marker (configurable dBFS threshold)</li>
+        </ul>
+
+        <h3>Timecode</h3>
+        <ul>
+          <li>Frame rate (23.976 → 60 fps, drop / non-drop)</li>
+          <li>TC source (LTC / MIDI MTC / Tentacle BLE / TOD)</li>
+          <li>Tentacle Bluetooth scanning and pairing</li>
+          <li>LTC zero-crossing hysteresis</li>
+        </ul>
+
+        <h3>Meters</h3>
+        <ul>
+          <li>VU style (Instant Peak / RMS+PPM / True Peak)</li>
+          <li>Units (dBFS or dBu)</li>
+          <li>Attack and release constants</li>
+          <li>User presets</li>
+        </ul>
+
+        <h3>Notifications</h3>
+        <p><strong>12 families of notifications</strong> can be silenced individually — cloud, timecode, notes, updates, TP Clip and so on.</p>
+        <p><strong>Five critical alerts are always on</strong> and cannot be disabled, because missing one would compromise the take:</p>
+        <ul>
+          <li>Disk error</li>
+          <li>File not finalised</li>
+          <li>Emergency stop</li>
+          <li>Audio interface error</li>
+          <li>Sample rate</li>
+        </ul>
+        <p>A silenced notification is still <strong>recorded in the log</strong> (<em>Help → Show log</em>): silencing it removes it from the screen, not from the history.</p>
+
+        <h3>Cloud &amp; MIDI</h3>
+        <p>See <a href="#cloud">§13 Cloud sharing</a> and <a href="#midi">§15 MIDI control</a>.</p>
+
+        <h3>Themes &amp; fonts</h3>
+        <p>See <a href="#interface">§4 The interface at a glance</a>.</p>
+      </section>
+
+      <!-- ===================== 18. RACCOURCIS ===================== -->
+      <section id="shortcuts" class="doc-section">
+        <h2>18. Keyboard shortcuts</h2>
+        <p>Every useful shortcut, grouped by purpose.</p>
+
+        <h3>Transport</h3>
+        <table class="doc-table">
+          <thead><tr><th>Key</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Space</kbd></td><td>REC / Split</td></tr>
+            <tr><td><kbd>Esc</kbd></td><td>Stop</td></tr>
+            <tr><td><kbd>⌥</kbd>+<kbd>R</kbd></td><td>Reset Peaks</td></tr>
+            <tr><td><kbd>⌥</kbd>+<kbd>P</kbd></td><td>Panic — closes and finalises every file</td></tr>
+            <tr><td><kbd>M</kbd></td><td>Add a TC-stamped quick marker</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Navigation</h3>
+        <table class="doc-table">
+          <thead><tr><th>Key</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>⌘</kbd>+<kbd>1</kbd></td><td>REC tab</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>2</kbd></td><td>PATCH tab</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>3</kbd></td><td>METADATA tab</td></tr>
+            <tr><td><kbd>Tab</kbd></td><td>Channel orientation Horizontal ↔ Vertical</td></tr>
+            <tr><td><kbd>Z</kbd></td><td>Adaptive zoom: fit every channel</td></tr>
+            <tr><td><kbd>W</kbd></td><td>Show / hide the waveform tracks</td></tr>
+            <tr><td><kbd>?</kbd></td><td>Show the shortcut list</td></tr>
+          </tbody>
+        </table>
+
+        <div class="doc-callout">
+          <strong>Arrow keys in vertical view.</strong> The direction of the navigation arrows is <strong>reversed</strong> in vertical view, for channels as for the analyser: it matches the way the screen reads, but differs from horizontal view.
+        </div>
+
+        <h3>Channels</h3>
+        <table class="doc-table">
+          <thead><tr><th>Key</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>T</kbd></td><td>Add a channel</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>T</kbd></td><td>Batch Inputs (bulk creation)</td></tr>
+            <tr><td><kbd>A</kbd> or <kbd>R</kbd></td><td>Arm / Disarm — <kbd>R</kbd> matches the label on the strip button</td></tr>
+            <tr><td><kbd>⌥</kbd>+click ARM</td><td>Arm all / none</td></tr>
+            <tr><td><kbd>M</kbd></td><td>Mute the channel</td></tr>
+            <tr><td><kbd>S</kbd></td><td>Solo — requires a <strong>selected</strong> channel, unlike <kbd>A</kbd> and <kbd>M</kbd></td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>G</kbd></td><td>Create a group from the selection</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Project</h3>
+        <table class="doc-table">
+          <thead><tr><th>Key</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>⌘</kbd>+<kbd>N</kbd></td><td>New project / new scene</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>O</kbd></td><td>Open a project</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>S</kbd></td><td>Save the project</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>S</kbd></td><td>Save as…</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>↑</kbd></td><td>Increment Take</td></tr>
+            <tr><td><kbd>N</kbd></td><td>Take notes</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>R</kbd></td><td>Export the Sound Report</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>K</kbd></td><td>Reset peaks (alias)</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>,</kbd></td><td>Preferences</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Display</h3>
+        <table class="doc-table">
+          <thead><tr><th>Key</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>⌃</kbd>+<kbd>⌘</kbd>+<kbd>F</kbd></td><td>Full screen</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>+</kbd></td><td>Zoom in</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>−</kbd></td><td>Zoom out</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>0</kbd></td><td>Actual size</td></tr>
+            <tr><td><kbd>⌘</kbd>+<kbd>⌥</kbd>+<kbd>I</kbd></td><td>Developer tools (debug)</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ===================== 19. FAQ & DÉPANNAGE ===================== -->
+      <section id="faq" class="doc-section">
+        <h2>19. FAQ &amp; Troubleshooting</h2>
+
+        <h3>No input channel detected</h3>
+        <ul>
+          <li>Check the microphone permission under <em>System Settings → Privacy &amp; Security → Microphone</em>.</li>
+          <li>Click <strong>🔍 Scan</strong> in the PATCH tab after connecting the interface.</li>
+          <li>For Dante VSC / SoundGrid interfaces: make sure the host service is running before VAREC.</li>
+        </ul>
+
+        <h3>Dropouts or xruns while recording</h3>
+        <ul>
+          <li>Increase the buffer size (1024 → 2048 → 4096 frames).</li>
+          <li>Use a fast disk: internal SSD, or external USB 3 / Thunderbolt SSD. Avoid mechanical drives beyond 16 channels.</li>
+          <li>Disable real-time antivirus scanning on the capture folder.</li>
+          <li>Turn on <strong>Eco mode</strong> if you are recording a lot of channels (&gt; 128).</li>
+          <li>Close heavy background applications (Slack, Chrome and the like).</li>
+        </ul>
+
+        <h3>No timecode received</h3>
+        <ul>
+          <li>Check that the frame rate is the same on the camera and in VAREC.</li>
+          <li>For Tentacle: make sure Bluetooth is on for the Mac and the module is in BLE mode (not BLE+audio).</li>
+          <li>For LTC: check the signal level on the assigned audio input. Too low or clipped and it will not decode.</li>
+          <li>A permanently amber LED means jam sync cannot complete: restart the TC source.</li>
+        </ul>
+
+        <h3>Licence activation refused</h3>
+        <ul>
+          <li>Open the <strong>activation link</strong> you received by email on the machine where VAREC is installed. An expired or already-used link can be resent from the email or through support.</li>
+          <li>A beta licence may have expired — contact support to renew it.</li>
+          <li>Try again after deleting the licence file stored in <code>~/Library/Application Support/VAREC/licence.json</code>.</li>
+        </ul>
+
+        <h3>How do I activate my licence?</h3>
+        <p>After subscribing you receive an <strong>activation link</strong> by email: open it on the machine where VAREC is installed and your licence activates automatically — <strong>there is no serial number to type in</strong>. Your licence is tied to your email address. The Licence menu always shows the current mode (Free / Trial, N days left / Licence active).</p>
+
+        <h3>Can I record more than 64 channels without a licence?</h3>
+        <p>No — without a licence you are limited to 64 channels. The Pro licence unlocks up to 512 channels and enables every advanced feature (Sound Report, Cloud, MIDI and so on).</p>
+
+        <h3>Does VAREC work with Dante / AVB / MADI?</h3>
+        <p>Yes, as long as the interface is exposed through CoreAudio. That covers Dante Virtual Soundcard, RME MADI cards, Focusrite Red, Universal Audio Apollo and others.</p>
+
+        <h3>Why 32-bit float?</h3>
+        <p>32-bit float gives you a practically unlimited dynamic range (~1500 dB). You can no longer clip digitally: a transient at +20 dBFS is still perfectly recoverable in post, undistorted.</p>
+
+        <h3>What happens if my Mac fails?</h3>
+        <p>The WAV files on disk stay readable up to the last block written, thanks to the continuously updated headers. See <a href="#crash">§14 Crash Recovery</a>.</p>
+
+        <h3>Where are sessions stored?</h3>
+        <p>Each session creates a <code>VAREC/{projet}/{scene}/</code> folder on every active disk, holding the WAV files and a <code>.varec.json</code>.</p>
+
+        <h3>Sending a crash report</h3>
+        <p>Menu <strong>Help → Send crash report</strong>. Attach the output of <strong>Help → Show logs</strong> for a faster diagnosis.</p>
+
+        <h3>Technical support</h3>
+        <ul>
+          <li><strong>Website</strong> : <a href="https://varec.bernik.io" target="_blank" rel="noopener">varec.bernik.io</a></li>
+          <li><strong>Contact</strong> : <a href="mailto:contact@bernik.io">contact@bernik.io</a> (attach the logs if you are reporting a bug)</li>
+          <li><strong>Explainer videos</strong> : <a href="/en/videos.html">Videos page</a></li>
+          <li><strong>Release notes</strong> : <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases" target="_blank" rel="noopener">GitHub Releases</a></li>
+        </ul>
+      </section>
+
+      <footer class="doc-footer-nav">
+        <a href="/en/resources.html" class="doc-back">← Back to resources</a>
+        <a href="/en/videos.html" class="doc-next">Watch the explainer videos →</a>
+      </footer>
+
+    </article>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<!-- MOBILE TOC DRAWER -->
+<div id="toc-overlay" class="toc-overlay"></div>
+<div id="toc-drawer" class="toc-drawer" role="dialog" aria-label="Contents">
+  <div class="toc-drawer-handle"></div>
+  <div class="toc-drawer-header">
+    <span class="toc-drawer-title">Contents</span>
+    <button class="toc-drawer-close" onclick="document.getElementById('toc-drawer').classList.remove('open');document.getElementById('toc-overlay').classList.remove('open');document.getElementById('toc-fab').setAttribute('aria-expanded','false');document.body.style.overflow='';" aria-label="Close">&times;</button>
+  </div>
+  <nav class="toc-drawer-list">
+    <div class="toc-drawer-group">Getting started</div>
+    <a href="#intro">1. Overview</a>
+    <a href="#install">2. Installation</a>
+    <a href="#quick">3. Quick start</a>
+    <div class="toc-drawer-group">Interface</div>
+    <a href="#interface">4. The interface at a glance</a>
+    <a href="#patch">5. Audio interfaces</a>
+    <div class="toc-drawer-group">Recording</div>
+    <a href="#recording">6. Multitrack recording</a>
+    <a href="#stereo-groups">7. Stereo links &amp; groups</a>
+    <a href="#notes">8. Take notes</a>
+    <a href="#multidisk">9. Simultaneous multi-disk</a>
+    <div class="toc-drawer-group">Timecode &amp; metadata</div>
+    <a href="#timecode">10. Timecode</a>
+    <a href="#report">11. PDF Sound Report</a>
+    <div class="toc-drawer-group">Monitoring &amp; cloud</div>
+    <a href="#metering">12. VU meters &amp; analysis</a>
+    <a href="#cloud">13. Cloud sharing</a>
+    <div class="toc-drawer-group">Reliability</div>
+    <a href="#crash">14. Crash Recovery</a>
+    <div class="toc-drawer-group">Control &amp; configuration</div>
+    <a href="#midi">15. MIDI control</a>
+    <a href="#projects">16. Project files (.varec)</a>
+    <a href="#prefs">17. Preferences</a>
+    <div class="toc-drawer-group">Reference</div>
+    <a href="#shortcuts">18. Keyboard shortcuts</a>
+    <a href="#faq">19. FAQ &amp; Troubleshooting</a>
+  </nav>
+</div>
+
+<button id="toc-fab" class="toc-fab" aria-expanded="false" aria-label="Show contents">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="15" y2="18"/></svg>
+  Contents
+</button>
+
+<footer>
+  <div class="footer-inner">
+    <img src="/logo.png" alt="VAREC" class="footer-logo">
+    <ul class="footer-links">
+      <li><a href="/en/index.html#preview">Overview</a></li>
+      <li><a href="/en/index.html#features">Features</a></li>
+      <li><a href="/en/resources.html">Resources</a></li>
+      <li><a href="/en/index.html#download">Download</a></li>
+      <li><a href="https://github.com/julessourzac-gif/VAREC-RELEASES" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <a href="/manuel.html" class="lang-opt" hreflang="fr" lang="fr">FR</a>
+      <a href="/en/manual.html" class="lang-opt active" hreflang="en" lang="en" aria-current="true">EN</a>
+    </div>
+    <div class="footer-copy">© 2026 BERNIK — VAREC macOS Field Recorder</div>
+  </div>
+</footer>
+
+<script>
+// TOC active section highlight
+(function(){
+  const links = document.querySelectorAll('.doc-toc-list a, .toc-drawer-list a');
+  const tocLinks = document.querySelectorAll('.doc-toc-list a');
+  const sections = Array.from(tocLinks).map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  if (!sections.length) return;
+  function onScroll(){
+    const y = window.scrollY + 120;
+    let active = sections[0];
+    for (const s of sections) { if (s.offsetTop <= y) active = s; }
+    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+// Mobile TOC drawer
+(function(){
+  const btn = document.getElementById('toc-fab');
+  const drawer = document.getElementById('toc-drawer');
+  const overlay = document.getElementById('toc-overlay');
+  if (!btn || !drawer) return;
+
+  function open() {
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', function() {
+    drawer.classList.contains('open') ? close() : open();
+  });
+  overlay.addEventListener('click', close);
+  drawer.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', close);
+  });
+})();
+</script>
+<script src="/script.js"></script>
+</body>
+</html>

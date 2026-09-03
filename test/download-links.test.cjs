@@ -34,10 +34,18 @@ function check(label, actual, expected) {
   if (!ok) console.log(`        attendu: ${expected}\n        obtenu : ${actual}`);
 }
 
-async function run(fetchImpl, scenario) {
+// Les deux accueils sont des jumelles structurelles : mêmes id, mêmes data-*,
+// mêmes ancres. Seuls changent la langue du document et le libellé du bandeau,
+// que script.js lit dans data-v-label — c'est exactement ce que ce test couvre.
+const LOCALES = [
+  { page: 'index.html',    url: 'https://varec.bernik.io/',    banner: 'Dernière version : v1.5.35 · 31 juillet 2026BETA' },
+  { page: 'en/index.html', url: 'https://varec.bernik.io/en/', banner: 'Latest version: v1.5.35 · 31 July 2026BETA' },
+];
+
+async function run(fetchImpl, scenario, locale) {
   console.log(`\n── ${scenario} ──`);
-  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-  const dom = new JSDOM(html, { runScripts: 'outside-only', url: 'https://varec.bernik.io/' });
+  const html = fs.readFileSync(path.join(ROOT, locale.page), 'utf8');
+  const dom = new JSDOM(html, { runScripts: 'outside-only', url: locale.url });
   const { window } = dom;
   window.fetch = fetchImpl;
   window.requestAnimationFrame = () => 0;
@@ -49,10 +57,12 @@ async function run(fetchImpl, scenario) {
   return window.document;
 }
 
-(async () => {
+async function scenarios(locale) {
+  console.log(`\n════ ${locale.page} ════`);
+
   // ── Cas nominal : l'API répond ──
   const okFetch = async () => ({ ok: true, status: 200, json: async () => RELEASES });
-  let doc = await run(okFetch, 'API disponible');
+  let doc = await run(okFetch, 'API disponible', locale);
 
   const href = (arch) => doc.querySelector(`[data-arch="${arch}"]`).getAttribute('href');
   const sub = (arch) => doc.querySelector(`[data-arch="${arch}"] .btn-download-sub`).textContent;
@@ -75,9 +85,12 @@ async function run(fetchImpl, scenario) {
     doc.querySelector('.nav-cta').textContent.trim().replace(/\s+/g, ' '), '↓ v1.5.35 BETA');
   check('badge BETA du CTA préservé',
     !!doc.querySelector('.nav-cta .beta-badge'), true);
-  check('bandeau version recalé (tag + date)',
+  // Le libellé ET la date suivent la langue de la page : c'est le seul point
+  // où les deux accueils divergent, et celui qui casserait si script.js
+  // réintroduisait une chaîne française en dur.
+  check('bandeau version recalé (libellé + tag + date de la locale)',
     doc.querySelector('.v-info').textContent.trim().replace(/\s+/g, ' '),
-    'Dernière version : v1.5.35 · 31 juillet 2026BETA');
+    locale.banner);
   check('pastille .v-dot préservée',
     !!doc.querySelector('.v-info .v-dot'), true);
 
@@ -85,12 +98,12 @@ async function run(fetchImpl, scenario) {
   // L'invariant est que le repli reste EXACTEMENT ce que porte le HTML, quelle
   // que soit la version qui y figure : update-version la fait bouger à chaque
   // release, un attendu codé en dur casserait ce test à chaque bump.
-  const raw = new JSDOM(fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8')).window.document;
+  const raw = new JSDOM(fs.readFileSync(path.join(ROOT, locale.page), 'utf8')).window.document;
   const rawHref = (arch) => raw.querySelector(`[data-arch="${arch}"]`).getAttribute('href');
   const rawCta = raw.querySelector('.nav-cta').textContent.trim().replace(/\s+/g, ' ');
 
   const koFetch = async () => ({ ok: false, status: 403, json: async () => ({}) });
-  doc = await run(koFetch, 'API indisponible (403) → repli statique');
+  doc = await run(koFetch, 'API indisponible (403) → repli statique', locale);
 
   check('arm64 conserve le href statique du HTML', href('arm64'), rawHref('arm64'));
   check('intel conserve le href statique du HTML', href('intel'), rawHref('intel'));
@@ -115,7 +128,7 @@ async function run(fetchImpl, scenario) {
     { name: 'VAREC-1.5.37.dmg',       size: 106505880, browser_download_url: `${DL}/v1.5.37/VAREC-1.5.37.dmg` },
   ];
   const lateFetch = async () => ({ ok: true, status: 200, json: async () => LATE });
-  doc = await run(lateFetch, 'DMG ajoutés après publication → repris sans relancer de workflow');
+  doc = await run(lateFetch, 'DMG ajoutés après publication → repris sans relancer de workflow', locale);
 
   check('arm64 suit la release fraîchement pourvue',
     href('arm64'), `${DL}/v1.5.37/VAREC-1.5.37-arm64.dmg`);
@@ -123,6 +136,11 @@ async function run(fetchImpl, scenario) {
     href('win'), `${DL}/v1.5.28/VAREC.Setup.1.5.28.exe`);
   check('CTA de nav suit la version désormais servable',
     doc.querySelector('.nav-cta').textContent.trim().replace(/\s+/g, ' '), '↓ v1.5.37 BETA');
+
+}
+
+(async () => {
+  for (const locale of LOCALES) await scenarios(locale);
 
   console.log(failures === 0 ? '\n✓ tous les cas passent' : `\n✗ ${failures} échec(s)`);
   process.exit(failures === 0 ? 0 : 1);
