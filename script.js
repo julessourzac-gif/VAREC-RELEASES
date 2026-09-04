@@ -359,7 +359,7 @@
       var hit = findFor(releases, MATCHERS[arch]);
       if (!hit) return;
 
-      var btn = document.querySelector('[data-register][data-arch="' + arch + '"]');
+      var btn = document.querySelector('.btn-download[data-arch="' + arch + '"]');
       if (btn) {
         btn.href = hit.asset.url;
         var sub = btn.querySelector('.btn-download-sub');
@@ -401,114 +401,5 @@
   if (typeof fetch !== 'function') return;
   loadReleases().then(apply).catch(function () {
     /* hors ligne, quota API atteint : les href statiques du HTML font foi */
-  });
-})();
-
-// ── Email gate before download / purchase ──
-(function () {
-  const modal     = document.getElementById('email-modal');
-  const form      = document.getElementById('email-form');
-  const input     = document.getElementById('modal-email');
-  const submitBtn = document.getElementById('modal-submit');
-  const closeBtn  = document.getElementById('modal-close');
-  if (!modal) return;
-
-  // Repli au niveau de la page. .version-badge a disparu en 3bd0c74 : le
-  // numéro vit désormais dans le CTA de la nav (« ↓ v1.5.32 »).
-  const badge   = document.querySelector('.version-badge, .nav-cta');
-  const version = badge ? (badge.textContent.match(/[\d.]+/) || [''])[0] : '';
-
-  // Version réellement servie, lue dans le tag de la release :
-  // .../releases/download/v1.5.32/VAREC-1.5.32-arm64.dmg → 1.5.32
-  // Les plateformes ne sont pas alignées (macOS 1.5.32, Windows/Linux 1.4.35),
-  // donc une valeur unique de page serait fausse pour une partie des liens.
-  function versionFromHref(href) {
-    const m = /\/download\/v?([\d][\d.]*)\//.exec(href || '');
-    return m ? m[1].replace(/\.$/, '') : '';
-  }
-
-  let pendingAction = null;
-
-  function openModal(action) {
-    pendingAction = action;
-    const saved = sessionStorage.getItem('varec_email');
-    if (saved) input.value = saved;
-    modal.classList.add('open');
-    modal.removeAttribute('aria-hidden');
-    setTimeout(() => input.focus(), 80);
-  }
-
-  function closeModal() {
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden', 'true');
-    pendingAction = null;
-  }
-
-  closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
-
-  document.querySelectorAll('[data-register]').forEach(function (el) {
-    el.addEventListener('click', function (e) {
-      if (sessionStorage.getItem('varec_email_done')) return;
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      openModal({ el: el, type: el.dataset.registerType || 'download', arch: el.dataset.arch || '' });
-    }, true);
-  });
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const email = input.value.trim();
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      input.focus();
-      input.style.borderColor = '#ff453a';
-      setTimeout(function () { input.style.borderColor = ''; }, 1200);
-      return;
-    }
-
-    // À lire avant closeModal(), qui remet pendingAction à null.
-    const action = pendingAction;
-
-    const actionHref = action && action.el ? (action.el.href || action.el.getAttribute('href') || '') : '';
-    const ver        = versionFromHref(actionHref) || version;
-
-    // Enregistrement en arrière-plan : le téléchargement ne doit pas attendre
-    // l'aller-retour réseau (~1 s en production). keepalive garantit l'envoi
-    // même si le navigateur quitte la page dans la foulée.
-    try {
-      fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        keepalive: true,
-        body: JSON.stringify({ email: email, type: action ? action.type : 'download', version: ver, arch: action ? action.arch : '' })
-      }).catch(function () { /* non-blocking */ });
-    } catch (_) { /* non-blocking */ }
-
-    sessionStorage.setItem('varec_email_done', '1');
-    sessionStorage.setItem('varec_email', email);
-    closeModal();
-
-    // Déclenché de façon synchrone, dans le geste utilisateur : après un await,
-    // les navigateurs bloquent window.open et fiabilisent mal les téléchargements.
-    if (!action) return;
-    const el   = action.el;
-    const href = el.href || el.getAttribute('href');
-    if (!href) return;
-
-    if (href.includes('buy.stripe.com')) {
-      try {
-        const url = new URL(href);
-        url.searchParams.set('prefilled_email', email);
-        window.open(url.toString(), '_blank', 'noopener,noreferrer');
-      } catch (_) { window.open(href, '_blank', 'noopener,noreferrer'); }
-    } else {
-      const a = document.createElement('a');
-      a.href = href;
-      a.download = '';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
   });
 })();

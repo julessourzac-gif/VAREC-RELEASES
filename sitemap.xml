@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Généré à la main : le site est statique, sans build. Toute page
-     ajoutée sous / ou /en/ doit être déclarée ici avec son alternate. -->
+     ajoutée sous / ou /en/ doit être déclarée ici avec son alternate.
+     Douze URLs : les huit pages de contenu, plus les quatre pages
+     légales (mentions légales et confidentialité, FR + EN). -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
@@ -50,5 +52,29 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/videos.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/videos.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/videos.html"/>
+  </url>
+  <url>
+    <loc>https://varec.bernik.io/mentions-legales.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/mentions-legales.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/legal-notice.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/mentions-legales.html"/>
+  </url>
+  <url>
+    <loc>https://varec.bernik.io/en/legal-notice.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/mentions-legales.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/legal-notice.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/mentions-legales.html"/>
+  </url>
+  <url>
+    <loc>https://varec.bernik.io/confidentialite.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/confidentialite.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/confidentialite.html"/>
+  </url>
+  <url>
+    <loc>https://varec.bernik.io/en/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/confidentialite.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/confidentialite.html"/>
   </url>
 </urlset>

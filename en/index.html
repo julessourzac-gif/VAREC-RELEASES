@@ -24,9 +24,7 @@
 <link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.v14.css">
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>
@@ -177,23 +175,23 @@
       <p class="download-sub">Free to download. A licence is required for commercial use.</p>
       <p class="download-beta-note">Currently in beta — your feedback matters.</p>
       <div class="download-buttons">
-        <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/download/v1.5.38/VAREC-1.5.38-arm64.dmg" class="btn-download" data-register data-register-type="download" data-arch="arm64">
+        <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/download/v1.5.38/VAREC-1.5.38-arm64.dmg" class="btn-download" data-arch="arm64">
           <span class="btn-download-title">Apple Silicon</span>
           <span class="btn-download-sub">macOS · arm64 · ~95 MB</span>
         </a>
-        <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/download/v1.5.38/VAREC-1.5.38.dmg" class="btn-download intel" data-register data-register-type="download" data-arch="intel">
+        <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/download/v1.5.38/VAREC-1.5.38.dmg" class="btn-download intel" data-arch="intel">
           <span class="btn-download-title">Mac Intel</span>
           <span class="btn-download-sub">macOS · x86_64 · ~101 MB</span>
         </a>
       </div>
       <div class="download-untested-label">Other platforms — untested</div>
       <div class="download-buttons">
-        <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/download/v1.5.28/VAREC.Setup.1.5.28.exe" class="btn-download untested" data-register data-register-type="download" data-arch="win">
+        <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/download/v1.5.28/VAREC.Setup.1.5.28.exe" class="btn-download untested" data-arch="win">
           <span class="btn-download-badge">UNTESTED</span>
           <span class="btn-download-title">Windows</span>
           <span class="btn-download-sub">.exe · x64 · ~81 MB</span>
         </a>
-        <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/download/v1.5.28/VAREC-1.5.28.AppImage" class="btn-download untested" data-register data-register-type="download" data-arch="linux">
+        <a href="https://github.com/julessourzac-gif/VAREC-RELEASES/releases/download/v1.5.28/VAREC-1.5.28.AppImage" class="btn-download untested" data-arch="linux">
           <span class="btn-download-badge">UNTESTED</span>
           <span class="btn-download-title">Linux</span>
           <span class="btn-download-sub">.AppImage · x86_64 · ~108 MB</span>
@@ -230,6 +228,8 @@
       <li><a href="/en/resources.html">Resources</a></li>
       <li><a href="#download">Download</a></li>
       <li><a href="https://github.com/julessourzac-gif/VAREC-RELEASES" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="/en/legal-notice.html">Legal notice</a></li>
+      <li><a href="/en/privacy.html">Privacy</a></li>
     </ul>
     <div class="lang-switch" role="group" aria-label="Language">
       <a href="/" class="lang-opt" hreflang="fr" lang="fr">FR</a>
@@ -238,28 +238,6 @@
     <div class="footer-copy">© 2026 BERNIK — VAREC macOS Field Recorder</div>
   </div>
 </footer>
-
-<!-- EMAIL GATE MODAL -->
-<div id="email-modal" class="email-modal-backdrop" aria-hidden="true">
-  <div class="email-modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
-    <div class="modal-icon">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-    </div>
-    <h2 id="modal-title">Before you continue</h2>
-    <p class="modal-desc">Enter your email to unlock the download and receive release notes.</p>
-    <form id="email-form" novalidate>
-      <div class="modal-field">
-        <input type="email" id="modal-email" name="email" placeholder="you@email.com" required autocomplete="email">
-      </div>
-      <p class="modal-privacy">No spam. Your email is used only for release information.</p>
-      <button type="submit" class="modal-submit" id="modal-submit">
-        <span class="modal-submit-text">Continue</span>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
-    </form>
-  </div>
-</div>
 
 <script src="/script.js"></script>
 </body>

@@ -90,16 +90,121 @@ La garde « release sans DMG macOS → on ne touche à rien » vaut pour les deu
 
 ### SEO
 
-`canonical` + `hreflang` (`fr`, `en`, `x-default`) sur les huit pages, `og:locale`
-là où un bloc Open Graph existe, et un `sitemap.xml` à la racine déclaré dans
-`robots.txt`. **Une page ajoutée sous `/` ou `/en/` doit être déclarée dans le
-sitemap avec son alternate.**
+`canonical` + `hreflang` (`fr`, `en`, `x-default`) sur les douze pages — huit de
+contenu, quatre légales —, `og:locale` là où un bloc Open Graph existe, et un
+`sitemap.xml` à la racine déclaré dans `robots.txt`. **Une page ajoutée sous `/` ou
+`/en/` doit être déclarée dans le sitemap avec son alternate.**
 
 ### Tests
 
 `npm test` rejoue tous les scénarios de recalage des liens de téléchargement sur
 `index.html` **et** `en/index.html`, et vérifie que chaque accueil affiche le bandeau
 dans sa propre langue.
+
+---
+
+## Conformité RGPD
+
+### Ce que le site traite aujourd'hui
+
+Rien qui vienne de l'utilisateur. Aucun formulaire, aucun compte, aucun cookie, aucune
+collecte d'adresse. Ne subsistent que les traces techniques inhérentes à toute
+consultation : journaux de l'hébergeur, mesure d'audience Vercel (sans cookie), requête
+vers GitHub au téléchargement, et requête vers Google pour la police de caractères.
+
+Quatre pages décrivent cet état et **doivent être mises à jour avant** toute
+réintroduction d'un formulaire, d'un cookie, d'un script tiers ou d'un outil de mesure :
+
+| Page | Jumelle EN |
+|---|---|
+| `mentions-legales.html` | `en/legal-notice.html` |
+| `confidentialite.html` | `en/privacy.html` |
+
+Elles réutilisent les classes `doc-*` du manuel — aucun CSS spécifique. Les champs entre
+crochets `[À COMPLÉTER : …]` sont **volontairement visibles en clair** sur la page tant
+qu'ils ne sont pas renseignés : une mention légale incomplète doit se voir, pas se cacher.
+
+### Polices auto-hébergées (`fonts/`)
+
+Les pages chargeaient Inter depuis `fonts.googleapis.com`, ce qui transmettait l'IP de
+chaque visiteur à Google aux États-Unis — point contesté depuis le jugement du
+LG München du 20 janvier 2022. La fonte est désormais servie depuis ce domaine, et les
+trois `<link>` Google (deux `preconnect` + la feuille) ont été remplacés par un
+`preload` du fichier latin.
+
+Deux fichiers seulement, et non dix : **Google sert la fonte variable**, dont l'axe
+`wght` couvre 100→900. Les cinq URL par poids de l'ancien `<link>` renvoyaient des
+octets identiques — vérifié par empreinte. Les cinq poids du site (400 à 800) sont donc
+interpolés depuis un fichier unique par sous-ensemble.
+
+| Fichier | Poids | Quand il part sur le réseau |
+|---|---|---|
+| `fonts/inter-latin.woff2` | 48 ko | toujours |
+| `fonts/inter-latin-ext.woff2` | 85 ko | jamais en pratique (aucun caractère FR/EN ne l'exige) |
+
+`fonts/OFL.txt` accompagne les fichiers : Inter 4.001 est sous SIL Open Font License 1.1,
+qui **exige** que la licence soit distribuée avec la fonte.
+
+Contrôlé au journal réseau de Chromium : au chargement de l'accueil, plus aucune requête
+vers `fonts.googleapis.com` ni `fonts.gstatic.com`, et `fonts/inter-latin.woff2` est bien
+servi en local. Restent trois requêtes tierces, toutes documentées dans la politique :
+`api.github.com` (liste des versions), `github.com` (vidéo du hero) et
+`cdn.vercel-insights.com` (mesure d'audience).
+
+> Les deux premières signifient que **GitHub reçoit l'IP de chaque visiteur**, pas
+> seulement celle des personnes qui téléchargent : la vidéo d'accueil est servie depuis
+> GitHub Releases (`index.html:60`) et `script.js` interroge l'API à chaque page. Pour
+> supprimer aussi cette fuite, il faudrait héberger `varec-demo.mp4` sur le site — les
+> autres vidéos le sont déjà — et se passer du recalage dynamique des liens.
+
+### Le dispositif de collecte retiré
+
+Jusqu'au 4 septembre 2026, une modale bloquait le téléchargement tant qu'une adresse
+n'était pas saisie ; celle-ci partait vers `api/register.js`, qui l'ajoutait à un
+`customers.csv` commité dans un dépôt GitHub privé (`api/_logCustomer.js`).
+
+Le dispositif était illicite sur cinq points : consentement non libre (art. 7§4 RGPD —
+un téléchargement gratuit conditionné à une donnée non nécessaire au service),
+prospection sans opt-in exprès (art. L.34-5 CPCE), finalité annoncée « informations de
+version » démentie par la campagne de lancement (art. 5§1 b), aucune information à la
+collecte (art. 12-14), effacement impossible (art. 17 — les adresses étaient écrites
+dans un fichier versionné par git, donc conservées dans l'historique).
+
+Tout a été retiré : modale, bloc gate de `script.js`, endpoints, CSS. Le répertoire
+`api/` n'existe plus — ce dépôt n'a plus aucune fonction serverless.
+
+### Marche à suivre pour purger les données déjà collectées
+
+**L'ordre compte.** Le site est déployé par l'intégration Git de Vercel depuis `main` :
+tant que la suppression n'est pas mergée, l'endpoint reste en ligne et collecte encore.
+
+1. **Merger** la suppression sur `main`.
+2. **Vérifier le déploiement** : la modale a disparu des deux accueils, et
+   `https://varec.bernik.io/api/register` renvoie 404.
+3. **Purger le dépôt customers.** Vider `customers.csv` **et réécrire l'historique git**
+   avant de supprimer le dépôt : une suppression de dépôt reste réversible pendant
+   90 jours côté GitHub, et une restauration rendrait l'historique intact. Réécrire puis
+   supprimer garantit qu'une restauration ne rend rien.
+4. **Révoquer le PAT `CUSTOMERS_GITHUB_TOKEN`** — à faire même sans le dépôt : le jeton
+   peut porter des droits sur d'autres dépôts.
+5. **Retirer `CUSTOMERS_GITHUB_TOKEN` et `CUSTOMERS_REPO`** des variables du projet Vercel.
+6. **Supprimer la liste chez le prestataire d'emailing**, si elle y a été importée pour la
+   campagne de lancement (`email-lancement.html`). C'est la copie qui survit à tout le
+   reste, et donc celle qui compte le plus.
+7. **Ne réutiliser cette liste pour aucune prospection** : le consentement recueilli est
+   invalide, un nouvel envoi constituerait une infraction distincte.
+
+Sans objet, vérifié : les messages de commit du dépôt customers étaient de la forme
+`log: download 2026-09-04`, sans adresse ; et `register.js` ne journalisait que
+`type/version/arch`, jamais l'email.
+
+### Points ouverts
+
+- **Adresse de l'hébergeur.** Celle portée par les mentions légales est à revérifier sur
+  `vercel.com/legal` avant publication : l'exactitude est exigée par l'art. 6-III LCEN.
+- **Traitements de l'application.** Activation de licence, partage cloud et journaux de
+  diagnostic relèvent du projet Vercel dédié, hors de ce dépôt. Ils ne sont couverts par
+  aucune des deux politiques et en appelleront une au passage en commercial.
 
 ---
 
@@ -116,8 +221,10 @@ L'app VAREC est en **bêta de validation**. Conformément au brief produit, le s
 - Le tunnel commercial complet (tableau **12 €/mois**, bouton Stripe, argumentaire
   concurrents) est **préparé** dans **`tarifs.html`**, page **non indexée**
   (`<meta robots noindex>` + `robots.txt`) et **non liée** depuis le site.
-- L'infrastructure de paiement (Payment Link Stripe, webhook `api/`, Customer Portal
-  côté app) reste en place, **prête à activer**.
+- L'infrastructure de paiement (Payment Link Stripe, Customer Portal côté app) reste en
+  place, **prête à activer**. Elle ne dépend d'aucun code de ce dépôt : le répertoire
+  `api/` n'existe plus (voir « À corriger avant le lancement commercial »), les webhooks
+  vivent dans le projet Vercel dédié à l'activation.
 
 ### Passage en commercial (bascule)
 
@@ -135,6 +242,10 @@ Aucune date de lancement à annoncer d'ici là.
 
 ### À corriger avant le lancement commercial
 
+- **Collecte d'emails au téléchargement supprimée** : voir la section « Conformité RGPD »
+  ci-dessus. Toute réintroduction d'une collecte au passage en commercial doit être un
+  opt-in dissocié du téléchargement, avec case décochée, stockage hors git et lien de
+  désinscription — sans quoi le même vice de consentement se reproduit.
 - **Webhook licence legacy supprimé** : `api/licence.js` (qui émettait une **clé
   permanente** envoyée par email via Resend) a été **retiré** — confirmé inutilisé côté
   Stripe. L'activation réelle (**magic-link + abonnement**) est gérée par un **projet
