@@ -90,16 +90,94 @@ La garde « release sans DMG macOS → on ne touche à rien » vaut pour les deu
 
 ### SEO
 
-`canonical` + `hreflang` (`fr`, `en`, `x-default`) sur les huit pages, `og:locale`
-là où un bloc Open Graph existe, et un `sitemap.xml` à la racine déclaré dans
-`robots.txt`. **Une page ajoutée sous `/` ou `/en/` doit être déclarée dans le
-sitemap avec son alternate.**
+`canonical` + `hreflang` (`fr`, `en`, `x-default`) sur les douze pages — huit de
+contenu, quatre légales —, `og:locale` là où un bloc Open Graph existe, et un
+`sitemap.xml` à la racine déclaré dans `robots.txt`. **Une page ajoutée sous `/` ou
+`/en/` doit être déclarée dans le sitemap avec son alternate.**
 
 ### Tests
 
 `npm test` rejoue tous les scénarios de recalage des liens de téléchargement sur
 `index.html` **et** `en/index.html`, et vérifie que chaque accueil affiche le bandeau
 dans sa propre langue.
+
+---
+
+## Conformité RGPD
+
+### Ce que le site traite aujourd'hui
+
+Rien qui vienne de l'utilisateur. Aucun formulaire, aucun compte, aucun cookie, aucune
+collecte d'adresse. Ne subsistent que les traces techniques inhérentes à toute
+consultation : journaux de l'hébergeur, mesure d'audience Vercel (sans cookie), requête
+vers GitHub au téléchargement, et requête vers Google pour la police de caractères.
+
+Quatre pages décrivent cet état et **doivent être mises à jour avant** toute
+réintroduction d'un formulaire, d'un cookie, d'un script tiers ou d'un outil de mesure :
+
+| Page | Jumelle EN |
+|---|---|
+| `mentions-legales.html` | `en/legal-notice.html` |
+| `confidentialite.html` | `en/privacy.html` |
+
+Elles réutilisent les classes `doc-*` du manuel — aucun CSS spécifique. Les champs entre
+crochets `[À COMPLÉTER : …]` sont **volontairement visibles en clair** sur la page tant
+qu'ils ne sont pas renseignés : une mention légale incomplète doit se voir, pas se cacher.
+
+### Le dispositif de collecte retiré
+
+Jusqu'au 4 septembre 2026, une modale bloquait le téléchargement tant qu'une adresse
+n'était pas saisie ; celle-ci partait vers `api/register.js`, qui l'ajoutait à un
+`customers.csv` commité dans un dépôt GitHub privé (`api/_logCustomer.js`).
+
+Le dispositif était illicite sur cinq points : consentement non libre (art. 7§4 RGPD —
+un téléchargement gratuit conditionné à une donnée non nécessaire au service),
+prospection sans opt-in exprès (art. L.34-5 CPCE), finalité annoncée « informations de
+version » démentie par la campagne de lancement (art. 5§1 b), aucune information à la
+collecte (art. 12-14), effacement impossible (art. 17 — les adresses étaient écrites
+dans un fichier versionné par git, donc conservées dans l'historique).
+
+Tout a été retiré : modale, bloc gate de `script.js`, endpoints, CSS. Le répertoire
+`api/` n'existe plus — ce dépôt n'a plus aucune fonction serverless.
+
+### Marche à suivre pour purger les données déjà collectées
+
+**L'ordre compte.** Le site est déployé par l'intégration Git de Vercel depuis `main` :
+tant que la suppression n'est pas mergée, l'endpoint reste en ligne et collecte encore.
+
+1. **Merger** la suppression sur `main`.
+2. **Vérifier le déploiement** : la modale a disparu des deux accueils, et
+   `https://varec.bernik.io/api/register` renvoie 404.
+3. **Purger le dépôt customers.** Vider `customers.csv` **et réécrire l'historique git**
+   avant de supprimer le dépôt : une suppression de dépôt reste réversible pendant
+   90 jours côté GitHub, et une restauration rendrait l'historique intact. Réécrire puis
+   supprimer garantit qu'une restauration ne rend rien.
+4. **Révoquer le PAT `CUSTOMERS_GITHUB_TOKEN`** — à faire même sans le dépôt : le jeton
+   peut porter des droits sur d'autres dépôts.
+5. **Retirer `CUSTOMERS_GITHUB_TOKEN` et `CUSTOMERS_REPO`** des variables du projet Vercel.
+6. **Supprimer la liste chez le prestataire d'emailing**, si elle y a été importée pour la
+   campagne de lancement (`email-lancement.html`). C'est la copie qui survit à tout le
+   reste, et donc celle qui compte le plus.
+7. **Ne réutiliser cette liste pour aucune prospection** : le consentement recueilli est
+   invalide, un nouvel envoi constituerait une infraction distincte.
+
+Sans objet, vérifié : les messages de commit du dépôt customers étaient de la forme
+`log: download 2026-09-04`, sans adresse ; et `register.js` ne journalisait que
+`type/version/arch`, jamais l'email.
+
+### Points ouverts
+
+- **Polices Google.** Les huit pages chargent Inter depuis `fonts.googleapis.com`, ce qui
+  transmet l'IP de chaque visiteur à Google aux États-Unis. Le point est contesté
+  (LG München, 20 janvier 2022). Correctif : héberger les fichiers `woff2` sur le site et
+  déclarer les `@font-face` localement. La section « Polices de caractères » des deux
+  politiques de confidentialité devra alors être supprimée, et Google retiré du tableau
+  des destinataires.
+- **Adresse de l'hébergeur.** Celle portée par les mentions légales est à revérifier sur
+  `vercel.com/legal` avant publication : l'exactitude est exigée par l'art. 6-III LCEN.
+- **Traitements de l'application.** Activation de licence, partage cloud et journaux de
+  diagnostic relèvent du projet Vercel dédié, hors de ce dépôt. Ils ne sont couverts par
+  aucune des deux politiques et en appelleront une au passage en commercial.
 
 ---
 
@@ -137,29 +215,10 @@ Aucune date de lancement à annoncer d'ici là.
 
 ### À corriger avant le lancement commercial
 
-- **Collecte d'emails au téléchargement supprimée (RGPD)** : la modale qui bloquait le
-  téléchargement tant qu'aucune adresse n'était saisie, l'endpoint `api/register.js` et
-  son écriture dans `customers.csv` (`api/_logCustomer.js`) ont été **retirés**. Le
-  dispositif était illicite : consentement non libre (art. 7§4 RGPD — le téléchargement
-  gratuit était conditionné à une donnée non nécessaire au service), prospection sans
-  opt-in exprès (art. L.34-5 CPCE), finalité annoncée « informations de version »
-  démentie par la campagne de lancement, aucune information à la collecte (art. 12-14) et
-  effacement impossible (les emails étaient écrits dans un fichier versionné par git).
-  Le répertoire `api/` disparaît entièrement — ce dépôt n'a plus de fonction serverless.
-
-  **Actions restantes, hors de ce dépôt :**
-  1. purger `customers.csv` dans le dépôt privé pointé par `CUSTOMERS_REPO` **et réécrire
-     son historique git** (une simple suppression de ligne laisse les adresses dans
-     l'historique) — le plus sûr reste de supprimer ce dépôt ;
-  2. révoquer le PAT `CUSTOMERS_GITHUB_TOKEN` ;
-  3. retirer `CUSTOMERS_GITHUB_TOKEN` et `CUSTOMERS_REPO` des variables du projet Vercel ;
-  4. **ne pas réutiliser** la liste déjà constituée pour de la prospection : le
-     consentement recueilli est invalide.
-
-  À noter, indépendamment de ce flux : le site n'a toujours ni **mentions légales**
-  (obligatoires, art. 6-III LCEN) ni **politique de confidentialité** — cette dernière
-  redevient nécessaire dès qu'une collecte d'email conforme est réintroduite (case
-  décochée, dissociée du téléchargement, stockage hors git, lien de désinscription).
+- **Collecte d'emails au téléchargement supprimée** : voir la section « Conformité RGPD »
+  ci-dessus. Toute réintroduction d'une collecte au passage en commercial doit être un
+  opt-in dissocié du téléchargement, avec case décochée, stockage hors git et lien de
+  désinscription — sans quoi le même vice de consentement se reproduit.
 - **Webhook licence legacy supprimé** : `api/licence.js` (qui émettait une **clé
   permanente** envoyée par email via Resend) a été **retiré** — confirmé inutilisé côté
   Stripe. L'activation réelle (**magic-link + abonnement**) est gérée par un **projet

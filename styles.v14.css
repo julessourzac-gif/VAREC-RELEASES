@@ -878,7 +878,10 @@ footer {
   gap: 14px;
 }
 .footer-logo { height: 22px; width: auto; filter: hue-rotate(30deg) saturate(.95); }
-.footer-links { display: flex; gap: 22px; list-style: none; }
+/* flex-wrap dès le cas de base : le pied de page porte sept liens depuis
+   l'ajout des pages légales, ce qui déborde la rangée entre 768 et ~950 px,
+   au-dessus du seuil où la règle responsive prenait le relais. */
+.footer-links { display: flex; flex-wrap: wrap; gap: 22px; list-style: none; }
 .footer-links a { color: var(--txt2); text-decoration: none; font-size: 13px; transition: color .15s; }
 .footer-links a:hover { color: var(--txt); }
 .footer-copy { font-size: 12px; color: var(--txt3); }

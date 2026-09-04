@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════════════════╗
+  ║  TO BE COMPLETED BEFORE PUBLISHING                                       ║
+  ║                                                                          ║
+  ║  Bracketed [ ] fields stay visible on the page until replaced — this is   ║
+  ║  deliberate. Mirror the values used in confidentialite.html.             ║
+  ║                                                                          ║
+  ║  TIED TO THE CODE: this text describes the processing actually carried    ║
+  ║  out by the site as of 4 September 2026. Reintroducing any form, cookie,  ║
+  ║  measurement tool or third-party script means updating BOTH language      ║
+  ║  versions before going live.                                             ║
+  ║                                                                          ║
+  ║  PENDING: the "Web fonts" section describes fonts loaded from Google's    ║
+  ║  servers. If the fonts are self-hosted (recommended fix), delete that     ║
+  ║  section and remove Google from the recipients table — in both versions.  ║
+  ╚══════════════════════════════════════════════════════════════════════════╝
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Privacy policy for varec.bernik.io — what data is processed, why, and how to exercise your rights.">
+<meta property="og:title" content="VAREC — Privacy policy">
+<meta property="og:description" content="What data varec.bernik.io processes, why, and how to exercise your rights.">
+<meta property="og:image" content="https://varec.bernik.io/og-preview.png">
+<meta property="og:url" content="https://varec.bernik.io/en/privacy.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="fr_FR">
+<title>VAREC — Privacy policy</title>
+<link rel="canonical" href="https://varec.bernik.io/en/privacy.html">
+<link rel="alternate" hreflang="fr" href="https://varec.bernik.io/confidentialite.html">
+<link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/privacy.html">
+<link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/confidentialite.html">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.v14.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="https://bernik.io" class="nav-brand" target="_blank" rel="noopener">
+      <img src="/logo.png" alt="VAREC" class="nav-logo">
+      <span class="nav-by">by</span>
+      <img src="/BERNIK%202%20transoarent.png" alt="Bernik" class="nav-bernik">
+    </a>
+    <ul class="nav-links">
+      <li><a href="/en/index.html#preview">Overview</a></li>
+      <li><a href="/en/index.html#features">Features</a></li>
+      <li><a href="/en/resources.html">Resources</a></li>
+      <li class="nav-link-dl"><a href="/en/index.html#download">Download</a></li>
+    </ul>
+    <a href="/en/index.html#download" class="nav-cta">↓ v1.5.38 <span class="beta-badge sm">BETA</span></a>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <a href="/confidentialite.html" class="lang-opt" hreflang="fr" lang="fr">FR</a>
+      <a href="/en/privacy.html" class="lang-opt active" hreflang="en" lang="en" aria-current="true">EN</a>
+    </div>
+    <button class="nav-burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="doc-crumbs">
+  <div class="container">
+    <a href="/en/index.html">← Home</a>
+    <span class="crumbs-sep">/</span>
+    <span class="crumbs-current">Privacy policy</span>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="doc-wrap">
+  <div class="container doc-container">
+
+    <aside class="doc-toc">
+      <div class="doc-toc-title">Contents</div>
+      <nav class="doc-toc-list">
+        <div class="doc-toc-group">Essentials</div>
+        <a href="#summary">1. In short</a>
+        <a href="#scope">2. Scope</a>
+        <a href="#controller">3. Data controller</a>
+
+        <div class="doc-toc-group">What is processed</div>
+        <a href="#no-collection">4. No direct collection</a>
+        <a href="#processing">5. Processing carried out</a>
+        <a href="#analytics">6. Audience measurement</a>
+        <a href="#fonts">7. Web fonts</a>
+        <a href="#cookies">8. Cookies and local storage</a>
+
+        <div class="doc-toc-group">Where data goes</div>
+        <a href="#recipients">9. Recipients</a>
+        <a href="#transfers">10. Transfers outside the EU</a>
+        <a href="#retention">11. Retention periods</a>
+
+        <div class="doc-toc-group">Your rights</div>
+        <a href="#rights">12. Your rights</a>
+        <a href="#complaint">13. Complaints</a>
+
+        <div class="doc-toc-group">Other</div>
+        <a href="#security">14. Security</a>
+        <a href="#minors">15. Minors</a>
+        <a href="#history">16. History</a>
+        <a href="#changes">17. Changes</a>
+      </nav>
+    </aside>
+
+    <article class="doc-content">
+
+      <header class="doc-header">
+        <span class="doc-eyebrow">Data protection · varec.bernik.io</span>
+        <h1>Privacy policy</h1>
+        <p class="doc-lede">This document sets out what personal data is processed when you visit varec.bernik.io, why, and what rights you hold. It is written pursuant to articles 12 to 14 of Regulation (EU) 2016/679 (GDPR). The French version prevails in case of discrepancy.</p>
+      </header>
+
+      <section id="summary" class="doc-section">
+        <h2>1. In short</h2>
+        <div class="doc-callout">
+          <strong>This site asks you for nothing.</strong> No account, no form, no sign-up. Downloading VAREC is unrestricted and conditional on no email address. No cookies are set, no advertising is served, and no data is sold or shared with third parties.
+        </div>
+        <p>What remains is the technical minimum inherent to any website: your browser sends a request to a server, which briefly records it in order to function and to defend itself against abuse. Sections 5 to 8 set out the detail.</p>
+      </section>
+
+      <section id="scope" class="doc-section">
+        <h2>2. Scope</h2>
+        <p>This policy covers <strong>the varec.bernik.io website</strong> and nothing else.</p>
+        <p>It does not cover:</p>
+        <ul>
+          <li><strong>the VAREC application</strong> installed on your machine — its own processing (licence activation, cloud sharing features, diagnostic logs) is governed by the documentation and licence agreement supplied with it;</li>
+          <li><strong>third-party sites</strong> this site links to, notably GitHub and bernik.io, which apply their own policies.</li>
+        </ul>
+      </section>
+
+      <section id="controller" class="doc-section">
+        <h2>3. Data controller</h2>
+        <p>The data controller is <strong>BERNIK — [TO BE COMPLETED: exact registered name]</strong>, [TO BE COMPLETED: legal form], whose registered office is at [TO BE COMPLETED: full address].</p>
+        <p>For any question about this policy or to exercise your rights: <a href="mailto:contact@bernik.io">contact@bernik.io</a>.</p>
+        <p>Given the nature and volume of the processing described below, no data protection officer has been appointed: the conditions for mandatory appointment under article 37 GDPR are not met. The address above is the single point of contact.</p>
+      </section>
+
+      <section id="no-collection" class="doc-section">
+        <h2>4. No direct collection</h2>
+        <p>The site has no form, no input field and no user account. You are never asked for an email address, a name, or any other information about you.</p>
+        <p>In particular, <strong>downloading VAREC is conditional on nothing</strong>. An earlier mechanism required an email address before unlocking the download; it has been removed and the corresponding data deleted (see section 16).</p>
+        <p>If you write to us at <a href="mailto:contact@bernik.io">contact@bernik.io</a> of your own accord, your message and address are processed in order to reply — that is the only case in which data reaches us through an act of yours.</p>
+      </section>
+
+      <section id="processing" class="doc-section">
+        <h2>5. Processing carried out</h2>
+        <p>The table below lists every item of processing arising from your use of the site.</p>
+        <table class="doc-table">
+          <thead>
+            <tr><th>Processing</th><th>Data</th><th>Purpose</th><th>Legal basis</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hosting logs</td>
+              <td>IP address, user agent, page requested, timestamp, response code</td>
+              <td>Serving pages, security, incident diagnosis</td>
+              <td>Legitimate interests — art. 6(1)(f)</td>
+            </tr>
+            <tr>
+              <td>Audience measurement</td>
+              <td>Page viewed, referrer, country, device type, a derived visit identifier not stored in clear</td>
+              <td>Measuring traffic in aggregate</td>
+              <td>Legitimate interests — art. 6(1)(f)</td>
+            </tr>
+            <tr>
+              <td>Software download</td>
+              <td>IP address and user agent sent to GitHub</td>
+              <td>Delivering the installer to you</td>
+              <td>Legitimate interests — art. 6(1)(f)</td>
+            </tr>
+            <tr>
+              <td>Font rendering</td>
+              <td>IP address and user agent sent to Google</td>
+              <td>Loading the site's typeface</td>
+              <td>Legitimate interests — art. 6(1)(f) <em>(see section 7)</em></td>
+            </tr>
+            <tr>
+              <td>Correspondence</td>
+              <td>Email address, message content</td>
+              <td>Replying to your enquiry</td>
+              <td>Legitimate interests, or pre-contractual steps — art. 6(1)(f) and (b)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>None of this processing involves automated decision-making or profiling within the meaning of article 22 GDPR.</p>
+      </section>
+
+      <section id="analytics" class="doc-section">
+        <h2>6. Audience measurement</h2>
+        <p>Some pages use <strong>Vercel Web Analytics</strong>, the measurement tool built into our host. It has three characteristics, which is why you are shown no consent banner:</p>
+        <ul>
+          <li>it <strong>sets no cookie</strong> and writes nothing to your browser;</li>
+          <li>it allows <strong>no cross-site tracking</strong>: measurement stops at the boundaries of varec.bernik.io;</li>
+          <li>it <strong>does not retain your IP address</strong>: the address is used to derive a non-reversible visit identifier, renewed daily, which distinguishes two visits without ever identifying you.</li>
+        </ul>
+        <p>Configured this way, the measurement falls within the consent exemption the French supervisory authority (CNIL) grants to audience measurement tools strictly limited to producing anonymous statistics for the publisher alone.</p>
+        <div class="doc-callout">
+          <strong>Opting out.</strong> You can object by enabling your browser's "Do Not Track" setting, which is honoured, or by blocking the <code>cdn.vercel-insights.com</code> domain with a content blocker. The site remains fully functional either way.
+        </div>
+      </section>
+
+      <section id="fonts" class="doc-section">
+        <h2>7. Web fonts</h2>
+        <p>The site displays the <strong>Inter</strong> typeface, loaded from Google's servers (<code>fonts.googleapis.com</code> and <code>fonts.gstatic.com</code>). That load sends Google your IP address and the technical information your browser supplies, in the United States.</p>
+        <p>We flag this explicitly because the point is contested: several European authorities and courts take the view that such loading should require the visitor's consent, or be avoided altogether. Removing this dependency — by hosting the font on the site itself — is under consideration.</p>
+        <p>In the meantime, blocking those two domains does not prevent you from reading the site: the layout simply falls back to a system typeface.</p>
+      </section>
+
+      <section id="cookies" class="doc-section">
+        <h2>8. Cookies and local storage</h2>
+        <p><strong>The site sets no cookies</strong> — none for measurement, advertising or personalisation. That is why no banner is shown: there is nothing to accept or refuse.</p>
+        <p>The site does use one <code>sessionStorage</code> entry, named <code>varec_releases</code>, which caches the list of published versions for the duration of your visit so that GitHub's API need not be queried on every page. This storage:</p>
+        <ul>
+          <li>contains no data about you — only version numbers and public download links;</li>
+          <li>never leaves your browser;</li>
+          <li>disappears when you close the tab.</li>
+        </ul>
+        <p>Being strictly necessary to provide the service you requested, it falls within the consent exemption of article 82 of the French Data Protection Act.</p>
+      </section>
+
+      <section id="recipients" class="doc-section">
+        <h2>9. Recipients</h2>
+        <p>No data is sold, rented, exchanged or passed on for advertising purposes. The only third parties that come into contact with data are the technical providers the site needs to operate:</p>
+        <table class="doc-table">
+          <thead>
+            <tr><th>Provider</th><th>Role</th><th>Country</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Vercel Inc.</td><td>Site hosting and audience measurement</td><td>United States</td></tr>
+            <tr><td>GitHub, Inc. (Microsoft)</td><td>Distribution of installer files</td><td>United States</td></tr>
+            <tr><td>Google LLC</td><td>Delivery of the web font</td><td>United States</td></tr>
+          </tbody>
+        </table>
+        <p>Data may also be disclosed to administrative or judicial authorities where the law so requires.</p>
+      </section>
+
+      <section id="transfers" class="doc-section">
+        <h2>10. Transfers outside the European Union</h2>
+        <p>All three providers above being established in the United States, using the site entails a transfer of data outside the European Union.</p>
+        <!-- Re-check periodically: a provider's DPF certification can be withdrawn, and
+             any invalidation of the framework by the CJEU (as happened to Privacy Shield
+             in 2020) would require revising this paragraph. -->
+        <p>These transfers are governed by the appropriate safeguards of chapter V GDPR: participation in the <strong>EU–US Data Privacy Framework</strong>, found adequate by the European Commission's implementing decision of 10 July 2023, supplemented by <strong>standard contractual clauses</strong> in the data processing agreements concluded with each of them.</p>
+      </section>
+
+      <section id="retention" class="doc-section">
+        <h2>11. Retention periods</h2>
+        <table class="doc-table">
+          <thead>
+            <tr><th>Data</th><th>Period</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Hosting logs</td><td>Kept by the host for a short operational period, not exceeding the customary one-year limit applicable to connection logs</td></tr>
+            <tr><td>Audience statistics</td><td>In aggregate form only; the visit identifier is not kept beyond the day</td></tr>
+            <tr><td>Email correspondence</td><td>For as long as needed to handle your enquiry, then archived as required to follow up, within a limit of three years from the last exchange</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="rights" class="doc-section">
+        <h2>12. Your rights</h2>
+        <p>Under articles 15 to 22 GDPR you hold the following rights:</p>
+        <ul>
+          <li><strong>Access</strong> — confirmation as to whether data about you is processed, and a copy of it;</li>
+          <li><strong>Rectification</strong> — correction of inaccurate data;</li>
+          <li><strong>Erasure</strong> — deletion of your data, subject to legal retention obligations;</li>
+          <li><strong>Restriction</strong> — suspension of processing while a challenge is examined;</li>
+          <li><strong>Objection</strong> — objection, on grounds relating to your particular situation, to processing based on legitimate interests;</li>
+          <li><strong>Portability</strong> — receipt in a structured format of the data you provided, where processing rests on consent or a contract;</li>
+          <li><strong>Post-mortem directives</strong> — instructions as to what becomes of your data after your death, under article 85 of the French Data Protection Act.</li>
+        </ul>
+        <p>To exercise these rights, write to <a href="mailto:contact@bernik.io">contact@bernik.io</a>. You will receive a reply within one month of receipt of your request, extendable by two months where its complexity warrants — in which case you will be told.</p>
+        <div class="doc-callout">
+          <strong>Please note.</strong> Because the site keeps no identifier linking you to a visit, an access request concerning your browsing will most often return nothing: there is nothing to disclose. That is the direct consequence of collecting nothing, not a refusal.
+        </div>
+      </section>
+
+      <section id="complaint" class="doc-section">
+        <h2>13. Complaints</h2>
+        <p>If, having contacted us, you consider your rights are not being respected, you may lodge a complaint with the French supervisory authority, or with the supervisory authority of your own country of residence:</p>
+        <p>CNIL — 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07, France — <a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a></p>
+      </section>
+
+      <section id="security" class="doc-section">
+        <h2>14. Security</h2>
+        <p>The site is served exclusively over HTTPS. It is static: it runs no server-side code and holds no database, which reduces the attack surface to a minimum. Installer files are distributed through GitHub Releases and signed in accordance with Apple's notarisation requirements.</p>
+      </section>
+
+      <section id="minors" class="doc-section">
+        <h2>15. Minors</h2>
+        <p>VAREC is aimed at sound professionals. The site is not directed at children under fifteen and knowingly collects no data concerning them.</p>
+      </section>
+
+      <section id="history" class="doc-section">
+        <h2>16. History — the collection mechanism that was removed</h2>
+        <p>For the sake of transparency, and because people may have supplied their address under it:</p>
+        <p>Until 4 September 2026, downloading VAREC was preceded by a dialog requiring an email address, which was recorded together with the date, version and architecture downloaded.</p>
+        <p>That mechanism did not comply with the GDPR: making access to a free download conditional on data that was not necessary for that service deprived consent of its freely-given character, within the meaning of article 7(4) and recital 43. The information provided at the point of collection was also inadequate.</p>
+        <p>It has been <strong>removed in full</strong>: the dialog, the collection endpoint and the storage file are gone, and the recorded addresses have been deleted. No marketing will be sent on the basis of that list.</p>
+        <p>If you supplied your address this way and would like confirmation of its deletion, write to <a href="mailto:contact@bernik.io">contact@bernik.io</a>.</p>
+      </section>
+
+      <section id="changes" class="doc-section">
+        <h2>17. Changes</h2>
+        <p>This policy may change, in particular if new site features come to involve new processing. The date of the last update appears below; any substantial change will be signalled on the home page.</p>
+        <p class="doc-lede" style="font-size: 14px; margin-top: 28px;">Last updated: 4 September 2026.</p>
+      </section>
+
+    </article>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <img src="/logo.png" alt="VAREC" class="footer-logo">
+    <ul class="footer-links">
+      <li><a href="/en/index.html#preview">Overview</a></li>
+      <li><a href="/en/index.html#features">Features</a></li>
+      <li><a href="/en/resources.html">Resources</a></li>
+      <li><a href="/en/index.html#download">Download</a></li>
+      <li><a href="https://github.com/julessourzac-gif/VAREC-RELEASES" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="/en/legal-notice.html">Legal notice</a></li>
+      <li><a href="/en/privacy.html">Privacy</a></li>
+    </ul>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <a href="/confidentialite.html" class="lang-opt" hreflang="fr" lang="fr">FR</a>
+      <a href="/en/privacy.html" class="lang-opt active" hreflang="en" lang="en" aria-current="true">EN</a>
+    </div>
+    <div class="footer-copy">© 2026 BERNIK — VAREC macOS Field Recorder</div>
+  </div>
+</footer>
+
+<script src="/script.js"></script>
+</body>
+</html>
