@@ -116,8 +116,10 @@ L'app VAREC est en **bêta de validation**. Conformément au brief produit, le s
 - Le tunnel commercial complet (tableau **12 €/mois**, bouton Stripe, argumentaire
   concurrents) est **préparé** dans **`tarifs.html`**, page **non indexée**
   (`<meta robots noindex>` + `robots.txt`) et **non liée** depuis le site.
-- L'infrastructure de paiement (Payment Link Stripe, webhook `api/`, Customer Portal
-  côté app) reste en place, **prête à activer**.
+- L'infrastructure de paiement (Payment Link Stripe, Customer Portal côté app) reste en
+  place, **prête à activer**. Elle ne dépend d'aucun code de ce dépôt : le répertoire
+  `api/` n'existe plus (voir « À corriger avant le lancement commercial »), les webhooks
+  vivent dans le projet Vercel dédié à l'activation.
 
 ### Passage en commercial (bascule)
 
@@ -135,6 +137,29 @@ Aucune date de lancement à annoncer d'ici là.
 
 ### À corriger avant le lancement commercial
 
+- **Collecte d'emails au téléchargement supprimée (RGPD)** : la modale qui bloquait le
+  téléchargement tant qu'aucune adresse n'était saisie, l'endpoint `api/register.js` et
+  son écriture dans `customers.csv` (`api/_logCustomer.js`) ont été **retirés**. Le
+  dispositif était illicite : consentement non libre (art. 7§4 RGPD — le téléchargement
+  gratuit était conditionné à une donnée non nécessaire au service), prospection sans
+  opt-in exprès (art. L.34-5 CPCE), finalité annoncée « informations de version »
+  démentie par la campagne de lancement, aucune information à la collecte (art. 12-14) et
+  effacement impossible (les emails étaient écrits dans un fichier versionné par git).
+  Le répertoire `api/` disparaît entièrement — ce dépôt n'a plus de fonction serverless.
+
+  **Actions restantes, hors de ce dépôt :**
+  1. purger `customers.csv` dans le dépôt privé pointé par `CUSTOMERS_REPO` **et réécrire
+     son historique git** (une simple suppression de ligne laisse les adresses dans
+     l'historique) — le plus sûr reste de supprimer ce dépôt ;
+  2. révoquer le PAT `CUSTOMERS_GITHUB_TOKEN` ;
+  3. retirer `CUSTOMERS_GITHUB_TOKEN` et `CUSTOMERS_REPO` des variables du projet Vercel ;
+  4. **ne pas réutiliser** la liste déjà constituée pour de la prospection : le
+     consentement recueilli est invalide.
+
+  À noter, indépendamment de ce flux : le site n'a toujours ni **mentions légales**
+  (obligatoires, art. 6-III LCEN) ni **politique de confidentialité** — cette dernière
+  redevient nécessaire dès qu'une collecte d'email conforme est réintroduite (case
+  décochée, dissociée du téléchargement, stockage hors git, lien de désinscription).
 - **Webhook licence legacy supprimé** : `api/licence.js` (qui émettait une **clé
   permanente** envoyée par email via Resend) a été **retiré** — confirmé inutilisé côté
   Stripe. L'activation réelle (**magic-link + abonnement**) est gérée par un **projet
