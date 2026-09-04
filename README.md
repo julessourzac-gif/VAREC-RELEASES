@@ -124,6 +124,39 @@ Elles réutilisent les classes `doc-*` du manuel — aucun CSS spécifique. Les 
 crochets `[À COMPLÉTER : …]` sont **volontairement visibles en clair** sur la page tant
 qu'ils ne sont pas renseignés : une mention légale incomplète doit se voir, pas se cacher.
 
+### Polices auto-hébergées (`fonts/`)
+
+Les pages chargeaient Inter depuis `fonts.googleapis.com`, ce qui transmettait l'IP de
+chaque visiteur à Google aux États-Unis — point contesté depuis le jugement du
+LG München du 20 janvier 2022. La fonte est désormais servie depuis ce domaine, et les
+trois `<link>` Google (deux `preconnect` + la feuille) ont été remplacés par un
+`preload` du fichier latin.
+
+Deux fichiers seulement, et non dix : **Google sert la fonte variable**, dont l'axe
+`wght` couvre 100→900. Les cinq URL par poids de l'ancien `<link>` renvoyaient des
+octets identiques — vérifié par empreinte. Les cinq poids du site (400 à 800) sont donc
+interpolés depuis un fichier unique par sous-ensemble.
+
+| Fichier | Poids | Quand il part sur le réseau |
+|---|---|---|
+| `fonts/inter-latin.woff2` | 48 ko | toujours |
+| `fonts/inter-latin-ext.woff2` | 85 ko | jamais en pratique (aucun caractère FR/EN ne l'exige) |
+
+`fonts/OFL.txt` accompagne les fichiers : Inter 4.001 est sous SIL Open Font License 1.1,
+qui **exige** que la licence soit distribuée avec la fonte.
+
+Contrôlé au journal réseau de Chromium : au chargement de l'accueil, plus aucune requête
+vers `fonts.googleapis.com` ni `fonts.gstatic.com`, et `fonts/inter-latin.woff2` est bien
+servi en local. Restent trois requêtes tierces, toutes documentées dans la politique :
+`api.github.com` (liste des versions), `github.com` (vidéo du hero) et
+`cdn.vercel-insights.com` (mesure d'audience).
+
+> Les deux premières signifient que **GitHub reçoit l'IP de chaque visiteur**, pas
+> seulement celle des personnes qui téléchargent : la vidéo d'accueil est servie depuis
+> GitHub Releases (`index.html:60`) et `script.js` interroge l'API à chaque page. Pour
+> supprimer aussi cette fuite, il faudrait héberger `varec-demo.mp4` sur le site — les
+> autres vidéos le sont déjà — et se passer du recalage dynamique des liens.
+
 ### Le dispositif de collecte retiré
 
 Jusqu'au 4 septembre 2026, une modale bloquait le téléchargement tant qu'une adresse
@@ -167,12 +200,6 @@ Sans objet, vérifié : les messages de commit du dépôt customers étaient de 
 
 ### Points ouverts
 
-- **Polices Google.** Les huit pages chargent Inter depuis `fonts.googleapis.com`, ce qui
-  transmet l'IP de chaque visiteur à Google aux États-Unis. Le point est contesté
-  (LG München, 20 janvier 2022). Correctif : héberger les fichiers `woff2` sur le site et
-  déclarer les `@font-face` localement. La section « Polices de caractères » des deux
-  politiques de confidentialité devra alors être supprimée, et Google retiré du tableau
-  des destinataires.
 - **Adresse de l'hébergeur.** Celle portée par les mentions légales est à revérifier sur
   `vercel.com/legal` avant publication : l'exactitude est exigée par l'art. 6-III LCEN.
 - **Traitements de l'application.** Activation de licence, partage cloud et journaux de

@@ -10,10 +10,6 @@
   ║  out by the site as of 4 September 2026. Reintroducing any form, cookie,  ║
   ║  measurement tool or third-party script means updating BOTH language      ║
   ║  versions before going live.                                             ║
-  ║                                                                          ║
-  ║  PENDING: the "Web fonts" section describes fonts loaded from Google's    ║
-  ║  servers. If the fonts are self-hosted (recommended fix), delete that     ║
-  ║  section and remove Google from the recipients table — in both versions.  ║
   ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -35,9 +31,7 @@
 <link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/confidentialite.html">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.v14.css">
 </head>
 <body>
@@ -90,23 +84,22 @@
         <a href="#no-collection">4. No direct collection</a>
         <a href="#processing">5. Processing carried out</a>
         <a href="#analytics">6. Audience measurement</a>
-        <a href="#fonts">7. Web fonts</a>
-        <a href="#cookies">8. Cookies and local storage</a>
+        <a href="#cookies">7. Cookies and local storage</a>
 
         <div class="doc-toc-group">Where data goes</div>
-        <a href="#recipients">9. Recipients</a>
-        <a href="#transfers">10. Transfers outside the EU</a>
-        <a href="#retention">11. Retention periods</a>
+        <a href="#recipients">8. Recipients</a>
+        <a href="#transfers">9. Transfers outside the EU</a>
+        <a href="#retention">10. Retention periods</a>
 
         <div class="doc-toc-group">Your rights</div>
-        <a href="#rights">12. Your rights</a>
-        <a href="#complaint">13. Complaints</a>
+        <a href="#rights">11. Your rights</a>
+        <a href="#complaint">12. Complaints</a>
 
         <div class="doc-toc-group">Other</div>
-        <a href="#security">14. Security</a>
-        <a href="#minors">15. Minors</a>
-        <a href="#history">16. History</a>
-        <a href="#changes">17. Changes</a>
+        <a href="#security">13. Security</a>
+        <a href="#minors">14. Minors</a>
+        <a href="#history">15. History</a>
+        <a href="#changes">16. Changes</a>
       </nav>
     </aside>
 
@@ -121,9 +114,9 @@
       <section id="summary" class="doc-section">
         <h2>1. In short</h2>
         <div class="doc-callout">
-          <strong>This site asks you for nothing.</strong> No account, no form, no sign-up. Downloading VAREC is unrestricted and conditional on no email address. No cookies are set, no advertising is served, and no data is sold or shared with third parties.
+          <strong>This site asks you for nothing.</strong> No account, no form, no sign-up. Downloading VAREC is unrestricted and conditional on no email address. No cookies are set, no advertising is served, and no data is sold or shared with third parties. The typeface is served from this site itself: no third party is involved in rendering the page.
         </div>
-        <p>What remains is the technical minimum inherent to any website: your browser sends a request to a server, which briefly records it in order to function and to defend itself against abuse. Sections 5 to 8 set out the detail.</p>
+        <p>What remains is the technical minimum inherent to any website: your browser sends a request to a server, which briefly records it in order to function and to defend itself against abuse. Sections 5 to 7 set out the detail.</p>
       </section>
 
       <section id="scope" class="doc-section">
@@ -146,7 +139,7 @@
       <section id="no-collection" class="doc-section">
         <h2>4. No direct collection</h2>
         <p>The site has no form, no input field and no user account. You are never asked for an email address, a name, or any other information about you.</p>
-        <p>In particular, <strong>downloading VAREC is conditional on nothing</strong>. An earlier mechanism required an email address before unlocking the download; it has been removed and the corresponding data deleted (see section 16).</p>
+        <p>In particular, <strong>downloading VAREC is conditional on nothing</strong>. An earlier mechanism required an email address before unlocking the download; it has been removed and the corresponding data deleted (see section 15).</p>
         <p>If you write to us at <a href="mailto:contact@bernik.io">contact@bernik.io</a> of your own accord, your message and address are processed in order to reply — that is the only case in which data reaches us through an act of yours.</p>
       </section>
 
@@ -171,16 +164,10 @@
               <td>Legitimate interests — art. 6(1)(f)</td>
             </tr>
             <tr>
-              <td>Software download</td>
+              <td>Requests to GitHub</td>
               <td>IP address and user agent sent to GitHub</td>
-              <td>Delivering the installer to you</td>
+              <td>Delivering the installer, displaying the home page video and reading the list of published releases</td>
               <td>Legitimate interests — art. 6(1)(f)</td>
-            </tr>
-            <tr>
-              <td>Font rendering</td>
-              <td>IP address and user agent sent to Google</td>
-              <td>Loading the site's typeface</td>
-              <td>Legitimate interests — art. 6(1)(f) <em>(see section 7)</em></td>
             </tr>
             <tr>
               <td>Correspondence</td>
@@ -207,15 +194,8 @@
         </div>
       </section>
 
-      <section id="fonts" class="doc-section">
-        <h2>7. Web fonts</h2>
-        <p>The site displays the <strong>Inter</strong> typeface, loaded from Google's servers (<code>fonts.googleapis.com</code> and <code>fonts.gstatic.com</code>). That load sends Google your IP address and the technical information your browser supplies, in the United States.</p>
-        <p>We flag this explicitly because the point is contested: several European authorities and courts take the view that such loading should require the visitor's consent, or be avoided altogether. Removing this dependency — by hosting the font on the site itself — is under consideration.</p>
-        <p>In the meantime, blocking those two domains does not prevent you from reading the site: the layout simply falls back to a system typeface.</p>
-      </section>
-
       <section id="cookies" class="doc-section">
-        <h2>8. Cookies and local storage</h2>
+        <h2>7. Cookies and local storage</h2>
         <p><strong>The site sets no cookies</strong> — none for measurement, advertising or personalisation. That is why no banner is shown: there is nothing to accept or refuse.</p>
         <p>The site does use one <code>sessionStorage</code> entry, named <code>varec_releases</code>, which caches the list of published versions for the duration of your visit so that GitHub's API need not be queried on every page. This storage:</p>
         <ul>
@@ -227,7 +207,7 @@
       </section>
 
       <section id="recipients" class="doc-section">
-        <h2>9. Recipients</h2>
+        <h2>8. Recipients</h2>
         <p>No data is sold, rented, exchanged or passed on for advertising purposes. The only third parties that come into contact with data are the technical providers the site needs to operate:</p>
         <table class="doc-table">
           <thead>
@@ -235,16 +215,15 @@
           </thead>
           <tbody>
             <tr><td>Vercel Inc.</td><td>Site hosting and audience measurement</td><td>United States</td></tr>
-            <tr><td>GitHub, Inc. (Microsoft)</td><td>Distribution of installer files</td><td>United States</td></tr>
-            <tr><td>Google LLC</td><td>Delivery of the web font</td><td>United States</td></tr>
+            <tr><td>GitHub, Inc. (Microsoft)</td><td>Distribution of installer files and the home page video, release listing</td><td>United States</td></tr>
           </tbody>
         </table>
         <p>Data may also be disclosed to administrative or judicial authorities where the law so requires.</p>
       </section>
 
       <section id="transfers" class="doc-section">
-        <h2>10. Transfers outside the European Union</h2>
-        <p>All three providers above being established in the United States, using the site entails a transfer of data outside the European Union.</p>
+        <h2>9. Transfers outside the European Union</h2>
+        <p>Both providers above being established in the United States, using the site entails a transfer of data outside the European Union.</p>
         <!-- Re-check periodically: a provider's DPF certification can be withdrawn, and
              any invalidation of the framework by the CJEU (as happened to Privacy Shield
              in 2020) would require revising this paragraph. -->
@@ -252,7 +231,7 @@
       </section>
 
       <section id="retention" class="doc-section">
-        <h2>11. Retention periods</h2>
+        <h2>10. Retention periods</h2>
         <table class="doc-table">
           <thead>
             <tr><th>Data</th><th>Period</th></tr>
@@ -266,7 +245,7 @@
       </section>
 
       <section id="rights" class="doc-section">
-        <h2>12. Your rights</h2>
+        <h2>11. Your rights</h2>
         <p>Under articles 15 to 22 GDPR you hold the following rights:</p>
         <ul>
           <li><strong>Access</strong> — confirmation as to whether data about you is processed, and a copy of it;</li>
@@ -284,23 +263,23 @@
       </section>
 
       <section id="complaint" class="doc-section">
-        <h2>13. Complaints</h2>
+        <h2>12. Complaints</h2>
         <p>If, having contacted us, you consider your rights are not being respected, you may lodge a complaint with the French supervisory authority, or with the supervisory authority of your own country of residence:</p>
         <p>CNIL — 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07, France — <a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a></p>
       </section>
 
       <section id="security" class="doc-section">
-        <h2>14. Security</h2>
+        <h2>13. Security</h2>
         <p>The site is served exclusively over HTTPS. It is static: it runs no server-side code and holds no database, which reduces the attack surface to a minimum. Installer files are distributed through GitHub Releases and signed in accordance with Apple's notarisation requirements.</p>
       </section>
 
       <section id="minors" class="doc-section">
-        <h2>15. Minors</h2>
+        <h2>14. Minors</h2>
         <p>VAREC is aimed at sound professionals. The site is not directed at children under fifteen and knowingly collects no data concerning them.</p>
       </section>
 
       <section id="history" class="doc-section">
-        <h2>16. History — the collection mechanism that was removed</h2>
+        <h2>15. History — the collection mechanism that was removed</h2>
         <p>For the sake of transparency, and because people may have supplied their address under it:</p>
         <p>Until 4 September 2026, downloading VAREC was preceded by a dialog requiring an email address, which was recorded together with the date, version and architecture downloaded.</p>
         <p>That mechanism did not comply with the GDPR: making access to a free download conditional on data that was not necessary for that service deprived consent of its freely-given character, within the meaning of article 7(4) and recital 43. The information provided at the point of collection was also inadequate.</p>
@@ -309,7 +288,7 @@
       </section>
 
       <section id="changes" class="doc-section">
-        <h2>17. Changes</h2>
+        <h2>16. Changes</h2>
         <p>This policy may change, in particular if new site features come to involve new processing. The date of the last update appears below; any substantial change will be signalled on the home page.</p>
         <p class="doc-lede" style="font-size: 14px; margin-top: 28px;">Last updated: 4 September 2026.</p>
       </section>
