@@ -211,17 +211,17 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   background: var(--canvas-bg);
 }
 /* Recadrée en cover : la vidéo remplit la section quel que soit le format de
-   l'écran. Le léger flou et l'agrandissement de 4 % évitent que les détails
-   de l'interface filmée ne concurrencent le texte, et masquent les bords que
-   le flou laisserait transparaître. */
+   l'écran. Aucun filtre ni aucune mise à l'échelle : le flou de 2px et
+   l'agrandissement de 4 % qui le masquait coûtaient toute la netteté du
+   fichier, alors que la lisibilité du texte est déjà assurée par le fond
+   opaque de la fenêtre. Seul le voile ci-dessous calme l'image, et il le
+   fait par l'opacité, qui n'adoucit rien. */
 .hero-bg-video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(2px) saturate(.9);
-  transform: scale(1.04);
   z-index: 0;
 }
 /* Le texte a son propre fond : ce voile n'a pas à le protéger, seulement à
