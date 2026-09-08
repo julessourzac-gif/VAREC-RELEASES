@@ -179,6 +179,25 @@
   tick();
 })();
 
+// ── Hero : les fonctionnalités se succèdent sur une ligne ──
+// Aucune transition : on bascule la visibilité d'un item à l'autre. Si
+// l'utilisateur a demandé moins d'animations, on ne démarre rien et le CSS
+// affiche à la place la liste complète (.hero-tags-static).
+(function(){
+  const rot=document.querySelector('.hero-rotator');
+  if(!rot) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const items=rot.querySelectorAll('.hero-rotator-item');
+  if(items.length<2) return;
+  let i=0;
+  setInterval(function(){
+    items[i].classList.remove('is-active');
+    i=(i+1)%items.length;
+    items[i].classList.add('is-active');
+  },700);
+})();
+
+
 // ── Scroll reveal ──
 (function(){
   const cards=document.querySelectorAll('.feature-row');

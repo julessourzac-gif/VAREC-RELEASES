@@ -188,33 +188,25 @@ body > nav.open .nav-burger span:nth-child(1) { transform: translateY(7px) rotat
 body > nav.open .nav-burger span:nth-child(2) { opacity: 0; }
 body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* ── HERO ── */
+/* ── HERO ──
+   Deux colonnes : le texte à gauche, la fenêtre vidéo à droite. Pas de fond
+   animé (la vidéo de fond et son calque ont été retirés), pas de hauteur
+   d'écran imposée : la section fait la hauteur de son contenu. */
 #hero {
   position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 100px 24px 80px;
+  padding: 96px 24px 88px;
   overflow: hidden;
-  background: radial-gradient(ellipse 120% 70% at 50% 20%, #0d1a0e, #1c1c1e 60%);
+  background: radial-gradient(ellipse 120% 70% at 25% 15%, #0d1a0e, #1c1c1e 62%);
 }
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 760px;
-  text-align: center;
+.hero-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 48px;
 }
-.hero-logo {
-  height: clamp(90px, 13vw, 150px);
-  width: auto;
-  margin-bottom: 28px;
-  filter: hue-rotate(30deg) saturate(.95) drop-shadow(0 0 32px rgba(93,200,180,.45));
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+.hero-col-text { text-align: left; }
 .version-badge {
   display: inline-flex;
   align-items: center;
@@ -241,27 +233,63 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
 }
 @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.3;} }
 
-.hero-content h1 {
-  font-size: clamp(38px, 5.5vw, 68px);
+/* Le titre tient sur une seule ligne : la taille suit la largeur de la
+   fenêtre et se borne à 32px, ce qui laisse au moins 10 % de marge jusqu'au
+   basculement en une colonne (900px). */
+.hero-col-text h1 {
+  font-size: clamp(20px, 2.5vw, 32px);
   font-weight: 800;
-  line-height: 1.06;
-  letter-spacing: -2px;
-  margin-bottom: 20px;
+  line-height: 1.15;
+  letter-spacing: -.9px;
   color: var(--txt);
+  white-space: nowrap;
+  margin-bottom: 16px;
 }
-.hero-sub {
+
+/* Ligne de fonctionnalités qui se succèdent, sans transition. Les items sont
+   superposés en absolu : la ligne ne bouge pas d'une phrase à l'autre. */
+.hero-tags {
+  position: relative;
+  min-height: 28px;
+  margin-bottom: 30px;
   font-size: 17px;
-  line-height: 1.65;
-  color: var(--txt2);
-  margin-bottom: 40px;
-  max-width: 560px;
-  margin-left: auto;
-  margin-right: auto;
+  line-height: 1.5;
+  color: var(--txt);
+  font-weight: 600;
+  letter-spacing: -.2px;
 }
+.hero-rotator-item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  visibility: hidden;
+  white-space: nowrap;
+}
+.hero-rotator-item.is-active { visibility: visible; }
+/* La liste complète, lue par les lecteurs d'écran ; elle devient visible et
+   remplace le défilement si l'utilisateur a demandé moins d'animations. */
+.hero-tags-static {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rotator { display: none; }
+  .hero-tags-static {
+    position: static;
+    width: auto; height: auto;
+    clip: auto;
+    white-space: normal;
+    display: block;
+  }
+  .hero-tags { min-height: 0; }
+}
+
 .hero-ctas {
   display: flex;
   gap: 12px;
-  justify-content: center;
   flex-wrap: wrap;
 }
 .btn-primary {
@@ -301,48 +329,37 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   background: rgba(255,255,255,.1);
   border-color: rgba(255,255,255,.28);
 }
-.hero-bg-video {
-  position: absolute;
-  inset: 0;
+/* Fenêtre vidéo — le ratio est celui de VUE_1.mp4 (1798 × 996), figé pour
+   qu'aucun saut de mise en page n'ait lieu avant le chargement. */
+.hero-video-frame {
+  background: var(--canvas-bg);
+  border: 1px solid var(--bdr2);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.06);
+}
+.hero-video {
+  display: block;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1798 / 996;
   object-fit: cover;
-  opacity: 0.12;
-  z-index: 0;
+  background: #000;
 }
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom,
-    rgba(28,28,30,0.3) 0%,
-    rgba(28,28,30,0.6) 55%,
-    rgba(28,28,30,0.98) 100%);
-  z-index: 1;
+
+@media (max-width: 900px) {
+  #hero { padding: 84px 18px 64px; }
+  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 34px; }
+  .hero-col-text { text-align: center; }
+  .hero-tags { min-height: 54px; }
+  .hero-rotator-item { left: 0; right: 0; white-space: normal; }
+  .hero-ctas { justify-content: center; }
+  .btn-primary { width: 100%; max-width: 320px; justify-content: center; }
 }
-.hero-content { z-index: 2; }
-.scroll-hint {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: var(--txt3);
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+/* Sous 480px le titre ne tient plus sur une ligne, même à 20px : mieux vaut
+   deux lignes qu'un texte illisible. */
+@media (max-width: 480px) {
+  .hero-col-text h1 { white-space: normal; text-wrap: balance; }
 }
-.scroll-hint-line {
-  width: 1px;
-  height: 32px;
-  background: linear-gradient(to bottom, var(--txt3), transparent);
-  animation: scrollLine 2s ease infinite;
-  transform-origin: top;
-}
-@keyframes scrollLine { 0%,100%{opacity:1;} 50%{opacity:.2;} }
 
 /* ── PREVIEW (GIF) ── */
 #preview {
@@ -710,12 +727,6 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   margin-left: 8px;
   vertical-align: middle;
 }
-.beta-badge.hero {
-  font-size: 12px;
-  padding: 5px 12px;
-  margin-top: 14px;
-  margin-bottom: 4px;
-}
 .download-beta-note {
   margin: 10px 0 0;
   font-size: 13px;
@@ -981,8 +992,6 @@ footer {
 
   /* Hero */
   #hero { padding: 90px 18px 70px; }
-  .hero-content h1 { font-size: clamp(32px, 8vw, 44px); letter-spacing: -1.2px; }
-  .hero-sub { font-size: 15px; margin-bottom: 28px; }
   .hero-ctas { gap: 10px; }
   .btn-primary, .btn-secondary { padding: 12px 22px; font-size: 14px; width: 100%; justify-content: center; }
   .hero-ctas { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto; }
@@ -1053,7 +1062,6 @@ footer {
   .nav-by { font-size: 12px; }
   .nav-bernik { height: 34px; }
   .nav-inner { padding: 0 14px; }
-  .hero-content h1 { font-size: 28px; }
   .download-title { font-size: 22px; }
   .compare-header, .compare-row, .compare-footer {
     grid-template-columns: 1.4fr 1fr 1fr;
