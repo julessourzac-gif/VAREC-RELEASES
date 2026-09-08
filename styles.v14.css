@@ -189,8 +189,9 @@ body > nav.open .nav-burger span:nth-child(2) { opacity: 0; }
 body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* ── HERO ──
-   Deux colonnes : le texte à gauche, la fenêtre vidéo à droite. Pas de fond
-   animé (la vidéo de fond et son calque ont été retirés).
+   VUE_1.mp4 occupe tout le cadre de la section ; par-dessus, à gauche, une
+   fenêtre translucide qui porte le titre, la ligne de fonctionnalités et le
+   bouton de téléchargement.
 
    La section occupe toute la fenêtre. svh plutôt que vh : sur mobile, vh
    vaut la hauteur écran barres d'outils masquées, ce qui pousse le bas du
@@ -207,18 +208,59 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   align-items: center;
   padding: 100px 24px 40px;
   overflow: hidden;
-  background: radial-gradient(ellipse 120% 70% at 25% 15%, #0d1a0e, #1c1c1e 62%);
+  background: var(--canvas-bg);
+}
+/* Recadrée en cover : la vidéo remplit la section quel que soit le format de
+   l'écran. Le léger flou et l'agrandissement de 4 % évitent que les détails
+   de l'interface filmée ne concurrencent le texte, et masquent les bords que
+   le flou laisserait transparaître. */
+.hero-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(2px) saturate(.9);
+  transform: scale(1.04);
+  z-index: 0;
+}
+/* Le texte a son propre fond : ce voile n'a pas à le protéger, seulement à
+   calmer l'image, à la faire passer sous la barre de nav et à la raccorder à
+   la section suivante. D'où un voile uniforme et léger. */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom,
+    rgba(9,9,9,.62) 0%,
+    rgba(9,9,9,.34) 22%,
+    rgba(9,9,9,.34) 62%,
+    rgba(28,28,30,.9) 100%);
 }
 .hero-grid {
+  position: relative;
+  z-index: 2;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  align-items: center;
-  gap: 48px;
+  display: flex;
+  justify-content: flex-start;
 }
-.hero-col-text { text-align: left; }
+/* 620px n'est pas une valeur ronde : c'est la largeur minimale pour que le
+   titre tienne sur une ligne à 32px (525px de texte, 550px utiles une fois
+   les marges internes déduites). */
+.hero-card {
+  width: 100%;
+  max-width: 620px;
+  text-align: left;
+  padding: 34px;
+  border-radius: 16px;
+  background: rgba(18, 18, 20, .62);
+  backdrop-filter: blur(18px) saturate(1.1);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: 0 40px 90px rgba(0,0,0,.7), 0 1px 0 rgba(255,255,255,.07) inset;
+}
 .version-badge {
   display: inline-flex;
   align-items: center;
@@ -246,9 +288,9 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
 @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.3;} }
 
 /* Le titre tient sur une seule ligne : la taille suit la largeur de la
-   fenêtre et se borne à 32px, ce qui laisse au moins 10 % de marge jusqu'au
-   basculement en une colonne (900px). */
-.hero-col-text h1 {
+   fenêtre du navigateur et se borne à 32px, la largeur de la carte étant
+   calée sur cette valeur. */
+.hero-card h1 {
   font-size: clamp(20px, 2.5vw, 32px);
   font-weight: 800;
   line-height: 1.15;
@@ -341,52 +383,20 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   background: rgba(255,255,255,.1);
   border-color: rgba(255,255,255,.28);
 }
-/* Fenêtre vidéo — le ratio est celui de VUE_1.mp4 (1798 × 996), figé pour
-   qu'aucun saut de mise en page n'ait lieu avant le chargement. */
-.hero-video-frame {
-  background: var(--canvas-bg);
-  border: 1px solid var(--bdr2);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 32px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.06);
-}
-.hero-video {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1798 / 996;
-  object-fit: cover;
-  background: #000;
-}
-
 @media (max-width: 900px) {
   #hero { padding: 92px 18px 32px; }
-  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 34px; }
-  .hero-col-text { text-align: center; }
+  .hero-grid { justify-content: center; }
+  .hero-card { padding: 26px 22px; text-align: center; }
   .hero-tags { min-height: 54px; }
   .hero-rotator-item { left: 0; right: 0; white-space: normal; }
   .hero-ctas { justify-content: center; }
   .btn-primary { width: 100%; max-width: 320px; justify-content: center; }
 }
-/* Téléphone en paysage : l'écran est large mais très bas. Empilées, les deux
-   colonnes feraient le double de la fenêtre ; côte à côte, elles y tiennent. */
-@media (max-width: 900px) and (orientation: landscape) {
-  #hero { padding: 76px 18px 24px; }
-  .hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
-  .hero-col-text { text-align: left; }
-  /* La colonne ne fait plus que la moitié d'un écran déjà étroit : le titre
-     redescend jusqu'à 14px pour continuer de tenir sur une ligne. */
-  .hero-col-text h1 { font-size: clamp(14px, 2.6vw, 22px); letter-spacing: -.5px; margin-bottom: 12px; }
-  /* La plus longue phrase y passe sur deux lignes : la hauteur réservée les
-     prévoit, sinon elle recouvrirait le bouton. */
-  .hero-tags { font-size: 14px; min-height: 44px; margin-bottom: 16px; }
-  .hero-ctas { justify-content: flex-start; }
-  .btn-primary { width: auto; }
-}
 
-/* Sous 480px le titre ne tient plus sur une ligne, même à 20px : mieux vaut
-   deux lignes qu'un texte illisible. */
+/* Sous 480px le titre ne tient plus sur une ligne dans la fenêtre, même à
+   20px : mieux vaut deux lignes qu'un texte illisible. */
 @media (max-width: 480px) {
-  .hero-col-text h1 { white-space: normal; text-wrap: balance; }
+  .hero-card h1 { white-space: normal; text-wrap: balance; }
 }
 
 /* ── PREVIEW (GIF) ── */
