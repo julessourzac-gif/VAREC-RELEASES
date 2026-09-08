@@ -190,15 +190,27 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
 
 /* ── HERO ──
    Deux colonnes : le texte à gauche, la fenêtre vidéo à droite. Pas de fond
-   animé (la vidéo de fond et son calque ont été retirés), pas de hauteur
-   d'écran imposée : la section fait la hauteur de son contenu. */
+   animé (la vidéo de fond et son calque ont été retirés).
+
+   La section occupe toute la fenêtre. svh plutôt que vh : sur mobile, vh
+   vaut la hauteur écran barres d'outils masquées, ce qui pousse le bas du
+   héros hors de vue au chargement ; svh vaut la hauteur réellement visible.
+   vh reste en repli pour les navigateurs qui ignorent svh.
+
+   Le contenu est centré sous la barre de nav, haute de 60px : d'où le
+   padding haut plus grand que le bas, exactement de 60px. */
 #hero {
   position: relative;
-  padding: 96px 24px 88px;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 100px 24px 40px;
   overflow: hidden;
   background: radial-gradient(ellipse 120% 70% at 25% 15%, #0d1a0e, #1c1c1e 62%);
 }
 .hero-grid {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
@@ -347,7 +359,7 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
 }
 
 @media (max-width: 900px) {
-  #hero { padding: 84px 18px 64px; }
+  #hero { padding: 92px 18px 32px; }
   .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 34px; }
   .hero-col-text { text-align: center; }
   .hero-tags { min-height: 54px; }
@@ -355,6 +367,22 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   .hero-ctas { justify-content: center; }
   .btn-primary { width: 100%; max-width: 320px; justify-content: center; }
 }
+/* Téléphone en paysage : l'écran est large mais très bas. Empilées, les deux
+   colonnes feraient le double de la fenêtre ; côte à côte, elles y tiennent. */
+@media (max-width: 900px) and (orientation: landscape) {
+  #hero { padding: 76px 18px 24px; }
+  .hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+  .hero-col-text { text-align: left; }
+  /* La colonne ne fait plus que la moitié d'un écran déjà étroit : le titre
+     redescend jusqu'à 14px pour continuer de tenir sur une ligne. */
+  .hero-col-text h1 { font-size: clamp(14px, 2.6vw, 22px); letter-spacing: -.5px; margin-bottom: 12px; }
+  /* La plus longue phrase y passe sur deux lignes : la hauteur réservée les
+     prévoit, sinon elle recouvrirait le bouton. */
+  .hero-tags { font-size: 14px; min-height: 44px; margin-bottom: 16px; }
+  .hero-ctas { justify-content: flex-start; }
+  .btn-primary { width: auto; }
+}
+
 /* Sous 480px le titre ne tient plus sur une ligne, même à 20px : mieux vaut
    deux lignes qu'un texte illisible. */
 @media (max-width: 480px) {
@@ -990,8 +1018,7 @@ footer {
     border-bottom: none;
   }
 
-  /* Hero */
-  #hero { padding: 90px 18px 70px; }
+  /* Hero — le padding est déjà fixé par le bloc 900px ci-dessus. */
   .hero-ctas { gap: 10px; }
   .btn-primary, .btn-secondary { padding: 12px 22px; font-size: 14px; width: 100%; justify-content: center; }
   .hero-ctas { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto; }
