@@ -9,6 +9,14 @@ on:
         description: 'Tag à appliquer (ex: v1.4.25)'
         required: true
 
+# Deux releases peuvent être publiées à quelques secondes d'intervalle (v1.5.39
+# et v1.5.40 l'ont été à 3 s d'écart) : leurs runs se marchaient dessus sur le
+# push. On les sérialise, sans annuler le run en cours — chacun doit appliquer
+# sa version, dans l'ordre de publication.
+concurrency:
+  group: update-version
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -29,24 +37,60 @@ jobs:
             echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Check arm64 asset exists
+      - name: Wait for release assets
         id: assets
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ steps.vars.outputs.tag }}
+          REPO: ${{ github.repository }}
         run: |
-          VER="${TAG#v}"
-          HAS_ARM64=$(gh release view "$TAG" \
-            --repo ${{ github.repository }} \
-            --json assets --jq \
-            "[.assets[].name | select(endswith(\"-arm64.dmg\"))] | length > 0")
-          HAS_INTEL=$(gh release view "$TAG" \
-            --repo ${{ github.repository }} \
-            --json assets --jq \
-            "[.assets[].name | select(endswith(\".dmg\") and (endswith(\"-arm64.dmg\") | not))] | length > 0")
-          echo "arm64=$HAS_ARM64" >> $GITHUB_OUTPUT
-          echo "intel=$HAS_INTEL" >> $GITHUB_OUTPUT
-          echo "ver=$VER" >> $GITHUB_OUTPUT
+          # Le workflow part sur `release: published`, mais les binaires sont
+          # téléversés APRÈS, depuis le dépôt privé VAREC : 50 s pour le DMG
+          # arm64 de la v1.6.0, 9 min pour son .exe. Interroger les assets tout
+          # de suite revient donc à les déclarer absents — c'est ce qui a mis
+          # les runs v1.5.39, v1.5.40 et v1.6.0 en échec en laissant les pages
+          # figées sur la version précédente. On attend que les quatre binaires
+          # soient là, et on repart avec ce qui est arrivé si le délai expire.
+          probe() {
+            ARM64=false; INTEL=false; WIN=false; LINUX=false
+            NAMES=$(gh release view "$TAG" --repo "$REPO" --json assets \
+                      --jq '.assets[].name' 2>/dev/null || true)
+            while IFS= read -r n; do
+              [ -z "$n" ] && continue
+              # Le premier motif qui matche gagne : un DMG arm64 ne doit pas
+              # compter comme Intel. Les .blockmap ne matchent aucun motif.
+              case "$n" in
+                *-arm64.dmg) ARM64=true ;;
+                *.dmg)       INTEL=true ;;
+                *.exe)       WIN=true ;;
+                *.AppImage)  LINUX=true ;;
+              esac
+            done <<< "$NAMES"
+          }
+
+          DEADLINE=$(( SECONDS + 900 ))
+          while :; do
+            probe
+            if [ "$ARM64" = true ] && [ "$INTEL" = true ] \
+               && [ "$WIN" = true ] && [ "$LINUX" = true ]; then
+              echo "Les quatre binaires de $TAG sont en place."
+              break
+            fi
+            if [ "$SECONDS" -ge "$DEADLINE" ]; then
+              echo "::warning::$TAG — délai d'attente dépassé, mise à jour avec les binaires présents (arm64=$ARM64 intel=$INTEL win=$WIN linux=$LINUX)"
+              break
+            fi
+            echo "En attente (arm64=$ARM64 intel=$INTEL win=$WIN linux=$LINUX) — nouvel essai dans 20 s"
+            sleep 20
+          done
+
+          {
+            echo "arm64=$ARM64"
+            echo "intel=$INTEL"
+            echo "win=$WIN"
+            echo "linux=$LINUX"
+            echo "ver=${TAG#v}"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Update version in index.html + en/index.html
         env:
@@ -54,6 +98,8 @@ jobs:
           VER: ${{ steps.assets.outputs.ver }}
           HAS_ARM64: ${{ steps.assets.outputs.arm64 }}
           HAS_INTEL: ${{ steps.assets.outputs.intel }}
+          HAS_WIN: ${{ steps.assets.outputs.win }}
+          HAS_LINUX: ${{ steps.assets.outputs.linux }}
         run: |
           # Deux dates : le bandeau français est en toutes lettres françaises,
           # l'anglais suit en-GB, comme localeDate() dans script.js.
@@ -79,6 +125,8 @@ jobs:
           ver      = os.environ['VER']
           has_arm  = os.environ['HAS_ARM64'] == 'true'
           has_intel = os.environ['HAS_INTEL'] == 'true'
+          has_win   = os.environ['HAS_WIN'] == 'true'
+          has_linux = os.environ['HAS_LINUX'] == 'true'
 
           # Chaque locale a sa page, son libellé de bandeau et sa date. Le reste
           # des motifs (CTA, liens de téléchargement) est identique d'une langue
@@ -89,27 +137,33 @@ jobs:
               ('en/index.html', 'Latest version: ',    '$DATE_EN'),
           ]
 
-          # Le bandeau ne s'avance jamais devant les liens. Il était mis à jour
-          # inconditionnellement alors que les liens attendaient, eux, la
-          # présence d'un DMG : une release publiée sans binaire faisait donc
-          # annoncer par la page une version qu'elle ne pouvait pas servir
-          # (bandeau v1.5.38, liens v1.5.35). C'est l'écart constaté en
-          # production sur v1.5.36, v1.5.37 et v1.5.38.
-          if not (has_arm or has_intel):
-              print(f'::warning::{tag} publiée sans DMG macOS — pages laissées inchangées')
-              print(f'index.html, en/index.html → inchangés (aucun binaire à servir pour {tag})')
+          # Chaque plateforme est recalée INDÉPENDAMMENT, sur la présence de son
+          # propre binaire — même règle que script.js côté navigateur. Seuls les
+          # deux DMG étaient traités ici : les liens Windows et Linux restaient
+          # donc figés à chaque release, et il fallait les rattraper à la main
+          # (commits « liens Windows/Linux recalés sur la v1.5.38 » puis
+          # « bascule de la v1.5.38 vers la v1.5.40 »).
+          if not (has_arm or has_intel or has_win or has_linux):
+              print(f'::warning::{tag} publiée sans aucun binaire — pages laissées inchangées')
+              print(f'index.html, en/index.html → inchangés (rien à servir pour {tag})')
           else:
               for path, label, date in PAGES:
                   with open(path, 'r') as f:
                       html = f.read()
 
-                  html = re.sub(r'↓ v[\d.]+', f'↓ {tag}', html)
-                  html = re.sub(r'v[\d.]+ · macOS', f'{tag} · macOS', html)
-                  html = re.sub(
-                      re.escape(label) + r'v[\d.]+ · [^<]+',
-                      f'{label}{tag} · {date}',
-                      html
-                  )
+                  # Le bandeau et le CTA annoncent la version macOS, plateforme
+                  # de référence du produit : ils ne s'avancent jamais devant le
+                  # DMG. Sans ce garde-fou, la page annonçait une version
+                  # qu'elle ne pouvait pas servir (bandeau v1.5.38, liens
+                  # v1.5.35) — l'écart constaté sur v1.5.36, v1.5.37 et v1.5.38.
+                  if has_arm or has_intel:
+                      html = re.sub(r'↓ v[\d.]+', f'↓ {tag}', html)
+                      html = re.sub(r'v[\d.]+ · macOS', f'{tag} · macOS', html)
+                      html = re.sub(
+                          re.escape(label) + r'v[\d.]+ · [^<]+',
+                          f'{label}{tag} · {date}',
+                          html
+                      )
 
                   # Lien arm64 — seulement si le DMG existe dans cette release
                   if has_arm:
@@ -127,15 +181,35 @@ jobs:
                           html
                       )
 
+                  # Lien Windows — seulement si l'installeur .exe est présent
+                  if has_win:
+                      html = re.sub(
+                          r'releases/download/v[\d.]+/VAREC\.Setup\.[\d.]+\.exe',
+                          f'releases/download/{tag}/VAREC.Setup.{ver}.exe',
+                          html
+                      )
+
+                  # Lien Linux — seulement si l'AppImage est présent. Le .deb est
+                  # publié mais n'est référencé par aucune page : rien à recaler.
+                  if has_linux:
+                      html = re.sub(
+                          r'releases/download/v[\d.]+/VAREC-[\d.]+\.AppImage',
+                          f'releases/download/{tag}/VAREC-{ver}.AppImage',
+                          html
+                      )
+
                   with open(path, 'w') as f:
                       f.write(html)
 
                   print(f'{path} → {tag} ({date})')
 
-              arm_status  = '✓ mis à jour' if has_arm  else '— inchangé (pas de DMG arm64)'
-              intel_status = '✓ mis à jour' if has_intel else '— inchangé (pas de DMG Intel)'
-              print(f'  arm64  : {arm_status}')
-              print(f'  intel  : {intel_status}')
+              for name, present, missing in (
+                  ('arm64', has_arm,   'pas de DMG arm64'),
+                  ('intel', has_intel, 'pas de DMG Intel'),
+                  ('win',   has_win,   'pas d\'installeur .exe'),
+                  ('linux', has_linux, 'pas d\'AppImage'),
+              ):
+                  print(f'  {name:<6}: ' + ('✓ mis à jour' if present else f'— inchangé ({missing})'))
           PYEOF
 
       - name: Commit and push
@@ -154,6 +228,10 @@ jobs:
       # sans que rien ne le signale : le job restait vert, la page continuait
       # de servir v1.5.35. Une release macOS sans DMG est un échec de
       # publication, elle doit teindre le run en rouge et notifier.
+      # L'étape s'appuie sur l'attente ci-dessus : avant, elle se déclenchait
+      # alors que les binaires étaient simplement encore en cours d'upload, et
+      # teignait en rouge des publications parfaitement valides (v1.5.39,
+      # v1.5.40, v1.6.0). Elle ne signale donc plus qu'une absence réelle.
       - name: Fail if release ships no macOS DMG
         if: steps.assets.outputs.arm64 != 'true' && steps.assets.outputs.intel != 'true'
         env:
