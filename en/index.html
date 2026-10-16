@@ -28,30 +28,36 @@
 <link rel="stylesheet" href="/styles.v14.css">
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>
-<body>
+<body class="sidenav locked">
 
 <!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <a href="https://bernik.io" class="nav-brand" target="_blank" rel="noopener">
+<!-- BANDEAU — logo et langue seulement, le reste passe dans le menu -->
+<header class="top">
+  <a href="https://bernik.io" class="nav-brand" target="_blank" rel="noopener">
       <img src="/logo.png" alt="VAREC" class="nav-logo">
       <span class="nav-by">by</span>
-      <img src="/BERNIK%202%20transoarent.png" alt="Bernik" class="nav-bernik">
+      <img src="/logo-bernik-nav.png" alt="Bernik" class="nav-bernik">
     </a>
-    <ul class="nav-links">
-      <li><a href="#preview">Overview</a></li>
-      <li><a href="#features">Features</a></li>
-      <li><a href="/en/resources.html">Resources</a></li>
-      <li class="nav-link-dl"><a href="#download">Download</a></li>
-    </ul>
-    <a href="#download" class="nav-cta">↓ v1.7.6 <span class="beta-badge sm">BETA</span></a>
+  <div class="top-right">
     <div class="lang-switch" role="group" aria-label="Language">
       <a href="/" class="lang-opt" hreflang="fr" lang="fr">FR</a>
       <a href="/en/" class="lang-opt active" hreflang="en" lang="en" aria-current="true">EN</a>
     </div>
     <button class="nav-burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
+</header>
+
+<!-- MENU LATÉRAL -->
+<nav class="menu" aria-label="Sections">
+    <a href="#hero" class="on" data-g="hero"><b>01</b><span>HOME</span></a>
+    <a href="#preview" data-g="preview"><b>02</b><span>OVERVIEW</span></a>
+    <a href="#features" data-g="features"><b>03</b><span>FEATURES</span></a>
+    <a href="/en/resources.html"><b>04</b><span>RESOURCES</span></a>
+    <a href="/en/videos.html"><b>05</b><span>VIDEOS</span></a>
+    <a href="#download" class="nav-cta">↓ v1.7.6 <span class="beta-badge sm">BETA</span></a>
 </nav>
+
+<main class="stage">
 
 <!-- HERO -->
 <section id="hero">
@@ -216,6 +222,9 @@
   </div>
 </section>
 
+<!-- Dernière boîte : licence et pied de page ensemble, pour que
+     les mentions légales restent atteignables dans la scène. -->
+<div class="box-end">
 <!-- LICENCE -->
 <!-- Section commerciale masquée pendant la bêta fermée. Tunnel complet préparé dans tarifs.html (non indexée, non liée). Réactivation : voir README → « Passage en commercial ». -->
 <section id="licence">
@@ -248,6 +257,9 @@
     <div class="footer-copy">© 2026 BERNIK — VAREC macOS Field Recorder</div>
   </div>
 </footer>
+</div>
+
+</main>
 
 <script src="/script.js"></script>
 </body>

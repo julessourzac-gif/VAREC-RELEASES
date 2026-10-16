@@ -198,6 +198,118 @@
 })();
 
 
+// ── Scène verrouillée (accueil) ──
+// Portage du défilement section par section de bernik.io : molette, doigt et
+// clavier font passer d'une boîte à l'autre, la page elle-même ne bouge pas.
+// Le garde-fou essentiel est peutDefiler() : une section plus haute que
+// l'écran défile d'abord jusqu'au bout, sinon son contenu devient
+// inatteignable — la liste de neuf fonctionnalités est dans ce cas.
+(function(){
+  const scene = document.querySelector('.sidenav.locked .stage');
+  if(!scene) return;
+  const boxes = Array.prototype.slice.call(scene.children)
+    .filter(function(el){ return el.matches('section, .box, .box-end'); });
+  if(boxes.length < 2) return;
+  const liens = Array.prototype.slice.call(document.querySelectorAll('.menu a[data-g]'));
+
+  const REDUIT = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const GLISSE = window.matchMedia('(min-width: 901px)');   // au-delà, la scène est verrouillée
+  const DUREE = 820;
+  let cur = 0, lock = false, acc = 0;
+
+  function doux(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+
+  function activer(n){
+    const id = boxes[n].id;
+    liens.forEach(function(l){ l.classList.toggle('on', l.dataset.g === id); });
+    if(id) history.replaceState(null, '', '#' + id);
+  }
+
+  function aller(n, anim){
+    n = Math.max(0, Math.min(boxes.length - 1, n));
+    const depart = scene.scrollTop, arrivee = boxes[n].offsetTop;
+    cur = n; activer(n);
+    if(anim === false || REDUIT.matches || depart === arrivee){ scene.scrollTop = arrivee; return; }
+    lock = true;
+    const d = arrivee - depart, t0 = performance.now();
+    requestAnimationFrame(function pas(t){
+      const prog = Math.min(1, (t - t0) / DUREE);
+      scene.scrollTop = depart + d * doux(prog);
+      if(prog < 1) requestAnimationFrame(pas);
+      else { lock = false; acc = 0; }
+    });
+  }
+  function suivre(d){ if(!lock) aller(cur + d); }
+
+  // Vrai tant que la boîte courante peut encore défiler dans la direction d.
+  function peutDefiler(el, d){
+    return el && el.scrollHeight > el.clientHeight + 1 &&
+      (d > 0 ? el.scrollTop + el.clientHeight < el.scrollHeight - 1 : el.scrollTop > 0);
+  }
+
+  scene.addEventListener('wheel', function(e){
+    if(!GLISSE.matches) return;                       // mobile : défilement natif
+    if(peutDefiler(boxes[cur], e.deltaY)) return;
+    e.preventDefault();
+    if(lock) return;
+    acc += e.deltaY;
+    if(Math.abs(acc) > 40){ suivre(acc > 0 ? 1 : -1); acc = 0; }   // seuil : inertie des pavés tactiles
+  }, {passive:false});
+
+  let ty = null;
+  scene.addEventListener('touchstart', function(e){ ty = e.touches[0].clientY; }, {passive:true});
+  scene.addEventListener('touchend', function(e){
+    if(!GLISSE.matches || ty === null || lock) return;
+    const dy = e.changedTouches[0].clientY - ty; ty = null;
+    if(Math.abs(dy) > 50) suivre(dy < 0 ? 1 : -1);
+  }, {passive:true});
+
+  addEventListener('keydown', function(e){
+    const d = {ArrowDown:1, PageDown:1, ArrowUp:-1, PageUp:-1}[e.key];
+    if(!d || !GLISSE.matches) return;
+    if(e.target.closest('input, textarea, select')) return;
+    if(peutDefiler(boxes[cur], d)) return;
+    e.preventDefault();
+    suivre(d);
+  });
+
+  // Les ancres du menu et du pied de page pilotent la scène plutôt que le
+  // défilement natif, qui ne ferait rien dans une page verrouillée.
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      const k = boxes.findIndex(function(b){ return '#' + b.id === a.getAttribute('href'); });
+      if(k > -1){ e.preventDefault(); if(!lock) aller(k); }
+    });
+  });
+
+  // Sous 901px la scène redevient une page qui défile : on suit la section
+  // visible par observation, et on rebranche à chaque changement de largeur.
+  let io = null;
+  function mode(){
+    if(GLISSE.matches){
+      if(io){ io.disconnect(); io = null; }
+      aller(cur, false);
+    } else if(!io && 'IntersectionObserver' in window){
+      io = new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          if(!e.isIntersecting) return;
+          cur = boxes.indexOf(e.target); activer(cur);
+        });
+      }, {rootMargin: '-50% 0px -50% 0px'});
+      boxes.forEach(function(b){ io.observe(b); });
+    }
+  }
+  // L'ancre d'arrivée se lit AVANT tout appel à aller(), qui réécrit le hash
+  // en passant par activer() — sinon on retomberait toujours sur la première
+  // boîte, quelle que soit l'ancre demandée depuis Ressources ou Vidéos.
+  const depart = boxes.findIndex(function(b){ return '#' + b.id === location.hash; });
+
+  GLISSE.addEventListener('change', mode);
+  mode();
+  aller(depart > -1 ? depart : 0, false);
+})();
+
+
 // ── Scroll reveal ──
 (function(){
   const cards=document.querySelectorAll('.feature-row');
@@ -215,21 +327,27 @@
 
 
 // ── Nav opacity on scroll ──
+// Uniquement sur les pages à barre horizontale : les pages à menu latéral ont
+// un bandeau déjà opaque, et leur <nav class="menu"> répondrait à ce sélecteur.
 (function(){
+  if(document.body.classList.contains('sidenav')) return;
   const nav=document.querySelector('body > nav');
   if(!nav) return;
   window.addEventListener('scroll',()=>{
     nav.style.background=window.scrollY>60
-      ?'rgba(28,28,30,.97)'
-      :'rgba(28,28,30,.88)';
+      ?'rgba(12,17,22,.97)'
+      :'rgba(12,17,22,.88)';
   });
 })();
 
 // ── Mobile burger menu ──
 (function(){
-  const nav = document.querySelector('body > nav');
+  // Deux chromes cohabitent : la barre horizontale, où le tiroir est le <nav>
+  // lui-même, et le menu latéral, où c'est <body> qui porte l'état ouvert.
+  const lateral = document.body.classList.contains('sidenav');
+  const nav = lateral ? document.body : document.querySelector('body > nav');
   if (!nav) return;
-  const burger = nav.querySelector('.nav-burger');
+  const burger = document.querySelector('.nav-burger');
   if (!burger) return;
 
   function close() {
@@ -248,12 +366,16 @@
     toggle();
   });
   // Close when tapping a link
-  nav.querySelectorAll('.nav-links a').forEach(function(a){
+  nav.querySelectorAll('.nav-links a, .menu a').forEach(function(a){
     a.addEventListener('click', close);
   });
   // Close when tapping outside
   document.addEventListener('click', function(e){
-    if (nav.classList.contains('open') && !nav.contains(e.target)) close();
+    if (!nav.classList.contains('open')) return;
+    const dedans = lateral
+      ? e.target.closest('.top, .menu')
+      : nav.contains(e.target);
+    if (!dedans) close();
   });
   // Close on Escape
   document.addEventListener('keydown', function(e){

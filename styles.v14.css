@@ -132,12 +132,14 @@ body > nav {
   line-height: 1;
 }
 .nav-bernik {
-  height: 46px;
+  /* Détouré au plus juste (497 × 160), contrairement à l'ancien carré de
+     2000 px très margé : d'où une hauteur bien plus faible et plus aucune
+     translation verticale pour le recaler. Aucun filtre non plus — le
+     dégradé rose → pêche du fichier EST la couleur de marque de Bernik. */
+  height: 22px;
   width: auto;
   flex-shrink: 0;
   display: block;
-  filter: hue-rotate(30deg) saturate(.95);
-  transform: translateY(3px);
 }
 .nav-links {
   display: flex;
@@ -1013,7 +1015,7 @@ footer {
   .nav-logo { height: 24px; }
   .nav-link-dl { display: list-item; }
   .nav-by { font-size: 13px; }
-  .nav-bernik { height: 38px; }
+  .nav-bernik { height: 19px; }
 
   /* Drawer */
   .nav-links {
@@ -1131,7 +1133,7 @@ footer {
 @media (max-width: 420px) {
   .nav-logo { height: 22px; }
   .nav-by { font-size: 12px; }
-  .nav-bernik { height: 34px; }
+  .nav-bernik { height: 18px; }
   .nav-inner { padding: 0 14px; }
   .download-title { font-size: 22px; }
   .compare-header, .compare-row, .compare-footer {
@@ -2018,4 +2020,188 @@ footer {
 @media (max-width: 420px) {
   .nav-inner .lang-switch { margin-right: 2px; }
   .lang-opt { padding: 5px 7px; font-size: 10.5px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CHROME LATÉRAL — structure reprise de bernik.io
+   ═══════════════════════════════════════════════════════════════════════
+   Tout est préfixé par .sidenav : seules l'accueil, ressources et vidéos
+   (FR et EN) portent cette classe sur leur <body>. Les huit autres pages
+   gardent la barre horizontale et ne voient rien de ce qui suit.
+
+   Le bandeau du haut ne porte plus que le logo et le sélecteur de langue ;
+   les sections et le bouton de téléchargement passent dans le menu de
+   gauche. La scène est la seule zone qui défile. */
+
+.sidenav {
+  --hh: 66px;                            /* hauteur du bandeau */
+  --menu: clamp(172px, 15vw, 244px);     /* largeur du menu */
+  --gut: clamp(20px, 3.2vw, 52px);       /* gouttière latérale */
+}
+/* L'accueil verrouille la page : plus rien ne défile sauf .stage. */
+.sidenav.locked, html:has(.sidenav.locked) { height: 100%; overflow: hidden; }
+
+/* ── Bandeau ── */
+.sidenav .top {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 40;
+  height: var(--hh);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 var(--gut);
+  background: rgba(12,17,22,.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--bdr);
+}
+
+/* ── Menu de gauche ── */
+.sidenav .menu {
+  position: fixed;
+  left: 0;
+  top: var(--hh);
+  bottom: 0;
+  width: var(--menu);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  padding-left: var(--gut);
+}
+.sidenav .menu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--txt2);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .09em;
+  padding: 7px 0;
+  transition: color .25s;
+}
+.sidenav .menu a b {
+  flex: none;
+  width: 18px;
+  font-weight: 500;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  opacity: .5;
+  transition: .25s;
+}
+/* Le filet accentué qui se déplie sous l'entrée courante. */
+.sidenav .menu a::after {
+  content: "";
+  height: 1.5px;
+  width: 0;
+  border-radius: 2px;
+  background: var(--brand);
+  transition: width .3s;
+}
+.sidenav .menu a:hover,
+.sidenav .menu a.on { color: var(--txt); }
+.sidenav .menu a.on b { opacity: 1; color: var(--brand); }
+.sidenav .menu a.on::after { width: 20px; }
+
+/* La pilule de téléchargement : détachée du reste, encadrée à l'accent.
+   Elle garde la classe .nav-cta, dont dépendent script.js et les tests. */
+.sidenav .menu .nav-cta {
+  align-self: flex-start;
+  margin-top: 18px;
+  margin-left: 28px;          /* 18px de numéro + 10px d'écart */
+  padding: 8px 15px;
+  background: transparent;
+  border: 1px solid var(--brand);
+  border-radius: 999px;
+  color: var(--txt);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0;
+  white-space: nowrap;
+  transition: background .25s, color .25s;
+}
+.sidenav .menu .nav-cta::after { display: none; }
+/* La règle .nav-cta .beta-badge assombrit le badge pour la pilule pleine de
+   la barre horizontale. Ici la pilule est ajourée : le badge reprend son
+   ambre, et ne s'assombrit qu'au survol, quand le fond se remplit. */
+.sidenav .menu .nav-cta .beta-badge {
+  background: rgba(255,159,10,.14);
+  border-color: rgba(255,159,10,.45);
+  color: var(--amb);
+}
+.sidenav .menu .nav-cta:hover { background: var(--brand); color: var(--bg); opacity: 1; transform: none; }
+.sidenav .menu .nav-cta:hover .beta-badge { background: rgba(12,17,22,.22); border-color: rgba(12,17,22,.38); color: var(--bg); }
+
+/* ── Scène ── */
+.sidenav .stage {
+  position: fixed;
+  left: var(--menu);
+  right: 0;
+  top: var(--hh);
+  bottom: 0;
+  z-index: 10;
+  overflow: hidden;
+}
+/* Ressources et vidéos gardent un défilement ordinaire. */
+.sidenav:not(.locked) .stage { overflow-y: auto; }
+.sidenav.locked .stage > section,
+.sidenav.locked .stage > .box {
+  height: 100%;
+  /* Une section plus haute que l'écran défile d'elle-même : c'est ce que le
+     script interroge avant d'autoriser le passage à la suivante. */
+  overflow-y: auto;
+}
+/* La dernière boîte réunit la licence et le pied de page : les liens
+   légaux doivent rester atteignables, le RGPD l'impose. */
+.sidenav.locked .stage > .box-end {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+}
+/* Le héros occupait toute la fenêtre ; dans la scène il occupe la scène. */
+.sidenav #hero { min-height: 0; height: 100%; padding-top: 40px; }
+
+/* ── Mobile : le menu se replie dans le tiroir burger existant ── */
+@media (max-width: 900px) {
+  .sidenav { --hh: 60px; }
+  .sidenav .menu {
+    top: var(--hh);
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: auto;
+    justify-content: flex-start;
+    gap: 2px;
+    padding: 14px var(--gut) 22px;
+    background: rgba(12,17,22,.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--bdr);
+    transform: translateY(-120%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .3s ease, opacity .25s ease;
+  }
+  .sidenav.open .menu { transform: translateY(0); opacity: 1; pointer-events: all; }
+  .sidenav .menu a { font-size: 14px; padding: 10px 0; }
+  .sidenav .menu .nav-cta { margin-left: 28px; font-size: 13px; }
+  /* Plus de verrouillage : la scène redevient une page qui défile. */
+  .sidenav.locked, html:has(.sidenav.locked) { height: auto; overflow: visible; }
+  .sidenav .stage {
+    position: static;
+    left: auto; right: auto; top: auto; bottom: auto;
+    overflow: visible;
+    padding-top: var(--hh);
+    scroll-snap-type: y proximity;
+  }
+  .sidenav.locked .stage > section,
+  .sidenav.locked .stage > .box,
+  .sidenav.locked .stage > .box-end { height: auto; scroll-snap-align: start; }
+  .sidenav #hero { height: auto; min-height: 100svh; }
 }

@@ -14,29 +14,33 @@
 <link rel="preload" href="/fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.v14.css">
 </head>
-<body>
+<body class="sidenav">
 
 <!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <a href="https://bernik.io" class="nav-brand" target="_blank" rel="noopener">
+<!-- BANDEAU — logo et langue seulement, le reste passe dans le menu -->
+<header class="top">
+  <a href="https://bernik.io" class="nav-brand" target="_blank" rel="noopener">
       <img src="/logo.png" alt="VAREC" class="nav-logo">
       <span class="nav-by">by</span>
-      <img src="/BERNIK%202%20transoarent.png" alt="Bernik" class="nav-bernik">
+      <img src="/logo-bernik-nav.png" alt="Bernik" class="nav-bernik">
     </a>
-    <ul class="nav-links">
-      <li><a href="/en/index.html#preview">Overview</a></li>
-      <li><a href="/en/index.html#features">Features</a></li>
-      <li><a href="/en/resources.html" class="active">Resources</a></li>
-      <li class="nav-link-dl"><a href="/en/index.html#download">Download</a></li>
-    </ul>
-    <a href="/en/index.html#download" class="nav-cta">↓ v1.5.38 <span class="beta-badge sm">BETA</span></a>
+  <div class="top-right">
     <div class="lang-switch" role="group" aria-label="Language">
       <a href="/videos.html" class="lang-opt" hreflang="fr" lang="fr">FR</a>
       <a href="/en/videos.html" class="lang-opt active" hreflang="en" lang="en" aria-current="true">EN</a>
     </div>
     <button class="nav-burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
+</header>
+
+<!-- MENU LATÉRAL -->
+<nav class="menu" aria-label="Sections">
+    <a href="/en/index.html#hero" data-g="hero"><b>01</b><span>HOME</span></a>
+    <a href="/en/index.html#preview" data-g="preview"><b>02</b><span>OVERVIEW</span></a>
+    <a href="/en/index.html#features" data-g="features"><b>03</b><span>FEATURES</span></a>
+    <a href="/en/resources.html"><b>04</b><span>RESOURCES</span></a>
+    <a href="/en/videos.html" class="on"><b>05</b><span>VIDEOS</span></a>
+    <a href="/en/index.html#download" class="nav-cta">↓ v1.5.38 <span class="beta-badge sm">BETA</span></a>
 </nav>
 
 <!-- BREADCRUMB -->
@@ -49,6 +53,8 @@
 </div>
 
 <!-- VIDEOS HEADER -->
+<main class="stage">
+
 <section id="videos-hero">
   <div class="container">
     <div class="section-header" style="margin-bottom: 50px;">
@@ -313,6 +319,9 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 })();
 </script>
+
+</main>
+
 <script src="/script.js"></script>
 </body>
 </html>
