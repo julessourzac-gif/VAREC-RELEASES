@@ -55,14 +55,15 @@
   --txt2:  #c2cad2;
   --txt3:  #7c8894;
   --rec:   #ff453a;
-  --grn:   #7ed957;
+  --grn:   #58e088;
   --amb:   #ff9f0a;
   --blu:   #0a84ff;
-  --tea:   #8fd3e6;
+  --tea:   #5ac8fa;
   --pur:   #bf5af2;
-  /* brand accent (vert dBoite) */
-  --brand: #7ed957;
-  --brand2: #8fd3e6;
+  /* brand accent : le vert du logo VAREC, échantillonné sur logo.png tel
+     qu'il s'affiche dans la barre de nav, filtre hue-rotate compris. */
+  --brand: #58e088;
+  --brand2: #58e088;
   /* Canvas */
   --canvas-bg:   #070a0e;
   --canvas-grid: rgba(255,255,255,.07);
@@ -374,9 +375,9 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   transition: all 0.15s;
 }
 .btn-primary:hover {
-  background: #93e26f;
+  background: #74e89d;
   transform: translateY(-1px);
-  box-shadow: 0 0 20px rgba(126,217,87,.35);
+  box-shadow: 0 0 20px rgba(88,224,136,.35);
 }
 .btn-secondary {
   display: inline-flex;
@@ -684,7 +685,7 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   transform: translateX(-50%);
   width: 500px;
   height: 300px;
-  background: radial-gradient(ellipse, rgba(126,217,87,.10), transparent 70%);
+  background: radial-gradient(ellipse, rgba(88,224,136,.10), transparent 70%);
   pointer-events: none;
 }
 .v-info {
@@ -718,7 +719,7 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   transition: all 0.15s;
   min-width: 210px;
 }
-.btn-download:hover { background: #93e26f; transform: translateY(-2px); box-shadow: 0 0 24px rgba(126,217,87,.35); }
+.btn-download:hover { background: #74e89d; transform: translateY(-2px); box-shadow: 0 0 24px rgba(88,224,136,.35); }
 .btn-download-title { font-size: 14px; }
 .btn-download-sub { font-size: 11px; opacity: .65; margin-top: 2px; font-weight: 500; }
 .btn-download.intel {
@@ -844,8 +845,8 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   position: relative;
 }
 .compare-col.pro {
-  background: rgba(126,217,87,.04);
-  border-left-color: rgba(126,217,87,.2);
+  background: rgba(88,224,136,.04);
+  border-left-color: rgba(88,224,136,.2);
 }
 .plan-badge {
   display: inline-block;
@@ -889,7 +890,7 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   text-align: center;
   border-left: 1px solid var(--bdr);
 }
-.compare-val.pro { border-left-color: rgba(126,217,87,.15); background: rgba(126,217,87,.02); }
+.compare-val.pro { border-left-color: rgba(88,224,136,.15); background: rgba(88,224,136,.02); }
 .chk { font-size: 16px; font-weight: 700; }
 .chk.yes { color: var(--grn); }
 .chk.no { color: var(--txt3); }
@@ -936,7 +937,7 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   width: 100%;
   justify-content: center;
 }
-.btn-compare-pro:hover { background: #93e26f; box-shadow: 0 0 20px rgba(126,217,87,.35); transform: translateY(-1px); }
+.btn-compare-pro:hover { background: #74e89d; box-shadow: 0 0 20px rgba(88,224,136,.35); transform: translateY(-1px); }
 
 .stripe-note {
   font-size: 11px;
@@ -1174,7 +1175,7 @@ footer {
   position: absolute;
   top: -60px; right: -60px;
   width: 200px; height: 200px;
-  background: radial-gradient(circle, rgba(126,217,87,.10), transparent 70%);
+  background: radial-gradient(circle, rgba(88,224,136,.10), transparent 70%);
   pointer-events: none;
   transition: opacity .2s;
 }
@@ -1228,8 +1229,8 @@ footer {
   width: 56px;
   height: 56px;
   border-radius: 12px;
-  background: rgba(126,217,87,.10);
-  border: 1px solid rgba(126,217,87,.2);
+  background: rgba(88,224,136,.10);
+  border: 1px solid rgba(88,224,136,.2);
   color: var(--brand);
   display: flex;
   align-items: center;
@@ -1507,7 +1508,7 @@ footer {
 }
 
 .doc-callout {
-  background: rgba(126,217,87,.06);
+  background: rgba(88,224,136,.06);
   border-left: 3px solid var(--brand);
   border-radius: 4px;
   padding: 14px 18px;
@@ -1573,7 +1574,7 @@ footer {
 .doc-back:hover, .doc-next:hover {
   border-color: var(--brand);
   color: var(--brand);
-  background: rgba(126,217,87,.05);
+  background: rgba(88,224,136,.05);
 }
 
 /* ── VIDEOS PAGE ── */
@@ -1749,7 +1750,7 @@ footer {
   border-radius: 4px;
   margin-bottom: 10px;
 }
-.video-chip.grn { background: rgba(126,217,87,.12); color: var(--grn); }
+.video-chip.grn { background: rgba(88,224,136,.12); color: var(--grn); }
 .video-chip.blu { background: rgba(10,132,255,.12); color: var(--blu); }
 .video-chip.tea { background: rgba(90,200,250,.12); color: var(--tea); }
 .video-chip.red { background: rgba(255,69,58,.12); color: var(--rec); }
