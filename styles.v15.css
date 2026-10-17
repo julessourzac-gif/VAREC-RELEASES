@@ -405,10 +405,20 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   border-color: var(--txt);
 }
 @media (max-width: 900px) {
-  #hero { padding: 92px 18px 32px; }
+  /* La scène porte déjà le décalage sous la barre fixe : le héros n'a pas
+     à le compter une seconde fois. 92 + 60 poussaient le contenu de 152px
+     là où 60 suffisent, d'où le vide accumulé en haut. */
+  /* align-items porte sur #hero, pas sur .hero-grid : cette dernière ne
+     fait que la hauteur de sa carte, l'y aligner ne déplace rien. */
+  #hero { padding: 24px 18px 28px; align-items: flex-end; }
+  /* La carte se resserre et descend vers le bas : le haut de l'image reste
+     dégagé, c'est la vidéo qui porte l'écran. */
   .hero-grid { justify-content: center; }
-  .hero-card { padding: 26px 22px; text-align: center; }
-  .hero-tags { min-height: 54px; }
+  .hero-card { padding: 22px 20px; text-align: center; max-width: 440px; margin-bottom: 6vh; }
+  .hero-card h1 { margin-bottom: 10px; }
+  /* Deux lignes au plus pour la phrase la plus longue à 14px : 44px
+     suffisent là où 54 étaient réservés. */
+  .hero-tags { font-size: 14px; min-height: 44px; margin-bottom: 18px; }
   .hero-rotator-item { left: 0; right: 0; white-space: normal; }
   .hero-ctas { justify-content: center; }
   .btn-primary { width: 100%; max-width: 320px; justify-content: center; }
@@ -2057,6 +2067,14 @@ footer {
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--bdr);
 }
+/* Langue et burger sur une seule ligne : sans cette règle le div reste un
+   bloc, les deux s'empilent et débordent de la barre. */
+.sidenav .top-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
 
 /* ── Menu de gauche ── */
 .sidenav .menu {
@@ -2191,6 +2209,10 @@ footer {
   .sidenav.open .menu { transform: translateY(0); opacity: 1; pointer-events: all; }
   .sidenav .menu a { font-size: 14px; padding: 10px 0; }
   .sidenav .menu .nav-cta { margin-left: 28px; font-size: 13px; }
+  /* Le burger ouvre ce tiroir : il doit apparaître exactement où le menu
+     se replie. L'ancienne barre horizontale ne le montrait qu'à 768px, ce
+     qui laissait la tablette en portrait sans aucune navigation. */
+  .sidenav .nav-burger { display: flex; }
   /* Plus de verrouillage : la scène redevient une page qui défile. */
   .sidenav.locked, html:has(.sidenav.locked) { height: auto; overflow: visible; }
   .sidenav .stage {
@@ -2204,6 +2226,16 @@ footer {
   .sidenav.locked .stage > .box,
   .sidenav.locked .stage > .box-end { height: auto; scroll-snap-align: start; }
   .sidenav #hero { height: auto; min-height: 100svh; }
+  /* La carte descend vers le bas de l'écran : le haut de l'image n'a plus
+     de texte à porter, le voile peut s'y faire discret. Il ne reste dense
+     qu'en bas, pour le raccord avec la section suivante. */
+  .sidenav .hero-scrim {
+    background: linear-gradient(to bottom,
+      rgba(9,9,9,.34) 0%,
+      rgba(9,9,9,.22) 30%,
+      rgba(9,9,9,.38) 70%,
+      rgba(28,28,30,.92) 100%);
+  }
 }
 
 /* ── FAQ ──
