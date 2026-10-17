@@ -212,6 +212,7 @@
   if(boxes.length < 2) return;
   const liens = Array.prototype.slice.call(document.querySelectorAll('.menu a[data-g]'));
 
+  const hint = document.querySelector('.hint');
   const REDUIT = window.matchMedia('(prefers-reduced-motion: reduce)');
   const GLISSE = window.matchMedia('(min-width: 901px)');   // au-delà, la scène est verrouillée
   const DUREE = 820;
@@ -221,7 +222,9 @@
 
   function activer(n){
     const id = boxes[n].id;
+    boxes[n].classList.add('in');          // libère l'apparition du contenu
     liens.forEach(function(l){ l.classList.toggle('on', l.dataset.g === id); });
+    if(hint) hint.classList.toggle('gone', n > 0);
     if(id) history.replaceState(null, '', '#' + id);
   }
 
@@ -307,6 +310,17 @@
       boxes.forEach(function(b){ io.observe(b); });
     }
   }
+  // Apparition : les cibles sont marquées ici et jamais dans le HTML, pour
+  // que la page reste entièrement lisible si le script ne tourne pas. Le
+  // décalage en cascade est porté par --d, comme sur bernik.io.
+  boxes.forEach(function(b){
+    const hote = b.querySelector('.hero-card') || b.querySelector('.container') || b;
+    Array.prototype.slice.call(hote.children).forEach(function(el, i){
+      el.classList.add('rv');
+      el.style.setProperty('--d', i * 90 + 'ms');
+    });
+  });
+
   // L'ancre d'arrivée se lit AVANT tout appel à aller(), qui réécrit le hash
   // en passant par activer() — sinon on retomberait toujours sur la première
   // boîte, quelle que soit l'ancre demandée depuis Ressources ou Vidéos.
@@ -315,6 +329,25 @@
   GLISSE.addEventListener('change', mode);
   mode();
   aller(depart > -1 ? depart : 0, false);
+  if(hint) setTimeout(function(){ hint.classList.add('gone'); }, 7000);
+})();
+
+
+// ── FAQ dépliable ──
+// Motif de dboite.pro : le bouton porte aria-expanded, le panneau qu'il
+// commande porte hidden. Aucune règle CSS ne masque la réponse, elle reste
+// donc dans le document pour les lecteurs d'écran et les moteurs. Plusieurs
+// questions peuvent rester ouvertes.
+(function(){
+  const bascule = function(b){
+    const ouvert = b.getAttribute('aria-expanded') === 'true';
+    b.setAttribute('aria-expanded', String(!ouvert));
+    const panneau = document.getElementById(b.getAttribute('aria-controls'));
+    if(panneau) panneau.hidden = ouvert;
+  };
+  document.querySelectorAll('.faq-q').forEach(function(b){
+    b.addEventListener('click', function(){ bascule(b); });
+  });
 })();
 
 

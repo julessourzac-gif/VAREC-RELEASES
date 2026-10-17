@@ -25,8 +25,89 @@
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
 <link rel="preload" href="/fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.v16.css">
+<link rel="stylesheet" href="/styles.v17.css">
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "url": "https://varec.bernik.io/en/",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is VAREC?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "VAREC is a multitrack audio field recorder for macOS, published by BERNIK. It records up to 512 simultaneous channels from any CoreAudio interface, handles LTC and Tentacle Bluetooth timecode, writes to several disks in parallel and produces a Sound Report. It is currently in beta."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which Macs does VAREC run on?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "VAREC requires macOS 12 Monterey or later. It runs natively on both Apple Silicon and Intel Macs, with a separate download for each. A CoreAudio-compatible audio interface is needed, whether built in or external."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many channels can VAREC record at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "VAREC records up to 512 simultaneous channels. The number actually available depends on the connected audio interface: the application exposes every channel CoreAudio presents to it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What file formats does VAREC record?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "VAREC writes 32-bit float WAV, using the RF64 format to pass the 4 GB ceiling of a regular WAV file. The Sound Report exports to PDF, CSV and HTML."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does VAREC handle timecode?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "VAREC detects timecode automatically, over LTC as well as Bluetooth through Tentacle generators. No manual setup is required: the source is recognised and the timecode is written into the files."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if the application crashes mid-recording?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The files stay usable. VAREC keeps the WAV headers up to date continuously while writing, rather than writing them when the file closes, so a power cut or a crash does not leave an unreadable file. This is the Crash Recovery feature."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can VAREC record to several disks at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. VAREC opens an independent write stream per disk, which is true real-time redundancy rather than a copy made after the recording. If one disk fails, the other already holds the complete take."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is VAREC free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The download is free and asks for no email address. During the beta every feature is unlocked with no restriction. A licence will be required for commercial use; pricing will be announced later."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a Windows or Linux version?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Windows and Linux binaries are published, but they are untested and do not track the macOS version. VAREC is developed for macOS: that is the only platform on which the application is proven."
+      }
+    }
+  ]
+}
+</script>
 <!-- Données structurées : la fiche d'identité que les moteurs de
      réponse recopient. Les questions sont extraites du texte visible de
      la page, jamais saisies deux fois. -->
@@ -186,6 +267,11 @@
     <a href="/en/videos.html"><b>06</b><span>VIDEOS</span></a>
     <a href="#download" class="nav-cta">↓ v1.7.6 <span class="beta-badge sm">BETA</span></a>
 </nav>
+
+
+<!-- Indicateur de défilement : il s'efface dès la deuxième section,
+     et de toute façon au bout de sept secondes. -->
+<div class="hint" aria-hidden="true"><span>Scroll</span><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></div>
 
 <main class="stage">
 
@@ -365,40 +451,40 @@
     </div>
     <div class="faq-list">
       <div class="faq-item">
-        <h3>What is VAREC?</h3>
-        <p>VAREC is a multitrack audio field recorder for macOS, published by BERNIK. It records up to 512 simultaneous channels from any CoreAudio interface, handles LTC and Tentacle Bluetooth timecode, writes to several disks in parallel and produces a Sound Report. It is currently in beta.</p>
+        <h3><button class="faq-q" aria-expanded="false" aria-controls="faq-en-1"><span>What is VAREC?</span><svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="faq-a" id="faq-en-1" hidden><p>VAREC is a multitrack audio field recorder for macOS, published by BERNIK. It records up to 512 simultaneous channels from any CoreAudio interface, handles LTC and Tentacle Bluetooth timecode, writes to several disks in parallel and produces a Sound Report. It is currently in beta.</p></div>
       </div>
       <div class="faq-item">
-        <h3>Which Macs does VAREC run on?</h3>
-        <p>VAREC requires macOS 12 Monterey or later. It runs natively on both Apple Silicon and Intel Macs, with a separate download for each. A CoreAudio-compatible audio interface is needed, whether built in or external.</p>
+        <h3><button class="faq-q" aria-expanded="false" aria-controls="faq-en-2"><span>Which Macs does VAREC run on?</span><svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="faq-a" id="faq-en-2" hidden><p>VAREC requires macOS 12 Monterey or later. It runs natively on both Apple Silicon and Intel Macs, with a separate download for each. A CoreAudio-compatible audio interface is needed, whether built in or external.</p></div>
       </div>
       <div class="faq-item">
-        <h3>How many channels can VAREC record at once?</h3>
-        <p>VAREC records up to 512 simultaneous channels. The number actually available depends on the connected audio interface: the application exposes every channel CoreAudio presents to it.</p>
+        <h3><button class="faq-q" aria-expanded="false" aria-controls="faq-en-3"><span>How many channels can VAREC record at once?</span><svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="faq-a" id="faq-en-3" hidden><p>VAREC records up to 512 simultaneous channels. The number actually available depends on the connected audio interface: the application exposes every channel CoreAudio presents to it.</p></div>
       </div>
       <div class="faq-item">
-        <h3>What file formats does VAREC record?</h3>
-        <p>VAREC writes 32-bit float WAV, using the RF64 format to pass the 4 GB ceiling of a regular WAV file. The Sound Report exports to PDF, CSV and HTML.</p>
+        <h3><button class="faq-q" aria-expanded="false" aria-controls="faq-en-4"><span>What file formats does VAREC record?</span><svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="faq-a" id="faq-en-4" hidden><p>VAREC writes 32-bit float WAV, using the RF64 format to pass the 4 GB ceiling of a regular WAV file. The Sound Report exports to PDF, CSV and HTML.</p></div>
       </div>
       <div class="faq-item">
-        <h3>How does VAREC handle timecode?</h3>
-        <p>VAREC detects timecode automatically, over LTC as well as Bluetooth through Tentacle generators. No manual setup is required: the source is recognised and the timecode is written into the files.</p>
+        <h3><button class="faq-q" aria-expanded="false" aria-controls="faq-en-5"><span>How does VAREC handle timecode?</span><svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="faq-a" id="faq-en-5" hidden><p>VAREC detects timecode automatically, over LTC as well as Bluetooth through Tentacle generators. No manual setup is required: the source is recognised and the timecode is written into the files.</p></div>
       </div>
       <div class="faq-item">
-        <h3>What happens if the application crashes mid-recording?</h3>
-        <p>The files stay usable. VAREC keeps the WAV headers up to date continuously while writing, rather than writing them when the file closes, so a power cut or a crash does not leave an unreadable file. This is the Crash Recovery feature.</p>
+        <h3><button class="faq-q" aria-expanded="false" aria-controls="faq-en-6"><span>What happens if the application crashes mid-recording?</span><svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="faq-a" id="faq-en-6" hidden><p>The files stay usable. VAREC keeps the WAV headers up to date continuously while writing, rather than writing them when the file closes, so a power cut or a crash does not leave an unreadable file. This is the Crash Recovery feature.</p></div>
       </div>
       <div class="faq-item">
-        <h3>Can VAREC record to several disks at once?</h3>
-        <p>Yes. VAREC opens an independent write stream per disk, which is true real-time redundancy rather than a copy made after the recording. If one disk fails, the other already holds the complete take.</p>
+        <h3><button class="faq-q" aria-expanded="false" aria-controls="faq-en-7"><span>Can VAREC record to several disks at once?</span><svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="faq-a" id="faq-en-7" hidden><p>Yes. VAREC opens an independent write stream per disk, which is true real-time redundancy rather than a copy made after the recording. If one disk fails, the other already holds the complete take.</p></div>
       </div>
       <div class="faq-item">
-        <h3>Is VAREC free?</h3>
-        <p>The download is free and asks for no email address. During the beta every feature is unlocked with no restriction. A licence will be required for commercial use; pricing will be announced later.</p>
+        <h3><button class="faq-q" aria-expanded="false" aria-controls="faq-en-8"><span>Is VAREC free?</span><svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="faq-a" id="faq-en-8" hidden><p>The download is free and asks for no email address. During the beta every feature is unlocked with no restriction. A licence will be required for commercial use; pricing will be announced later.</p></div>
       </div>
       <div class="faq-item">
-        <h3>Is there a Windows or Linux version?</h3>
-        <p>Windows and Linux binaries are published, but they are untested and do not track the macOS version. VAREC is developed for macOS: that is the only platform on which the application is proven.</p>
+        <h3><button class="faq-q" aria-expanded="false" aria-controls="faq-en-9"><span>Is there a Windows or Linux version?</span><svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="faq-a" id="faq-en-9" hidden><p>Windows and Linux binaries are published, but they are untested and do not track the macOS version. VAREC is developed for macOS: that is the only platform on which the application is proven.</p></div>
       </div>
     </div>
   </div>
