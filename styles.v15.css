@@ -410,18 +410,46 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
      là où 60 suffisent, d'où le vide accumulé en haut. */
   /* align-items porte sur #hero, pas sur .hero-grid : cette dernière ne
      fait que la hauteur de sa carte, l'y aligner ne déplace rien. */
-  #hero { padding: 24px 18px 28px; align-items: flex-end; }
-  /* La carte se resserre et descend vers le bas : le haut de l'image reste
-     dégagé, c'est la vidéo qui porte l'écran. */
-  .hero-grid { justify-content: center; }
-  .hero-card { padding: 22px 20px; text-align: center; max-width: 440px; margin-bottom: 6vh; }
-  .hero-card h1 { margin-bottom: 10px; }
+  #hero { padding: 24px 22px 28px; align-items: flex-end; }
+  .hero-grid { justify-content: flex-start; }
+  /* Traitement repris de bernik.io : le texte se pose à même l'image,
+     aligné à gauche, sans boîte. La carte perd donc tout ce qui en faisait
+     une fenêtre — fond, bordure, flou, rayon — et ne garde que son rôle de
+     conteneur. La lisibilité ne vient plus d'un fond opaque mais du voile
+     et de l'ombre portée du texte, comme chez eux. */
+  .hero-card {
+    padding: 0;
+    max-width: 520px;
+    margin-bottom: 24vh;
+    text-align: left;
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .hero-card h1 { margin-bottom: 12px; text-shadow: 0 2px 20px rgba(0,0,0,.6); }
   /* Deux lignes au plus pour la phrase la plus longue à 14px : 44px
      suffisent là où 54 étaient réservés. */
-  .hero-tags { font-size: 14px; min-height: 44px; margin-bottom: 18px; }
+  .hero-tags { font-size: 14px; min-height: 44px; margin-bottom: 22px; text-shadow: 0 2px 18px rgba(0,0,0,.6); }
   .hero-rotator-item { left: 0; right: 0; white-space: normal; }
-  .hero-ctas { justify-content: center; }
-  .btn-primary { width: 100%; max-width: 320px; justify-content: center; }
+  /* Le bloc responsive de 768px, plus bas dans ce fichier, centre .hero-ctas
+     par « margin: 0 auto » et étire le bouton : il l'emporterait sur un
+     alignement posé ici. On le neutralise explicitement, sinon le bouton
+     reste centré sous un texte aligné à gauche. */
+  .sidenav .hero-ctas {
+    /* flex-direction: column venait aussi de ce bloc, et dans une colonne
+       l'alignement transversal par défaut étire l'enfant sur toute la
+       largeur : d'où un bouton pleine largeur malgré width: auto. */
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 0;
+    max-width: none;
+    width: auto;
+  }
+  .sidenav .hero-ctas .btn-primary { width: auto; max-width: none; }
 }
 
 /* Sous 480px le titre ne tient plus sur une ligne dans la fenêtre, même à
@@ -2235,12 +2263,17 @@ footer {
   /* La carte descend vers le bas de l'écran : le haut de l'image n'a plus
      de texte à porter, le voile peut s'y faire discret. Il ne reste dense
      qu'en bas, pour le raccord avec la section suivante. */
+  /* Redensifié : le texte n'a plus de fond opaque sous lui, c'est ce voile
+     qui le rend lisible. Bernik fait de même — son image est à peine
+     devinable, elle joue l'ambiance et non l'illustration. Il reste un peu
+     plus clair en haut, là où aucun texte ne se pose, et se ferme en bas
+     pour le raccord avec la section suivante. */
   .sidenav .hero-scrim {
     background: linear-gradient(to bottom,
-      rgba(9,9,9,.34) 0%,
-      rgba(9,9,9,.22) 30%,
-      rgba(9,9,9,.38) 70%,
-      rgba(28,28,30,.92) 100%);
+      rgba(9,9,9,.62) 0%,
+      rgba(9,9,9,.74) 42%,
+      rgba(9,9,9,.86) 78%,
+      rgba(28,28,30,.95) 100%);
   }
 }
 
