@@ -2224,7 +2224,13 @@ footer {
   }
   .sidenav.locked .stage > section,
   .sidenav.locked .stage > .box,
-  .sidenav.locked .stage > .box-end { height: auto; scroll-snap-align: start; }
+  .sidenav.locked .stage > .box-end {
+    height: auto;
+    scroll-snap-align: start;
+    /* Le saut d'ancre natif place le haut de la section sous la barre
+       fixe : cette marge l'en dégage. */
+    scroll-margin-top: calc(var(--hh) + 8px);
+  }
   .sidenav #hero { height: auto; min-height: 100svh; }
   /* La carte descend vers le bas de l'écran : le haut de l'image n'a plus
      de texte à porter, le voile peut s'y faire discret. Il ne reste dense

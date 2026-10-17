@@ -275,8 +275,16 @@
 
   // Les ancres du menu et du pied de page pilotent la scène plutôt que le
   // défilement natif, qui ne ferait rien dans une page verrouillée.
+  //
+  // Garde indispensable : sous 901px la scène repasse en position statique
+  // et n'a plus aucun débordement à faire défiler. Sans ce retour anticipé,
+  // le clic était annulé puis remplacé par une écriture dans un scrollTop
+  // qui ne bouge pas — toutes les ancres du site devenaient inertes sur
+  // téléphone. Les gestionnaires molette, toucher et clavier portaient déjà
+  // cette garde ; celui-ci l'avait perdue.
   document.querySelectorAll('a[href^="#"]').forEach(function(a){
     a.addEventListener('click', function(e){
+      if(!GLISSE.matches) return;                     // mobile : saut natif
       const k = boxes.findIndex(function(b){ return '#' + b.id === a.getAttribute('href'); });
       if(k > -1){ e.preventDefault(); if(!lock) aller(k); }
     });
