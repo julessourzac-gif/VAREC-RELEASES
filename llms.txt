@@ -1,0 +1,30 @@
+# VAREC
+
+> Enregistreur audio multipiste — field recorder — pour macOS, édité par
+> BERNIK. Jusqu'à 512 canaux simultanés, timecode LTC et Tentacle Bluetooth
+> détecté automatiquement, enregistrement multi-disque en redondance réelle,
+> Sound Report PDF. Version bêta, téléchargement libre.
+
+Ce fichier suit la convention llms.txt. Rien n'indique à ce jour qu'un
+assistant la lise en production : il est fourni au cas où elle s'imposerait,
+et n'est pas le canal principal. Le contenu de référence est dans les pages
+HTML elles-mêmes, et notamment dans la FAQ de la page d'accueil.
+
+## Pages principales
+
+- [Accueil](https://varec.bernik.io/): présentation, fonctionnalités, FAQ en neuf questions, téléchargement.
+- [Manuel](https://varec.bernik.io/manuel.html): documentation complète — installation, interfaces audio, patch, timecode, multi-disque, Sound Report, analyse.
+- [Ressources](https://varec.bernik.io/ressources.html): guides et points d'entrée vers la documentation.
+- [Vidéos](https://varec.bernik.io/videos.html): démonstrations de l'application.
+
+## English
+
+- [Home](https://varec.bernik.io/en/): overview, features, nine-question FAQ, download.
+- [Manual](https://varec.bernik.io/en/manual.html): full documentation.
+- [Resources](https://varec.bernik.io/en/resources.html)
+- [Videos](https://varec.bernik.io/en/videos.html)
+
+## Mentions légales
+
+- [Mentions légales](https://varec.bernik.io/mentions-legales.html)
+- [Confidentialité](https://varec.bernik.io/confidentialite.html): aucun cookie, aucune collecte, police auto-hébergée.

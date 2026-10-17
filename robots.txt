@@ -1,11 +1,117 @@
 # VAREC — varec.bernik.io
-# Le tunnel commercial (tarifs) est préparé mais NON publié pendant la bêta fermée.
-# Lors du passage en commercial : retirer les lignes Disallow ci-dessous (voir README).
+#
+# Politique vis-à-vis des robots d'intelligence artificielle : la citation
+# est autorisée, l'entraînement ne l'est pas. Les deux usages passent par des
+# robots distincts, ce qui rend l'arbitrage possible.
+#
+#   OAI-SearchBot, Claude-SearchBot, PerplexityBot  alimentent les index qui
+#     produisent les réponses citées avec un lien → autorisés.
+#   GPTBot, ClaudeBot, Google-Extended              collectent pour entraîner
+#     les modèles → refusés.
+#   ChatGPT-User, Claude-User, Perplexity-User      ne sont pas des robots
+#     d'indexation : ils se déclenchent quand une personne demande elle-même
+#     d'ouvrir ce lien. Les refuser ne protégerait rien et priverait ce
+#     visiteur de toute réponse → autorisés.
+#
+# PIÈGE À NE PAS OUBLIER : un robot qui trouve un groupe à son nom ignore
+# ENTIÈREMENT le groupe « * ». Le Disallow qui protège le tunnel commercial
+# doit donc être répété dans chaque groupe nommé ci-dessous — sans quoi la
+# page tarifs ressortirait par la porte des robots IA.
+#
+# Les jetons seuls comptent ici : robots.txt ne compare jamais la chaîne
+# d'agent complète, les numéros de version n'ont donc aucune incidence.
+# Claude-Web et anthropic-ai sont dépréciés et volontairement absents.
+#
+# Le tunnel commercial (tarifs) est préparé mais NON publié pendant la bêta
+# fermée. Lors du passage en commercial : retirer les lignes Disallow
+# correspondantes dans TOUS les groupes (voir README).
+
+# ── Moteurs de recherche classiques ──
+User-agent: Googlebot
+Disallow: /tarifs.html
+Disallow: /tarifs
+Disallow: /api/
+Allow: /
+
+User-agent: Bingbot
+Disallow: /tarifs.html
+Disallow: /tarifs
+Disallow: /api/
+Allow: /
+
+User-agent: Applebot
+Disallow: /tarifs.html
+Disallow: /tarifs
+Disallow: /api/
+Allow: /
+
+# ── Moteurs de réponse : index de citation ──
+User-agent: OAI-SearchBot
+Disallow: /tarifs.html
+Disallow: /tarifs
+Disallow: /api/
+Allow: /
+
+User-agent: Claude-SearchBot
+Disallow: /tarifs.html
+Disallow: /tarifs
+Disallow: /api/
+Allow: /
+
+User-agent: PerplexityBot
+Disallow: /tarifs.html
+Disallow: /tarifs
+Disallow: /api/
+Allow: /
+
+# ── Consultation déclenchée par une personne ──
+User-agent: ChatGPT-User
+Disallow: /tarifs.html
+Disallow: /tarifs
+Disallow: /api/
+Allow: /
+
+User-agent: Claude-User
+Disallow: /tarifs.html
+Disallow: /tarifs
+Disallow: /api/
+Allow: /
+
+User-agent: Perplexity-User
+Disallow: /tarifs.html
+Disallow: /tarifs
+Disallow: /api/
+Allow: /
+
+# ── Collecte pour entraînement : refusée ──
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+# ── Tous les autres ──
 User-agent: *
 Disallow: /tarifs.html
 Disallow: /tarifs
 Disallow: /api/
 Allow: /
 
-# Le sitemap déclare les huit URLs FR + EN avec leurs alternates hreflang.
+# Le sitemap déclare les douze URLs FR + EN avec leurs alternates hreflang
+# et la date du dernier commit les ayant touchées.
 Sitemap: https://varec.bernik.io/sitemap.xml

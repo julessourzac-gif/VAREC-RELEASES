@@ -2,77 +2,95 @@
 <!-- Généré à la main : le site est statique, sans build. Toute page
      ajoutée sous / ou /en/ doit être déclarée ici avec son alternate.
      Douze URLs : les huit pages de contenu, plus les quatre pages
-     légales (mentions légales et confidentialité, FR + EN). -->
+     légales (mentions légales et confidentialité, FR + EN).
+
+     Chaque lastmod porte la date du dernier commit ayant touché le
+     fichier, lue avec « git log » et son option format=%cs. La fraîcheur
+     compte pour les moteurs de réponse ; une date inventée ou figée ne
+     sert à rien. (Pas de double tiret ni de chevron dans ce commentaire :
+     XML les interdit, et un sitemap mal formé est purement ignoré.) -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://varec.bernik.io/</loc>
+    <lastmod>2026-10-16</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/"/>
   </url>
   <url>
     <loc>https://varec.bernik.io/en/</loc>
+    <lastmod>2026-10-16</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/"/>
   </url>
   <url>
     <loc>https://varec.bernik.io/ressources.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/ressources.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/resources.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/ressources.html"/>
   </url>
   <url>
     <loc>https://varec.bernik.io/en/resources.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/ressources.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/resources.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/ressources.html"/>
   </url>
   <url>
     <loc>https://varec.bernik.io/manuel.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/manuel.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/manual.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/manuel.html"/>
   </url>
   <url>
     <loc>https://varec.bernik.io/en/manual.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/manuel.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/manual.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/manuel.html"/>
   </url>
   <url>
     <loc>https://varec.bernik.io/videos.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/videos.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/videos.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/videos.html"/>
   </url>
   <url>
     <loc>https://varec.bernik.io/en/videos.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/videos.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/videos.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/videos.html"/>
   </url>
   <url>
     <loc>https://varec.bernik.io/mentions-legales.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/mentions-legales.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/legal-notice.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/mentions-legales.html"/>
   </url>
   <url>
     <loc>https://varec.bernik.io/en/legal-notice.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/mentions-legales.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/legal-notice.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/mentions-legales.html"/>
   </url>
   <url>
     <loc>https://varec.bernik.io/confidentialite.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/confidentialite.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/confidentialite.html"/>
   </url>
   <url>
     <loc>https://varec.bernik.io/en/privacy.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://varec.bernik.io/confidentialite.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://varec.bernik.io/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://varec.bernik.io/confidentialite.html"/>
