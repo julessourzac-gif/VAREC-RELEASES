@@ -135,8 +135,10 @@ body > nav {
   /* Détouré au plus juste (497 × 160), contrairement à l'ancien carré de
      2000 px très margé : d'où une hauteur bien plus faible et plus aucune
      translation verticale pour le recaler. Aucun filtre non plus — le
-     dégradé rose → pêche du fichier EST la couleur de marque de Bernik. */
-  height: 22px;
+     dégradé rose → pêche du fichier EST la couleur de marque de Bernik.
+     Le dimensionnement est le leur : une hauteur qui suit la fenêtre
+     plutôt qu'une valeur figée. */
+  height: clamp(18px, 2.4vw, 26px);
   width: auto;
   flex-shrink: 0;
   display: block;
@@ -629,7 +631,11 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
 
 /* ── CONTAINERS ── */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-.section-header { text-align: center; margin-bottom: 60px; }
+/* 48px et non 60 : avec les titres passés à 60px, la section Fonctionnalités
+   débordait de 3px de la scène. Un débordement aussi mince coûte un cran de
+   molette entier — le garde-fou le consomme à faire défiler trois pixels
+   avant d'autoriser le passage à la section suivante. */
+.section-header { text-align: center; margin-bottom: 48px; }
 /* Étiquette de section : l'« eyebrow » dBoite — très petite, très espacée,
    en gris clair. Le vert ne sert plus ici mais sur la première lettre du
    titre, qui est la signature typographique du site. */
@@ -640,13 +646,17 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--txt2);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
+/* bernik.io monte ses h2 jusqu'à 82px (clamp 36 / 6.4vw / 82) avec une
+   interligne de .95. Ses titres tiennent en un mot — « VAREC », « IOIO » —
+   là où ceux-ci sont des phrases de sept mots : 82px serait démesuré. On
+   reprend l'intention et l'interligne, avec un plafond à 60px. */
 .section-title {
-  font-size: clamp(26px, 3.5vw, 40px);
+  font-size: clamp(30px, 5vw, 60px);
   font-weight: 700;
   letter-spacing: -.035em;
-  line-height: 1;
+  line-height: .95;
   color: var(--txt);
   margin-bottom: 14px;
 }
@@ -742,7 +752,7 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   margin-bottom: 22px;
 }
 .v-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--grn); box-shadow: 0 0 6px var(--grn); }
-.download-title { font-size: 34px; font-weight: 700; color: var(--txt); margin-bottom: 10px; letter-spacing: -.035em; line-height: 1; }
+.download-title { font-size: clamp(28px, 4.4vw, 52px); font-weight: 700; color: var(--txt); margin-bottom: 10px; letter-spacing: -.035em; line-height: .95; }
 .download-title::first-letter { color: var(--brand); }
 .download-sub { color: var(--txt2); margin-bottom: 36px; font-size: 16px; font-weight: 300; }
 .download-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
