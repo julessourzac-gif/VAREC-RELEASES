@@ -367,18 +367,36 @@
 })();
 
 
-// ── Nav opacity on scroll ──
-// Uniquement sur les pages à barre horizontale : les pages à menu latéral ont
-// un bandeau déjà opaque, et leur <nav class="menu"> répondrait à ce sélecteur.
+// ── Fond du bandeau au défilement ──
+// Deux chromes, deux traitements.
+//
+// Barre horizontale : son fond se densifie au défilement, comme avant.
+//
+// Menu latéral : le bandeau est nu, comme chez bernik.io et dboite.pro. Il ne
+// prend un fond que sur mobile et seulement une fois la page défilée — là,
+// la scène n'est plus fixe et le contenu passerait derrière lui. Sur
+// ordinateur la scène commence sous le bandeau : rien ne passe dessous, il
+// reste nu en permanence.
 (function(){
-  if(document.body.classList.contains('sidenav')) return;
-  const nav=document.querySelector('body > nav');
-  if(!nav) return;
-  window.addEventListener('scroll',()=>{
-    nav.style.background=window.scrollY>60
-      ?'rgba(12,17,22,.97)'
-      :'rgba(12,17,22,.88)';
-  });
+  const lateral = document.body.classList.contains('sidenav');
+  const cible = lateral
+    ? document.querySelector('header.top')
+    : document.querySelector('body > nav:not(.menu)');
+  if(!cible) return;
+
+  const petit = window.matchMedia('(max-width: 900px)');
+  function suivre(){
+    if(lateral){
+      cible.classList.toggle('posee', petit.matches && window.scrollY > 8);
+    } else {
+      cible.style.background = window.scrollY > 60
+        ? 'rgba(12,17,22,.97)'
+        : 'rgba(12,17,22,.88)';
+    }
+  }
+  window.addEventListener('scroll', suivre, { passive: true });
+  petit.addEventListener('change', suivre);
+  suivre();
 })();
 
 // ── Mobile burger menu ──

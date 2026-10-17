@@ -2113,7 +2113,17 @@ footer {
   justify-content: space-between;
   gap: 16px;
   padding: 0 var(--gut);
-  background: rgba(12,17,22,.72);
+  /* Ni fond, ni flou, ni filet : bernik.io et dboite.pro n'en mettent pas.
+     Le logo et la langue se posent sur l'image, il n'y a pas de barre.
+     Seule exception plus bas : sur mobile, une fois la page défilée, le
+     contenu passerait derrière un bandeau transparent. */
+}
+
+/* Sur mobile la scène défile nativement, donc le contenu finit par passer
+   sous le bandeau fixe. Un fond n'apparaît qu'à ce moment-là, jamais au
+   repos — où l'on retrouve exactement le bandeau nu de Bernik. */
+.sidenav .top.posee {
+  background: rgba(12,17,22,.82);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--bdr);
