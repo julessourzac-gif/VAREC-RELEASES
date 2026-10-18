@@ -2213,7 +2213,9 @@ footer {
 .sidenav .menu .nav-cta {
   align-self: flex-start;
   margin-top: 18px;
-  margin-left: 28px;          /* 18px de numéro + 10px d'écart */
+  /* Bord gauche sur la gouttière, comme les entrées du menu : la pilule
+     s'aligne sur la colonne, pas sur les libellés. */
+  margin-left: 0;
   padding: 8px 15px;
   background: transparent;
   border: 1px solid var(--brand);
@@ -2291,7 +2293,7 @@ footer {
   }
   .sidenav.open .menu { transform: translateY(0); opacity: 1; pointer-events: all; }
   .sidenav .menu a { font-size: 14px; padding: 10px 0; }
-  .sidenav .menu .nav-cta { margin-left: 28px; font-size: 13px; }
+  .sidenav .menu .nav-cta { margin-left: 0; font-size: 13px; }
   /* Le burger ouvre ce tiroir : il doit apparaître exactement où le menu
      se replie. L'ancienne barre horizontale ne le montrait qu'à 768px, ce
      qui laissait la tablette en portrait sans aucune navigation. */
