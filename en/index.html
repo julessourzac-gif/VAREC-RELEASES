@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
 <link rel="preload" href="/fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.v18.css">
+<link rel="stylesheet" href="/styles.v19.css">
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 <script type="application/ld+json">
 {
@@ -242,6 +242,18 @@
 
 <!-- NAV -->
 <!-- BANDEAU — logo et langue seulement, le reste passe dans le menu -->
+
+<!-- Fond du site : la vidéo et son voile couvrent la fenêtre entière,
+     derrière le bandeau comme derrière le menu. Même principe que la
+     couche .bgs de bernik.io : sans cela, le haut et la colonne de
+     gauche laissent voir le fond uni et dessinent un bandeau. -->
+<div class="fond" aria-hidden="true">
+  <video class="hero-bg-video" autoplay muted loop playsinline preload="metadata">
+    <source src="/VUE_1.mp4" type="video/mp4">
+  </video>
+  <div class="hero-scrim"></div>
+</div>
+
 <header class="top">
   <a href="https://bernik.io" class="nav-brand" target="_blank" rel="noopener">
       <img src="/logo.png" alt="VAREC" class="nav-logo">
@@ -277,10 +289,6 @@
 
 <!-- HERO -->
 <section id="hero">
-  <video class="hero-bg-video" autoplay muted loop playsinline preload="metadata">
-    <source src="/VUE_1.mp4" type="video/mp4">
-  </video>
-  <div class="hero-scrim"></div>
   <div class="hero-grid">
     <div class="hero-card">
       <h1>VAREC: Fresh audio Field Recorder</h1>

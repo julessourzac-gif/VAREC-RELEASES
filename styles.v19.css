@@ -94,11 +94,16 @@ body {
 a { color: inherit; }
 
 /* ── NAV ── */
-body > nav {
+/* Cantonnée aux pages restées à la barre horizontale : sur les pages à menu
+   latéral, <nav class="menu"> est aussi un enfant direct de <body> et héritait
+   d'ici un fond gris, un flou et un filet qui repeignaient toute la colonne
+   de gauche par-dessus la vidéo de fond. bernik.io ne met aucun fond sur son
+   menu au large — seul son tiroir mobile en a un, et il le déclare lui-même. */
+body:not(.sidenav) > nav {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: rgba(28, 28, 30, 0.88);
+  background: rgba(12, 17, 22, .88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--bdr);
@@ -227,7 +232,7 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
   align-items: center;
   padding: 100px 24px 40px;
   overflow: hidden;
-  background: var(--canvas-bg);
+  /* Transparent : le fond est désormais la couche .fond, derrière tout. */
 }
 /* Recadrée en cover : la vidéo remplit la section quel que soit le format de
    l'écran. Aucun filtre ni aucune mise à l'échelle : le flou de 2px et
@@ -235,8 +240,13 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
    fichier, alors que la lisibilité du texte est déjà assurée par le fond
    opaque de la fenêtre. Seul le voile ci-dessous calme l'image, et il le
    fait par l'opacité, qui n'adoucit rien. */
+/* Couche de fond du site, à la manière du .bgs de bernik.io : fixe et plein
+   écran, elle passe derrière le bandeau et derrière le menu. Tant qu'elle
+   était enfermée dans le héros, le haut et la colonne de gauche montraient
+   le fond uni — c'est ce ressaut qui se lisait comme un bandeau. */
+.fond { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 .hero-bg-video {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
@@ -246,15 +256,17 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
 /* Le texte a son propre fond : ce voile n'a pas à le protéger, seulement à
    calmer l'image, à la faire passer sous la barre de nav et à la raccorder à
    la section suivante. D'où un voile uniforme et léger. */
+/* Le voile couvre lui aussi toute la fenêtre. Il est plus dense qu'avant :
+   il ne protège plus seulement le héros mais tout le texte du site, qui
+   repose désormais sur la vidéo. Dégradé appuyé à gauche, là où se
+   trouvent le menu et les titres, comme chez Bernik. */
 .hero-scrim {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(to bottom,
-    rgba(9,9,9,.62) 0%,
-    rgba(9,9,9,.34) 22%,
-    rgba(9,9,9,.34) 62%,
-    rgba(28,28,30,.9) 100%);
+  background:
+    linear-gradient(100deg, rgba(9,9,9,.93) 0%, rgba(9,9,9,.86) 38%, rgba(9,9,9,.72) 100%),
+    linear-gradient(to top, rgba(9,9,9,.90), rgba(9,9,9,.46) 58%);
 }
 .hero-grid {
   position: relative;
@@ -471,7 +483,7 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
 /* ── PREVIEW (GIF) ── */
 #preview {
   padding: 80px 0;
-  background: var(--bg);
+  /* transparent : la couche de fond passe derrière */
   text-align: center;
 }
 /* Un seul lecteur, centré et large. minmax(0,1fr) évite que la largeur
@@ -681,7 +693,7 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
 /* ── FEATURES ── */
 #features {
   padding: 80px 0;
-  background: linear-gradient(to bottom, var(--bg), var(--panel));
+  /* transparent : la couche de fond passe derrière */
 }
 .features-list {
   display: grid;
@@ -725,11 +737,16 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
 /* ── DOWNLOAD ── */
 #download {
   padding: 80px 0;
-  background: linear-gradient(to bottom, var(--panel), var(--bg));
+  /* transparent : la couche de fond passe derrière */
 }
+/* Même traitement que la carte du héros : translucide et floutée, pour que la
+   vidéo de fond se devine derrière elle au lieu d'être couverte par un bloc
+   plein sur toute la largeur de l'écran. */
 .download-card {
-  background: var(--panel);
-  border: 1px solid var(--bdr);
+  background: rgba(18, 18, 20, .62);
+  backdrop-filter: blur(18px) saturate(1.1);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  border: 1px solid rgba(255,255,255,.14);
   border-radius: var(--rbox);
   padding: 56px 48px;
   text-align: center;
@@ -883,7 +900,7 @@ body > nav.open .nav-burger span:nth-child(3) { transform: translateY(-7px) rota
 .sysreq { margin-top: 28px; font-size: 12px; color: var(--txt3); }
 
 /* ── LICENCE / COMPARE ── */
-#licence { padding: 80px 0; background: var(--bg); }
+#licence { padding: 80px 0; }
 
 .compare-wrap { max-width: 780px; margin: 0 auto; }
 .compare-table {
@@ -1049,6 +1066,11 @@ footer {
   border-top: 1px solid var(--bdr);
   background: var(--panel);
 }
+/* Sur l'accueil le pied de page est le dernier écran de la scène : un fond
+   plein y masquerait la vidéo sur toute sa hauteur. Le filet du haut suffit à
+   le détacher de la licence. Ressources et vidéos, qui défilent normalement,
+   gardent le pied de page plein. */
+.box-end footer { background: none; }
 .footer-inner {
   max-width: 1200px;
   margin: 0 auto;
@@ -1088,7 +1110,7 @@ footer {
     right: 0;
     margin: 0;
     padding: 18px 22px 26px;
-    background: rgba(28,28,30,.985);
+    background: rgba(12,17,22,.985);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--bdr2);
@@ -2306,7 +2328,7 @@ footer {
       rgba(9,9,9,.62) 0%,
       rgba(9,9,9,.74) 42%,
       rgba(9,9,9,.86) 78%,
-      rgba(28,28,30,.95) 100%);
+      rgba(9,9,9,.92) 100%);
   }
 }
 
