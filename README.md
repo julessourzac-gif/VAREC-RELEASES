@@ -46,7 +46,7 @@ indexée ni liée, la seconde n'est pas une page du site).
 ### Les pages EN sont des jumelles structurelles des pages FR
 
 Mêmes `id`, mêmes `class`, mêmes attributs `data-*`, **mêmes ancres** (`#preview`,
-`#features`, `#download`, et les 19 ancres du manuel). Seuls diffèrent le texte, les
+`#features`, `#download`, et les 20 ancres du manuel). Seuls diffèrent le texte, les
 attributs lisibles par un humain (`alt`, `aria-label`, `placeholder`, `content`) et
 les chemins.
 
