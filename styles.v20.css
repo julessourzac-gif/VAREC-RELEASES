@@ -1822,6 +1822,50 @@ footer {
   padding: 3px 7px;
   border-radius: 4px;
 }
+
+/* ── Vidéos en construction ──
+   Les tutoriels ne sont pas tournés : les lecteurs affichent leur état au lieu
+   de rejouer la démo à la place de chaque sujet. À retirer quand les vidéos
+   arrivent, avec le lecteur et la modale correspondants. */
+.video-wip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 48px 24px;
+  color: var(--txt2);
+  text-align: center;
+}
+.video-wip svg { opacity: .5; }
+.video-wip-label {
+  font-family: 'SF Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--txt);
+}
+.video-wip-sub { font-size: 13px; }
+.video-wip-badge {
+  font-family: 'SF Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(0,0,0,.72);
+  border: 1px solid rgba(255,255,255,.22);
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+/* Rien à ouvrir : la carte ne se présente plus comme cliquable. */
+.video-card.is-wip { cursor: default; }
+.video-card.is-wip:hover {
+  transform: none;
+  border-color: var(--bdr);
+  box-shadow: none;
+}
+
 .video-info {
   padding: 16px 18px 18px;
 }
