@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="VAREC v1.7.6 user manual — Multitrack field recorder for Mac. Installation, setup, recording, take playback, timecode, sound report, keyboard shortcuts, troubleshooting.">
+<meta name="description" content="VAREC v1.7.8 user manual — Multitrack field recorder for Mac. Installation, setup, recording, take playback, timecode, sound report, keyboard shortcuts, troubleshooting.">
 <title>VAREC — User manual</title>
 <link rel="canonical" href="https://varec.bernik.io/en/manual.html">
 <link rel="alternate" hreflang="fr" href="https://varec.bernik.io/manuel.html">
@@ -57,7 +57,7 @@
       <li><a href="/en/resources.html" class="active">Resources</a></li>
       <li class="nav-link-dl"><a href="/en/index.html#download">Download</a></li>
     </ul>
-    <a href="/en/index.html#download" class="nav-cta">↓ v1.7.6 <span class="beta-badge sm">BETA</span></a>
+    <a href="/en/index.html#download" class="nav-cta">↓ v1.7.8 <span class="beta-badge sm">BETA</span></a>
     <div class="lang-switch" role="group" aria-label="Language">
       <a href="/manuel.html" class="lang-opt" hreflang="fr" lang="fr">FR</a>
       <a href="/en/manual.html" class="lang-opt active" hreflang="en" lang="en" aria-current="true">EN</a>
@@ -125,9 +125,9 @@
     <article class="doc-content">
 
       <header class="doc-header">
-        <span class="doc-eyebrow">User manual · v1.7.6 · macOS</span>
+        <span class="doc-eyebrow">User manual · v1.7.8 · macOS</span>
         <h1>VAREC — User manual</h1>
-        <p class="doc-lede">The official documentation for VAREC 1.7.6, the professional multitrack field recorder for macOS. This manual covers every feature of the application — from installation to take playback, by way of timecode setup, the analysis tools and sound report generation.</p>
+        <p class="doc-lede">The official documentation for VAREC 1.7.8, the professional multitrack field recorder for macOS. This manual covers every feature of the application — from installation to take playback, by way of timecode setup, the analysis tools and sound report generation.</p>
       </header>
 
       <!-- ===================== 1. PRÉSENTATION ===================== -->
@@ -734,6 +734,7 @@
           <li>Each project has its own <strong>folder</strong> on Gofile and a <strong>unique link</strong> that gathers all its takes: a single link to hand over to post, however many takes there are.</li>
           <li>The <strong>Sound Report</strong>, the <strong>share page</strong> and the <strong>email</strong> all point to that link.</li>
           <li>Uploads go through a <strong>queue</strong> and <strong>resume after a network drop</strong>.</li>
+          <li>Gofile deletes files after <strong>10 days without a download</strong>: the link is for delivering takes, it does not replace your drive backups.</li>
         </ul>
         <div class="doc-callout">
           <strong>Beta.</strong> During the beta phase, cloud sending is unlocked for every tester. Since v1.7.7, Gofile replaces Smash, SwissTransfer, Dropbox and Cloudflare R2, which have been removed; credentials saved for those services are erased. Frame.io and WeTransfer had been removed earlier (APIs closed by their publishers).
@@ -750,9 +751,8 @@
         <table class="doc-table">
           <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
           <tbody>
-            <tr><td><em>Non configuré</em></td><td>Cloud sharing not set up yet.</td></tr>
-            <tr><td><em>Auto OFF</em></td><td>Sharing set up but automatic upload disabled (grey LED).</td></tr>
-            <tr><td><em>Prêt</em></td><td>Configured and ready to send the next take.</td></tr>
+            <tr><td><em>Auto OFF</em></td><td>Automatic upload disabled (grey LED).</td></tr>
+            <tr><td><em>Prêt</em></td><td>Ready to send the next take.</td></tr>
             <tr><td><em>Upload…</em></td><td>Upload in progress, with percentage and progress bar; the following takes wait in the queue.</td></tr>
             <tr><td><em>Lien dispo</em></td><td>Upload finished. Click to copy the project link.</td></tr>
             <tr><td><em>Erreur</em></td><td>Upload failed, reason shown as a notification. Click to reconfigure.</td></tr>
@@ -1053,7 +1053,8 @@
         <p>Each session creates a <code>{project}/{scene}/</code> folder in the recording destination and in every backup drive, holding the WAV files. The <code>{project}.varec</code> project file sits in the project folder.</p>
 
         <h3>Sending a crash report</h3>
-        <p><strong>Help → Send Crash Report</strong> menu: VAREC builds a ZIP archive of the last 14 days of logs and system information (version, system, processor, memory), then opens an email to support with the archive attached. <strong>Help → Show Log</strong> shows the live log.</p>
+        <p>If VAREC quit unexpectedly (crash, force quit), it says so at the next launch and offers to send the report. <strong>Send</strong> prepares a message in your mail app, with the logs and system information attached; <strong>Later</strong> stops asking about that crash. On Mac, the report also includes the crash's technical log (<code>crash-native.log</code>).</p>
+        <p>The report is always available from the <strong>Help → Send Crash Report</strong> menu: VAREC builds a ZIP archive of the last 14 days of logs and system information (version, system, processor, memory), then opens an email to support with the archive attached. <strong>Help → Show Log</strong> shows the live log.</p>
 
         <h3>Technical support</h3>
         <ul>
