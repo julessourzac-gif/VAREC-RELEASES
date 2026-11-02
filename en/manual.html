@@ -144,11 +144,12 @@
           <li>Timecode sources: <strong>Time of Day</strong>, <strong>LTC</strong> (automatic input search) and <strong>Tentacle Sync E</strong> (Bluetooth LE), frame rates up to <strong>60 fps</strong></li>
           <li>Simultaneous multi-disk recording (true real-time redundancy, not a post-recording copy), with the destination checked before every take</li>
           <li><strong>TAKES</strong> tab: takes sorted by scene, circled / false start status, <strong>playback</strong> with waveforms and notes on a TC timeline</li>
+          <li><strong>Marker export for DAWs</strong>: timestamped notes and the start of every take as <strong>MIDI</strong> (Pro Tools, Cubase, Nuendo, Logic), <strong>CSV</strong> (Nuendo, Reaper) or <strong>XML</strong> (Premiere) markers</li>
           <li><strong>Auto start</strong> at a scheduled time or on signal detection</li>
           <li>Complete BWF / iXML metadata (scene, take, notes, engineer, track list)</li>
           <li>Fader mode: faders, <strong>pan</strong> and recording of a stereo <strong>MAIN MIX</strong></li>
           <li><strong>PDF / CSV</strong> Sound Report + email sending with attachments</li>
-          <li>Automatic upload to <strong>SwissTransfer</strong>, Smash, Dropbox or Cloudflare R2</li>
+          <li>Automatic upload to <strong>Gofile</strong>, no account to create: one folder and one unique link per project, upload queue that resumes after a network drop</li>
           <li>Instant Peak / RMS+PPM VU meters with configurable peak hold</li>
           <li>Analysis tools: <strong>LUFS loudness</strong> (EBU R128 / BS.1770-4), spectrum, spectrogram, peak, <strong>phase alignment</strong> — in a detachable window</li>
           <li><strong>Live waveforms</strong> while recording, with range playback and annotation</li>
@@ -258,7 +259,7 @@
           <tbody>
             <tr><td><strong>REC</strong></td><td><kbd>⌘</kbd>+<kbd>1</kbd></td><td>Tracks, VU meters, waveforms and the analysis panel of the soloed channel.</td></tr>
             <tr><td><strong>PATCH</strong></td><td><kbd>⌘</kbd>+<kbd>2</kbd></td><td>Input interface selection and channel-to-input assignment.</td></tr>
-            <tr><td><strong>TAKES</strong></td><td><kbd>⌘</kbd>+<kbd>3</kbd></td><td>Takes by scene, status, notes and playback (see <a href="#takes">§9</a>).</td></tr>
+            <tr><td><strong>TAKES</strong></td><td><kbd>⌘</kbd>+<kbd>3</kbd></td><td>Takes by scene, status, notes, playback and marker export for DAWs (see <a href="#takes">§9</a>).</td></tr>
             <tr><td><strong>METADATA</strong></td><td><kbd>⌘</kbd>+<kbd>4</kbd></td><td>Project metadata, naming template, Sound Report.</td></tr>
           </tbody>
         </table>
@@ -517,7 +518,7 @@
           <li><kbd>⇧</kbd>+<kbd>↵ Return</kbd> — new line without closing.</li>
           <li>The current take's note history is listed above the input field.</li>
         </ul>
-        <p>Notes are attached to the take in the project file, written to the iXML of every file concerned, shown on the playback timeline and included in the Sound Report. <em>Auto Peak Marker</em> peak markers are added to them automatically.</p>
+        <p>Notes are attached to the take in the project file, written to the iXML of every file concerned, shown on the playback timeline, included in the Sound Report and exportable as DAW markers (see <a href="#takes">§9</a>). <em>Auto Peak Marker</em> peak markers are added to them automatically.</p>
         <p>After the take, notes are edited from the <strong>TAKES</strong> tab (see <a href="#takes">§9</a>), where <kbd>N</kbd> also adds a note at the playback position.</p>
       </section>
 
@@ -552,6 +553,18 @@
         <div class="doc-callout">
           <strong>REC always wins.</strong> A recording started by any means (button, MIDI, auto start) first leaves playback: REC is never blocked.
         </div>
+
+        <h3>Markers for your DAW</h3>
+        <p>The markers button of the TAKES tab (<strong>REPÈRES</strong> in the French interface) exports the <strong>timestamped notes</strong> and the <strong>start of every take</strong> as markers, ready to import into your editing software with no converter.</p>
+        <table class="doc-table">
+          <thead><tr><th>Format</th><th>Software</th></tr></thead>
+          <tbody>
+            <tr><td><strong>MIDI</strong></td><td>Pro Tools — also read by Cubase, Nuendo and Logic.</td></tr>
+            <tr><td><strong>CSV</strong></td><td>Nuendo and Reaper. In Reaper, range notes <code>[TC → TC]</code> become regions.</td></tr>
+            <tr><td><strong>XML</strong></td><td>Premiere.</td></tr>
+          </tbody>
+        </table>
+        <p>The export covers either the <strong>displayed take</strong>, the <strong>scene</strong> or <strong>every take</strong>. <em>Auto Peak Marker</em> peak markers can optionally be included.</p>
       </section>
 
       <!-- ===================== 10. MULTI-DISQUE ===================== -->
@@ -685,7 +698,7 @@
         <p>Solo a channel to open the analysis suite. The five tools — <strong>Spectrum</strong>, <strong>Spectrogram</strong>, <strong>Peak</strong>, <strong>Loudness</strong> and <strong>⊕ Phase</strong> — share a <strong>unified settings rail</strong>: settings on the left, canvas on the right. The <kbd>←</kbd> <kbd>→</kbd> keys (<kbd>↑</kbd> <kbd>↓</kbd> in vertical view) move from one tool to the next. Common settings: dB scale, time window (5 s to 1 min), spectrogram <strong>palette</strong> (Classic / Magma / Viridis / Grey / Heat) and a <strong>peak hold</strong> that can be turned off. On a stereo pair, the analysis source can be <strong>L / R / L+R</strong>.</p>
 
         <div class="doc-callout">
-          <strong>Eco Mode.</strong> Eco mode <strong>hides</strong> the analysis tools — spectrum, spectrogram, peak, loudness, phase. The waveform and range playback remain available.
+          <strong>Eco Mode.</strong> Eco mode <strong>hides</strong> the analysis tools — spectrum, spectrogram, peak, loudness, phase. The waveform and range playback remain available, and the VU meters refresh at 30 frames per second.
         </div>
 
         <h3>Detachable analysis window</h3>
@@ -714,24 +727,22 @@
       <!-- ===================== 14. CLOUD ===================== -->
       <section id="cloud" class="doc-section">
         <h2>14. Cloud sharing</h2>
-        <p>VAREC can automatically send each take's files to a cloud service as soon as recording ends, without leaving the application. Only the destination's files are sent, not their backup copies, and the upload does not disturb the next take.</p>
+        <p>VAREC automatically sends each take's files to <strong>Gofile</strong> as soon as recording ends, without leaving the application and <strong>with no account to create</strong>. Only the destination's files are sent, not their backup copies, and the upload does not disturb the next take.</p>
 
-        <h3>Supported providers</h3>
+        <h3>One folder and one link per project</h3>
         <ul>
-          <li><strong>SwissTransfer</strong> (Infomaniak) — free, anonymous and hosted in Switzerland, no sign-up required. Up to 50 GB per transfer, link duration 1 / 7 / 15 / 30 days, up to 250 downloads, optional message and sender email.</li>
-          <li><strong>Smash</strong> — API token; one share link per take. Ideal for quickly sending a take to post.</li>
-          <li><strong>Dropbox</strong> — access token from a Dropbox app; direct-download links.</li>
-          <li><strong>Cloudflare R2</strong> — S3-compatible storage (Account ID, keys and bucket); presigned links valid for <strong>7 days at most</strong>.</li>
+          <li>Each project has its own <strong>folder</strong> on Gofile and a <strong>unique link</strong> that gathers all its takes: a single link to hand over to post, however many takes there are.</li>
+          <li>The <strong>Sound Report</strong>, the <strong>share page</strong> and the <strong>email</strong> all point to that link.</li>
+          <li>Uploads go through a <strong>queue</strong> and <strong>resume after a network drop</strong>.</li>
         </ul>
         <div class="doc-callout">
-          <strong>Beta.</strong> During the beta phase, cloud sending is unlocked for every tester. The former Frame.io and WeTransfer providers have been removed (APIs closed by their publishers).
+          <strong>Beta.</strong> During the beta phase, cloud sending is unlocked for every tester. Since v1.7.7, Gofile replaces Smash, SwissTransfer, Dropbox and Cloudflare R2, which have been removed; credentials saved for those services are erased. Frame.io and WeTransfer had been removed earlier (APIs closed by their publishers).
         </div>
 
         <h3>Setup</h3>
         <ol>
           <li>Click the <strong>☁ CLOUD</strong> card in the bottom bar.</li>
-          <li>Select the provider and enter its credentials — the <strong>?</strong> button explains, step by step, where to get them.</li>
-          <li>Tick <strong>automatic upload after each take</strong>.</li>
+          <li>Tick <strong>automatic upload after each take</strong>. No credentials to enter: Gofile does not require an account.</li>
         </ol>
 
         <h3>Status</h3>
@@ -739,15 +750,15 @@
         <table class="doc-table">
           <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
           <tbody>
-            <tr><td><em>Non configuré</em></td><td>No provider configured.</td></tr>
-            <tr><td><em>Auto OFF</em></td><td>Provider configured but automatic upload disabled (grey LED).</td></tr>
+            <tr><td><em>Non configuré</em></td><td>Cloud sharing not set up yet.</td></tr>
+            <tr><td><em>Auto OFF</em></td><td>Sharing set up but automatic upload disabled (grey LED).</td></tr>
             <tr><td><em>Prêt</em></td><td>Configured and ready to send the next take.</td></tr>
-            <tr><td><em>Upload…</em></td><td>Upload in progress, with percentage and progress bar.</td></tr>
-            <tr><td><em>Lien dispo</em></td><td>Upload finished. Click to copy the share link.</td></tr>
+            <tr><td><em>Upload…</em></td><td>Upload in progress, with percentage and progress bar; the following takes wait in the queue.</td></tr>
+            <tr><td><em>Lien dispo</em></td><td>Upload finished. Click to copy the project link.</td></tr>
             <tr><td><em>Erreur</em></td><td>Upload failed, reason shown as a notification. Click to reconfigure.</td></tr>
           </tbody>
         </table>
-        <p>Right-clicking the card always reopens the setup. Links are stored in the project and included in the Sound Report and the email.</p>
+        <p>Right-clicking the card always reopens the setup. The project link is stored in the project and included in the Sound Report, the share page and the email.</p>
       </section>
 
       <!-- ===================== 15. CRASH RECOVERY ===================== -->
@@ -764,6 +775,16 @@
           <li>In an <strong>emergency stop</strong> (interface disconnection, PortAudio error, unplugged drive), the files in progress are <strong>properly finalised</strong> — metadata written, files closed — and recording cannot silently carry on in the background.</li>
           <li>The <strong>write mode is frozen at the start of the take</strong>. If the writing process disappears along the way, VAREC triggers an emergency stop rather than letting the take continue with no destination.</li>
           <li>Native crashes (audio, CoreAudio, Bluetooth) are logged to <code>logs/crash-native.log</code>; an interface crash triggers a single automatic reload.</li>
+          <li>At <strong>64 channels</strong>, the display no longer saturates while recording: the VU meters are smoother for roughly <strong>half the load</strong>, and their frame rate drops by itself if the machine is overloaded, then comes back up. The diagnostics show how busy the interface is.</li>
+        </ul>
+
+        <h3>Silent audio interface</h3>
+        <p>After a long period of inactivity (sleep, for instance), an audio interface can stop sending audio without reporting any error. VAREC detects this silence <strong>within a few seconds</strong>:</p>
+        <ul>
+          <li>it <strong>restarts the interface</strong> automatically;</li>
+          <li>it <strong>never starts a take</strong> on a silent interface;</li>
+          <li>if the interface goes quiet <strong>during a recording</strong>, it stops the take and <strong>keeps the audio already written</strong>;</li>
+          <li>a file that contains <strong>no audio at all</strong> is prefixed <code>_VIDE_</code> and flagged (see <a href="#recording">§6 After the take</a>).</li>
         </ul>
 
         <h3>In the event of a power cut</h3>

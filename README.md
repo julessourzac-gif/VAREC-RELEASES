@@ -258,6 +258,7 @@ Aucune date de lancement à annoncer d'ici là.
   sur certaines fonctions, alors que le brief parle d'un **essai gratuit 30 jours sans
   CB**. Réconcilier le cadrage.
 - **Plateformes / cloud** : le site est orienté **Mac** (Windows/Linux « non testées »),
-  alors que le brief met en avant le **cross-platform Mac/Windows/Linux** et
-  **SwissTransfer** dans la liste cloud (Smash/Dropbox/R2 aujourd'hui). Harmoniser au
-  lancement.
+  alors que le brief met en avant le **cross-platform Mac/Windows/Linux**. Harmoniser au
+  lancement. Côté cloud, le brief cite **SwissTransfer**, mais depuis la v1.7.7 l'app
+  n'envoie plus que vers **Gofile** (Smash, SwissTransfer, Dropbox et R2 retirés) : le
+  site est à jour, c'est le brief qu'il faut corriger.
