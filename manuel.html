@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Manuel utilisateur VAREC v1.7.6 — Field recorder multipiste pour Mac. Installation, configuration, enregistrement, relecture des prises, timecode, sound report, raccourcis clavier, dépannage.">
+<meta name="description" content="Manuel utilisateur VAREC v1.7.8 — Field recorder multipiste pour Mac. Installation, configuration, enregistrement, relecture des prises, timecode, sound report, raccourcis clavier, dépannage.">
 <title>VAREC — Manuel utilisateur</title>
 <link rel="canonical" href="https://varec.bernik.io/manuel.html">
 <link rel="alternate" hreflang="fr" href="https://varec.bernik.io/manuel.html">
@@ -57,7 +57,7 @@
       <li><a href="ressources.html" class="active">Ressources</a></li>
       <li class="nav-link-dl"><a href="index.html#download">Télécharger</a></li>
     </ul>
-    <a href="index.html#download" class="nav-cta">↓ v1.7.6 <span class="beta-badge sm">BETA</span></a>
+    <a href="index.html#download" class="nav-cta">↓ v1.7.8 <span class="beta-badge sm">BETA</span></a>
     <div class="lang-switch" role="group" aria-label="Langue">
       <a href="/manuel.html" class="lang-opt active" hreflang="fr" lang="fr" aria-current="true">FR</a>
       <a href="/en/manual.html" class="lang-opt" hreflang="en" lang="en">EN</a>
@@ -125,9 +125,9 @@
     <article class="doc-content">
 
       <header class="doc-header">
-        <span class="doc-eyebrow">Manuel utilisateur · v1.7.6 · macOS</span>
+        <span class="doc-eyebrow">Manuel utilisateur · v1.7.8 · macOS</span>
         <h1>VAREC — Manuel utilisateur</h1>
-        <p class="doc-lede">Documentation officielle de VAREC 1.7.6, le field recorder multipiste professionnel pour macOS. Ce manuel couvre chaque fonction de l'application — de l'installation à la relecture des prises, en passant par la configuration timecode, les outils d'analyse et la génération des sound reports.</p>
+        <p class="doc-lede">Documentation officielle de VAREC 1.7.8, le field recorder multipiste professionnel pour macOS. Ce manuel couvre chaque fonction de l'application — de l'installation à la relecture des prises, en passant par la configuration timecode, les outils d'analyse et la génération des sound reports.</p>
       </header>
 
       <!-- ===================== 1. PRÉSENTATION ===================== -->
@@ -734,6 +734,7 @@
           <li>Chaque projet a son propre <strong>dossier</strong> sur Gofile et un <strong>lien unique</strong> qui regroupe toutes ses prises : un seul lien à transmettre à la post, quel que soit le nombre de prises.</li>
           <li>Le <strong>Sound Report</strong>, la <strong>page de partage</strong> et l'<strong>e-mail</strong> pointent sur ce lien.</li>
           <li>Les envois passent par une <strong>file d'attente</strong> et <strong>reprennent après une coupure réseau</strong>.</li>
+          <li>Gofile supprime les fichiers après <strong>10 jours sans téléchargement</strong> : le lien sert à livrer les prises, il ne remplace pas la sauvegarde sur disque.</li>
         </ul>
         <div class="doc-callout">
           <strong>Bêta.</strong> Pendant la phase bêta, l'envoi cloud est débloqué pour tous les testeurs. Depuis la v1.7.7, Gofile remplace Smash, SwissTransfer, Dropbox et Cloudflare R2, qui ont été retirés ; les identifiants enregistrés pour ces services sont effacés. Frame.io et WeTransfer l'avaient été auparavant (API fermées côté éditeurs).
@@ -750,9 +751,8 @@
         <table class="doc-table">
           <thead><tr><th>Statut</th><th>Signification</th></tr></thead>
           <tbody>
-            <tr><td><em>Non configuré</em></td><td>Partage cloud pas encore configuré.</td></tr>
-            <tr><td><em>Auto OFF</em></td><td>Partage configuré mais upload automatique désactivé (LED grise).</td></tr>
-            <tr><td><em>Prêt</em></td><td>Configuré et prêt à envoyer la prochaine prise.</td></tr>
+            <tr><td><em>Auto OFF</em></td><td>Upload automatique désactivé (LED grise).</td></tr>
+            <tr><td><em>Prêt</em></td><td>Prêt à envoyer la prochaine prise.</td></tr>
             <tr><td><em>Upload…</em></td><td>Envoi en cours, avec pourcentage et barre de progression ; les prises suivantes attendent dans la file.</td></tr>
             <tr><td><em>Lien dispo</em></td><td>Envoi terminé. Cliquez pour copier le lien du projet.</td></tr>
             <tr><td><em>Erreur</em></td><td>Échec de l'envoi, raison affichée en notification. Cliquez pour reconfigurer.</td></tr>
@@ -1053,7 +1053,8 @@
         <p>Chaque session crée un dossier <code>{projet}/{scène}/</code> dans la destination d'enregistrement et dans chaque disque de secours, avec les fichiers WAV. Le fichier projet <code>{projet}.varec</code> se trouve dans le dossier du projet.</p>
 
         <h3>Envoyer un rapport de crash</h3>
-        <p>Menu <strong>Aide → Envoyer un rapport de crash</strong> : VAREC crée une archive ZIP des journaux des 14 derniers jours et des informations système (version, système, processeur, mémoire), puis ouvre un e-mail vers le support avec l'archive en pièce jointe. <strong>Aide → Afficher le log</strong> affiche le journal en direct.</p>
+        <p>Si VAREC s'est fermé de façon inattendue (plantage, arrêt forcé), il le signale au lancement suivant et propose d'envoyer le rapport. <strong>Envoyer</strong> prépare un message dans votre messagerie, avec les journaux et les informations système en pièce jointe ; <strong>Plus tard</strong> ne propose plus rien pour ce plantage. Sur Mac, le rapport contient aussi le journal technique du plantage (<code>crash-native.log</code>).</p>
+        <p>Le rapport reste disponible à tout moment depuis le menu <strong>Aide → Envoyer un rapport de crash</strong> : VAREC crée une archive ZIP des journaux des 14 derniers jours et des informations système (version, système, processeur, mémoire), puis ouvre un e-mail vers le support avec l'archive en pièce jointe. <strong>Aide → Afficher le log</strong> affiche le journal en direct.</p>
 
         <h3>Support technique</h3>
         <ul>
