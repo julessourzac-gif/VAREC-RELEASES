@@ -144,11 +144,12 @@
           <li>Sources timecode : <strong>Time of Day</strong>, <strong>LTC</strong> (recherche automatique de l'entrée) et <strong>Tentacle Sync E</strong> (Bluetooth BLE), frame rates jusqu'à <strong>60 fps</strong></li>
           <li>Multi-disque simultané (vraie redondance temps réel, pas une copie post-enregistrement), destination vérifiée avant chaque prise</li>
           <li>Onglet <strong>PRISES</strong> : prises classées par scène, statut cerclée / faux départ, <strong>relecture</strong> avec formes d'onde et notes sur une timeline TC</li>
+          <li>Export des <strong>repères vers les DAW</strong> : notes horodatées et début de chaque prise en marqueurs <strong>MIDI</strong> (Pro Tools, Cubase, Nuendo, Logic), <strong>CSV</strong> (Nuendo, Reaper) ou <strong>XML</strong> (Premiere)</li>
           <li><strong>Démarrage automatique</strong> à heure programmée ou sur détection de signal</li>
           <li>Métadonnées BWF / iXML complètes (scène, prise, notes, ingénieur, track list)</li>
           <li>Mode Fader : faders, <strong>panoramiques</strong> et enregistrement d'un <strong>MAIN MIX</strong> stéréo</li>
           <li>Sound Report <strong>PDF / CSV</strong> + envoi e-mail avec pièces jointes</li>
-          <li>Upload automatique vers <strong>SwissTransfer</strong>, Smash, Dropbox ou Cloudflare R2</li>
+          <li>Envoi automatique vers <strong>Gofile</strong>, sans compte à créer : un dossier et un lien unique par projet, file d'attente avec reprise après coupure réseau</li>
           <li>VU mètres Instant Peak / RMS+PPM avec peak hold configurable</li>
           <li>Outils d'analyse : <strong>Loudness LUFS</strong> (EBU R128 / BS.1770-4), spectre, spectrogramme, peak, <strong>alignement de phase</strong> — dans une fenêtre détachable</li>
           <li><strong>Formes d'onde live</strong> pendant l'enregistrement, avec réécoute et annotation de plages</li>
@@ -258,7 +259,7 @@
           <tbody>
             <tr><td><strong>REC</strong></td><td><kbd>⌘</kbd>+<kbd>1</kbd></td><td>Pistes, VU mètres, formes d'onde et panneau d'analyse du canal en solo.</td></tr>
             <tr><td><strong>PATCH</strong></td><td><kbd>⌘</kbd>+<kbd>2</kbd></td><td>Choix de l'interface d'entrée et assignation des canaux aux entrées physiques.</td></tr>
-            <tr><td><strong>PRISES</strong></td><td><kbd>⌘</kbd>+<kbd>3</kbd></td><td>Prises par scène, statut, notes et relecture (voir <a href="#takes">§9</a>).</td></tr>
+            <tr><td><strong>PRISES</strong></td><td><kbd>⌘</kbd>+<kbd>3</kbd></td><td>Prises par scène, statut, notes, relecture et export des repères vers les DAW (voir <a href="#takes">§9</a>).</td></tr>
             <tr><td><strong>METADATA</strong></td><td><kbd>⌘</kbd>+<kbd>4</kbd></td><td>Métadonnées projet, gabarit de nommage, Sound Report.</td></tr>
           </tbody>
         </table>
@@ -517,7 +518,7 @@
           <li><kbd>⇧</kbd>+<kbd>↵ Entrée</kbd> — passage à la ligne sans fermer.</li>
           <li>L'historique des notes de la prise courante est listé au-dessus du champ de saisie.</li>
         </ul>
-        <p>Les notes sont attachées à la prise dans le fichier projet, écrites dans l'iXML de chaque fichier concerné, affichées sur la timeline de relecture et reprises dans le Sound Report. Les repères de crête de l'<em>Auto Peak Marker</em> s'y ajoutent automatiquement.</p>
+        <p>Les notes sont attachées à la prise dans le fichier projet, écrites dans l'iXML de chaque fichier concerné, affichées sur la timeline de relecture, reprises dans le Sound Report et exportables en marqueurs vers les DAW (voir <a href="#takes">§9</a>). Les repères de crête de l'<em>Auto Peak Marker</em> s'y ajoutent automatiquement.</p>
         <p>Après la prise, les notes se modifient depuis l'onglet <strong>PRISES</strong> (voir <a href="#takes">§9</a>), où <kbd>N</kbd> pose aussi une note à la position de lecture.</p>
       </section>
 
@@ -552,6 +553,18 @@
         <div class="doc-callout">
           <strong>Le REC reste prioritaire.</strong> Un enregistrement lancé par n'importe quel moyen (bouton, MIDI, démarrage automatique) quitte d'abord la relecture : le REC n'est jamais bloqué.
         </div>
+
+        <h3>Repères vers les DAW</h3>
+        <p>Le bouton <strong>REPÈRES</strong> de l'onglet PRISES exporte les <strong>notes horodatées</strong> et le <strong>début de chaque prise</strong> sous forme de marqueurs, importables dans votre logiciel de montage sans convertisseur.</p>
+        <table class="doc-table">
+          <thead><tr><th>Format</th><th>Logiciels</th></tr></thead>
+          <tbody>
+            <tr><td><strong>MIDI</strong></td><td>Pro Tools — lu aussi par Cubase, Nuendo et Logic.</td></tr>
+            <tr><td><strong>CSV</strong></td><td>Nuendo et Reaper. Dans Reaper, les notes de plage <code>[TC → TC]</code> deviennent des régions.</td></tr>
+            <tr><td><strong>XML</strong></td><td>Premiere.</td></tr>
+          </tbody>
+        </table>
+        <p>L'export porte au choix sur la <strong>prise affichée</strong>, la <strong>scène</strong> ou <strong>toutes les prises</strong>. Les repères de crête de l'<em>Auto Peak Marker</em> peuvent y être inclus en option.</p>
       </section>
 
       <!-- ===================== 10. MULTI-DISQUE ===================== -->
@@ -685,7 +698,7 @@
         <p>Passez un canal en solo pour ouvrir la suite d'analyse. Les cinq outils — <strong>Spectre</strong>, <strong>Spectrogramme</strong>, <strong>Peak</strong>, <strong>Loudness</strong> et <strong>⊕ Phase</strong> — partagent un <strong>rail de paramètres unifié</strong> : réglages à gauche, canvas à droite. Les flèches <kbd>←</kbd> <kbd>→</kbd> (<kbd>↑</kbd> <kbd>↓</kbd> en vue verticale) passent d'un outil à l'autre. Réglages communs : échelle dB, fenêtre de temps (5 s à 1 min), <strong>palette</strong> de spectrogramme (Classique / Magma / Viridis / Gris / Heat) et <strong>maintien de crête</strong> désactivable. Sur une paire stéréo, la source d'analyse se choisit entre <strong>L / R / L+R</strong>.</p>
 
         <div class="doc-callout">
-          <strong>Mode Éco.</strong> Le mode éco <strong>masque</strong> les outils d'analyse — spectre, spectrogramme, peak, loudness, phase. La forme d'onde et la réécoute restent disponibles.
+          <strong>Mode Éco.</strong> Le mode éco <strong>masque</strong> les outils d'analyse — spectre, spectrogramme, peak, loudness, phase. La forme d'onde et la réécoute restent disponibles, et les VU sont rafraîchis à 30 images par seconde.
         </div>
 
         <h3>Fenêtre d'analyse détachable</h3>
@@ -714,24 +727,22 @@
       <!-- ===================== 14. CLOUD ===================== -->
       <section id="cloud" class="doc-section">
         <h2>14. Partage cloud</h2>
-        <p>VAREC peut envoyer automatiquement les fichiers de chaque prise vers un service cloud dès la fin de l'enregistrement, sans quitter l'application. Seuls les fichiers de la destination sont envoyés, pas leurs copies de secours, et l'upload ne perturbe pas la prise suivante.</p>
+        <p>VAREC envoie automatiquement les fichiers de chaque prise vers <strong>Gofile</strong> dès la fin de l'enregistrement, sans quitter l'application et <strong>sans compte à créer</strong>. Seuls les fichiers de la destination sont envoyés, pas leurs copies de secours, et l'envoi ne perturbe pas la prise suivante.</p>
 
-        <h3>Providers supportés</h3>
+        <h3>Un dossier et un lien par projet</h3>
         <ul>
-          <li><strong>SwissTransfer</strong> (Infomaniak) — gratuit, anonyme et hébergé en Suisse, aucune inscription requise. Jusqu'à 50 Go par envoi, durée du lien 1 / 7 / 15 / 30 jours, jusqu'à 250 téléchargements, message et e-mail expéditeur optionnels.</li>
-          <li><strong>Smash</strong> — token API ; un lien de partage par prise. Idéal pour transférer rapidement une prise à la post.</li>
-          <li><strong>Dropbox</strong> — access token d'une app Dropbox ; liens en téléchargement direct.</li>
-          <li><strong>Cloudflare R2</strong> — stockage S3-compatible (Account ID, clés et bucket) ; liens présignés valables <strong>7 jours au plus</strong>.</li>
+          <li>Chaque projet a son propre <strong>dossier</strong> sur Gofile et un <strong>lien unique</strong> qui regroupe toutes ses prises : un seul lien à transmettre à la post, quel que soit le nombre de prises.</li>
+          <li>Le <strong>Sound Report</strong>, la <strong>page de partage</strong> et l'<strong>e-mail</strong> pointent sur ce lien.</li>
+          <li>Les envois passent par une <strong>file d'attente</strong> et <strong>reprennent après une coupure réseau</strong>.</li>
         </ul>
         <div class="doc-callout">
-          <strong>Bêta.</strong> Pendant la phase bêta, l'envoi cloud est débloqué pour tous les testeurs. Les anciens providers Frame.io et WeTransfer ont été retirés (API fermées côté éditeurs).
+          <strong>Bêta.</strong> Pendant la phase bêta, l'envoi cloud est débloqué pour tous les testeurs. Depuis la v1.7.7, Gofile remplace Smash, SwissTransfer, Dropbox et Cloudflare R2, qui ont été retirés ; les identifiants enregistrés pour ces services sont effacés. Frame.io et WeTransfer l'avaient été auparavant (API fermées côté éditeurs).
         </div>
 
         <h3>Configuration</h3>
         <ol>
           <li>Cliquez sur la carte <strong>☁ CLOUD</strong> dans la barre du bas.</li>
-          <li>Sélectionnez le provider et renseignez ses identifiants — le bouton <strong>?</strong> détaille, étape par étape, où les obtenir.</li>
-          <li>Cochez <strong>Upload automatique après chaque prise</strong>.</li>
+          <li>Cochez <strong>Upload automatique après chaque prise</strong>. Aucun identifiant à renseigner : Gofile ne demande pas de compte.</li>
         </ol>
 
         <h3>Statut</h3>
@@ -739,15 +750,15 @@
         <table class="doc-table">
           <thead><tr><th>Statut</th><th>Signification</th></tr></thead>
           <tbody>
-            <tr><td><em>Non configuré</em></td><td>Aucun provider configuré.</td></tr>
-            <tr><td><em>Auto OFF</em></td><td>Provider configuré mais upload automatique désactivé (LED grise).</td></tr>
+            <tr><td><em>Non configuré</em></td><td>Partage cloud pas encore configuré.</td></tr>
+            <tr><td><em>Auto OFF</em></td><td>Partage configuré mais upload automatique désactivé (LED grise).</td></tr>
             <tr><td><em>Prêt</em></td><td>Configuré et prêt à envoyer la prochaine prise.</td></tr>
-            <tr><td><em>Upload…</em></td><td>Upload en cours, avec pourcentage et barre de progression.</td></tr>
-            <tr><td><em>Lien dispo</em></td><td>Upload terminé. Cliquez pour copier le lien de partage.</td></tr>
-            <tr><td><em>Erreur</em></td><td>Échec de l'upload, raison affichée en notification. Cliquez pour reconfigurer.</td></tr>
+            <tr><td><em>Upload…</em></td><td>Envoi en cours, avec pourcentage et barre de progression ; les prises suivantes attendent dans la file.</td></tr>
+            <tr><td><em>Lien dispo</em></td><td>Envoi terminé. Cliquez pour copier le lien du projet.</td></tr>
+            <tr><td><em>Erreur</em></td><td>Échec de l'envoi, raison affichée en notification. Cliquez pour reconfigurer.</td></tr>
           </tbody>
         </table>
-        <p>Un clic droit sur la carte rouvre toujours la configuration. Les liens sont mémorisés dans le projet et repris dans le Sound Report et l'e-mail.</p>
+        <p>Un clic droit sur la carte rouvre toujours la configuration. Le lien du projet est mémorisé dans le projet et repris dans le Sound Report, la page de partage et l'e-mail.</p>
       </section>
 
       <!-- ===================== 15. CRASH RECOVERY ===================== -->
@@ -764,6 +775,16 @@
           <li>En cas d'<strong>arrêt d'urgence</strong> (déconnexion d'interface, erreur PortAudio, disque débranché), les fichiers en cours sont <strong>correctement finalisés</strong> — métadonnées écrites, fichiers fermés — et l'enregistrement ne peut pas continuer silencieusement en arrière-plan.</li>
           <li>Le <strong>mode d'écriture est figé au démarrage de la prise</strong>. Si le processus d'écriture disparaît en cours de route, VAREC déclenche un arrêt d'urgence plutôt que de laisser la prise se poursuivre sans destination.</li>
           <li>Les crashs natifs (audio, CoreAudio, Bluetooth) sont journalisés dans <code>logs/crash-native.log</code> ; un crash de l'interface entraîne un unique rechargement automatique.</li>
+          <li>À <strong>64 canaux</strong>, l'affichage ne sature plus pendant l'enregistrement : les VU sont plus fluides pour environ <strong>deux fois moins de charge</strong>, et leur cadence baisse d'elle-même si la machine est surchargée, puis remonte. Le diagnostic indique l'occupation de l'interface.</li>
+        </ul>
+
+        <h3>Interface audio muette</h3>
+        <p>Après une longue inactivité (mise en veille, par exemple), une interface audio peut cesser d'envoyer le son sans signaler la moindre erreur. VAREC détecte ce silence <strong>en quelques secondes</strong> :</p>
+        <ul>
+          <li>il <strong>relance l'interface</strong> automatiquement ;</li>
+          <li>il ne <strong>démarre jamais une prise</strong> sur une interface muette ;</li>
+          <li>si l'interface se tait <strong>pendant un enregistrement</strong>, il arrête la prise en <strong>conservant l'audio déjà écrit</strong> ;</li>
+          <li>un fichier qui ne contient <strong>aucun audio</strong> est préfixé <code>_VIDE_</code> et signalé (voir <a href="#recording">§6 Après la prise</a>).</li>
         </ul>
 
         <h3>En cas de coupure</h3>
