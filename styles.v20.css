@@ -129,7 +129,6 @@ body:not(.sidenav) > nav {
   width: auto;
   flex-shrink: 0;
   display: block;
-  filter: hue-rotate(30deg) saturate(.95);
 }
 .nav-by {
   font-size: 16px;
@@ -1080,7 +1079,7 @@ footer {
   flex-wrap: wrap;
   gap: 14px;
 }
-.footer-logo { height: 22px; width: auto; filter: hue-rotate(30deg) saturate(.95); }
+.footer-logo { height: 22px; width: auto; }
 /* flex-wrap dès le cas de base : le pied de page porte sept liens depuis
    l'ajout des pages légales, ce qui déborde la rangée entre 768 et ~950 px,
    au-dessus du seuil où la règle responsive prenait le relais. */
