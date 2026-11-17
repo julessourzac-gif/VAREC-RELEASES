@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:H;src:url(hanken-grotesk-latin.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:H;src:url(hanken-grotesk-latin-ext.woff2) format('woff2');font-weight:100 900;unicode-range:U+0100-024F}
+:root{--bg:#0c1116;--panel:#1b232c;--surf:#28323d;--txt:#f4f6f8;--txt2:#c2cad2;--txt3:#7c8894;--rec:#ff453a;--grn:#30d158;--blu:#0a84ff;--brand:#faa89f;--brand2:#fac284;--wave:#3ec9b4}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;font-family:H,system-ui,sans-serif;color:var(--txt)}
+.s{width:1080px;height:1920px;position:relative;overflow:hidden;background:
+  radial-gradient(900px 700px at 85% 8%,rgba(250,168,159,.16),transparent 70%),
+  radial-gradient(800px 700px at 0% 100%,rgba(62,201,180,.10),transparent 70%),var(--bg);
+  padding:230px 84px 0}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:70px}
+.top img{height:46px}
+.pill{font-size:30px;font-weight:700;letter-spacing:.14em;color:var(--txt3);text-transform:uppercase}
+.prog{display:flex;gap:12px;margin-bottom:56px}
+.prog i{flex:1;height:10px;border-radius:5px;background:var(--surf)}
+.prog i.on{background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.num{font-size:250px;font-weight:900;line-height:.85;letter-spacing:-.04em;
+  background:linear-gradient(135deg,var(--brand),var(--brand2));-webkit-background-clip:text;color:transparent}
+h1{font-size:108px;font-weight:850;line-height:1;letter-spacing:-.025em;margin:34px 0 30px}
+p.sub{font-size:44px;line-height:1.3;color:var(--txt2);font-weight:450;max-width:900px}
+p.sub b{color:var(--txt);font-weight:700}
+.card{margin-top:64px;background:var(--panel);border:2px solid rgba(255,255,255,.1);border-radius:36px;padding:34px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.shot{display:block;width:100%;border-radius:18px}
+.keys{display:flex;gap:18px;flex-wrap:wrap;margin-top:44px;align-items:center;font-size:36px;color:var(--txt3);font-weight:600}
+kbd{font-family:H;font-size:40px;font-weight:800;color:var(--txt);background:var(--surf);border:2px solid rgba(255,255,255,.16);border-bottom-width:6px;border-radius:16px;padding:10px 26px}
+.hl{position:absolute;border:5px solid var(--brand2);border-radius:14px;box-shadow:0 0 0 9999px rgba(12,17,22,.0),0 0 40px rgba(250,194,132,.6)}
+.rel{position:relative}
+/* macOS settings mock */
+.row{display:flex;align-items:center;gap:26px;padding:26px 10px;border-bottom:2px solid rgba(255,255,255,.07);font-size:40px;font-weight:600}
+.row:last-child{border:0}
+.ico{width:66px;height:66px;border-radius:16px;display:grid;place-items:center;font-size:36px;background:var(--surf)}
+.row span.f{flex:1}
+.tg{width:118px;height:68px;border-radius:34px;background:var(--surf2,#36424f);position:relative}
+.tg::after{content:"";position:absolute;width:58px;height:58px;border-radius:50%;background:#fff;top:5px;left:5px}
+.tg.on{background:var(--grn)}.tg.on::after{left:55px}
+.crumb{font-size:30px;color:var(--txt3);font-weight:600;margin-bottom:18px;padding:0 10px}
+.crumb b{color:var(--txt2)}
+/* form mock */
+.fld{display:flex;justify-content:space-between;align-items:center;padding:22px 10px;border-bottom:2px solid rgba(255,255,255,.07);font-size:36px}
+.fld:last-child{border:0}
+.fld em{font-style:normal;color:var(--txt3);font-weight:600}
+.fld .v{background:var(--bg);border:2px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 22px;font-weight:700;min-width:380px;text-align:right}
+.fld .v.a{color:var(--grn)}
+.ttl{font-size:34px;font-weight:800;padding:0 10px 18px;color:var(--txt2);letter-spacing:.05em;text-transform:uppercase}
+/* cover & cta */
+.cover h1{font-size:118px;margin-top:40px}
+.cover h1 .g{background:linear-gradient(135deg,var(--brand),var(--brand2));-webkit-background-clip:text;color:transparent}
+.dot{display:inline-block;width:40px;height:40px;border-radius:50%;background:var(--rec);box-shadow:0 0 40px var(--rec);margin-right:22px;vertical-align:middle}
+.tag{font-size:40px;font-weight:800;color:var(--rec);letter-spacing:.12em}
+.list{margin-top:50px;display:grid;gap:18px}
+.list div{display:flex;gap:28px;align-items:center;font-size:42px;font-weight:700;background:var(--panel);border:2px solid rgba(255,255,255,.08);border-radius:26px;padding:22px 34px}
+.list div b{font-size:46px;font-weight:900;width:70px;color:var(--brand2)}
+.arrow{position:absolute;left:0;right:0;bottom:440px;text-align:center;font-size:44px;font-weight:700;color:var(--txt2)}
+.cta{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:420px}
+.cta img{width:760px}
+.cta h2{font-size:92px;font-weight:850;line-height:1.05;margin-top:110px;letter-spacing:-.02em}
+.cta .btn{margin-top:70px;font-size:52px;font-weight:850;color:#1a0f0c;background:linear-gradient(135deg,var(--brand),var(--brand2));padding:34px 70px;border-radius:100px}
+.cta .u{margin-top:40px;font-size:40px;color:var(--txt3);font-weight:600}
+</style><style>
+.disks{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.disk{background:var(--bg);border:3px solid var(--grn);border-radius:24px;padding:30px}
+.disk .n{font-size:30px;font-weight:800;color:var(--txt2);display:flex;align-items:center;gap:14px}
+.disk .n::before{content:"";width:18px;height:18px;border-radius:50%;background:var(--grn)}
+.disk .w{height:90px;margin:24px 0 18px;background:repeating-linear-gradient(90deg,var(--grn) 0 6px,transparent 6px 11px);-webkit-mask:linear-gradient(transparent 20%,#000 20% 80%,transparent 80%);opacity:.85;border-radius:6px}
+.disk .st{font-size:34px;font-weight:800;color:var(--grn)}
+.big{font-family:ui-monospace,Menlo,monospace;font-size:120px;font-weight:800;color:var(--rec);text-align:center;letter-spacing:.02em;text-shadow:0 0 40px rgba(255,69,58,.5)}
+.chip{display:inline-flex;align-items:center;gap:16px;font-size:36px;font-weight:800;padding:16px 30px;border-radius:100px;background:rgba(48,209,88,.14);color:var(--grn);border:2px solid rgba(48,209,88,.4)}
+.wave{position:relative;height:220px;border-radius:18px;background:#070a0e;overflow:hidden}
+.wave::before{content:"";position:absolute;inset:30px 0;background:repeating-linear-gradient(90deg,#30d158 0 5px,transparent 5px 10px);-webkit-mask:radial-gradient(ellipse 30% 70% at 25% 50%,#000,transparent),radial-gradient(ellipse 22% 55% at 75% 50%,#000 30%,transparent)}
+.cut{position:absolute;left:58%;top:0;bottom:0;width:6px;background:var(--rec);box-shadow:0 0 30px var(--rec)}
+.cutl{position:absolute;left:calc(58% + 18px);top:14px;font-size:30px;font-weight:800;color:var(--rec)}
+.file{display:flex;align-items:center;gap:22px;font-size:38px;font-weight:700;margin-top:28px;padding:0 6px}
+.file .ok{margin-left:auto;color:var(--grn);font-weight:900}
+.link{display:flex;align-items:center;gap:22px;background:var(--bg);border:2px solid rgba(255,255,255,.12);border-radius:20px;padding:26px 30px;font-size:36px;font-weight:700}
+.link .u2{flex:1;color:#5ac8fa}
+.bar{height:22px;border-radius:11px;background:var(--surf);margin:30px 0 14px;overflow:hidden}
+.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--wave),var(--grn))}
+.meta{display:flex;justify-content:space-between;font-size:30px;color:var(--txt3);font-weight:600}
+.tl{position:relative;height:150px;border-radius:16px;background:var(--bg);margin-bottom:30px}
+.tl .clip{position:absolute;top:56px;height:76px;border-radius:10px;background:rgba(10,132,255,.35);border:2px solid var(--blu)}
+.mk{position:absolute;top:0;bottom:0;width:4px;background:var(--brand2)}
+.mk span{position:absolute;top:8px;left:10px;font-size:26px;font-weight:800;color:var(--brand2);white-space:nowrap}
+.daws{display:flex;flex-wrap:wrap;gap:16px}
+.daws span{font-size:32px;font-weight:800;background:var(--surf);border-radius:14px;padding:12px 24px;color:var(--txt2)}
+</style>
+</head><body>
+
+<section class="s cover" id="s0">
+  <div class="top"><img src="logo.png" alt=""><span class="pill">Field recorder Mac</span></div>
+  <div class="tag"><span class="dot"></span>REC</div>
+  <h1>5 fonctions <span class="g">qui changent tout</span> sur le terrain</h1>
+  <p class="sub">Ce que VAREC fait et que ton enregistreur ne fait pas.</p>
+  <div class="list">
+    <div><b>1</b>Multi-disque en temps réel</div>
+    <div><b>2</b>Timecode Bluetooth auto</div>
+    <div><b>3</b>Crash Recovery</div>
+    <div><b>4</b>Upload cloud automatique</div>
+    <div><b>5</b>Notes → marqueurs DAW</div>
+  </div>
+</section>
+<section class="s" id="s1">
+  <div class="top"><img src="logo.png" alt=""><span class="pill">Game changer 1/5</span></div>
+  <div class="prog"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+  <div class="num">01</div>
+  <h1>Multi-disque en temps réel</h1>
+  <p class="sub">Un flux d’écriture <b>indépendant par disque</b>. Pas une copie après coup : si un disque lâche, l’autre a déjà <b>toute la prise</b>.</p>
+  <div class="card"><div class="disks"><div class="disk"><div class="n">Disque principal</div><div class="w"></div><div class="st">● REC</div></div><div class="disk"><div class="n">SSD de secours</div><div class="w"></div><div class="st">● REC</div></div></div><img class="shot" src="crop-disks.png" alt="" style="margin-top:24px"></div>
+</section>
+<section class="s" id="s2">
+  <div class="top"><img src="logo.png" alt=""><span class="pill">Game changer 2/5</span></div>
+  <div class="prog"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+  <div class="num">02</div>
+  <h1>Timecode Bluetooth, zéro réglage</h1>
+  <p class="sub">VAREC <b>détecte tout seul</b> ton Tentacle en Bluetooth, ou le LTC. Le code horaire est inscrit dans chaque fichier.</p>
+  <div class="card"><div class="big">09:08:12:04</div><div style="text-align:center;margin-top:30px"><span class="chip">◉ Tentacle détecté · synchro OK</span></div></div>
+</section>
+<section class="s" id="s3">
+  <div class="top"><img src="logo.png" alt=""><span class="pill">Game changer 3/5</span></div>
+  <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+  <div class="num">03</div>
+  <h1>Crash Recovery</h1>
+  <p class="sub">Les en-têtes WAV sont mis à jour <b>en continu</b>. Coupure de courant ou plantage : <b>ton fichier reste lisible</b>.</p>
+  <div class="card"><div class="wave"><div class="cut"></div><div class="cutl">⚡ coupure</div></div><div class="file">📄 SC12_T03.wav<span class="ok">✓ intact</span></div></div>
+</section>
+<section class="s" id="s4">
+  <div class="top"><img src="logo.png" alt=""><span class="pill">Game changer 4/5</span></div>
+  <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+  <div class="num">04</div>
+  <h1>Upload cloud automatique</h1>
+  <p class="sub">Tes prises partent <b>toutes seules</b> sur Gofile, sans compte. Un lien par projet, <b>repris dans le Sound Report</b>.</p>
+  <div class="card"><div class="link">☁️<span class="u2">gofile.io/d/Tournage_J1</span>🔗</div><div class="bar"><i></i></div><div class="meta"><span>42 prises envoyées</span><span>✓ reprise après coupure réseau</span></div></div>
+</section>
+<section class="s" id="s5">
+  <div class="top"><img src="logo.png" alt=""><span class="pill">Game changer 5/5</span></div>
+  <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+  <div class="num">05</div>
+  <h1>Tes notes deviennent des marqueurs</h1>
+  <p class="sub">Notes et débuts de prise exportés <b>en marqueurs</b> dans ton logiciel de montage. Ton monteur va t’adorer.</p>
+  <div class="card"><div class="tl"><div class="clip" style="left:4%;width:38%"></div><div class="clip" style="left:48%;width:46%"></div><div class="mk" style="left:4%"><span>T01</span></div><div class="mk" style="left:20%"><span>« avion »</span></div><div class="mk" style="left:48%"><span>T02</span></div><div class="mk" style="left:70%"><span>★ bonne</span></div></div><div class="daws"><span>Pro Tools</span><span>Logic</span><span>Cubase</span><span>Nuendo</span><span>Reaper</span><span>Premiere</span></div></div>
+</section>
+<section class="s" id="s6">
+  <div class="cta">
+    <img src="logo.png" alt="">
+    <h2>Jusqu’à 512 canaux sur ton Mac</h2>
+    <p class="sub" style="margin-top:34px;text-align:center">WAV 32F · RF64 · Sound Report PDF</p>
+    <div class="btn">Bêta gratuite → lien en bio</div>
+    <div class="u">varec.bernik.io</div>
+  </div>
+</section>
+</body></html>
